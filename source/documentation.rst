@@ -10,7 +10,6 @@ links are automatically converted, e.g. as:
   https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/home.
 
 
-
 this is section
 ------------------------
 
@@ -26,6 +25,57 @@ Some example of Sphinx generated documentation
 
 link to `Sphinx Examples`_
 
+
+ok, now this is from RSTPAD:
+
+h1
+##
+
+h2
+**
+
+h3
+==
+
+h4
+--
+
+h5
+^^
+
+h6
+""
+
+**bold**
+*italic*
+- list
+#. numlist
+something
+
+s ---- thing
+
+  tab
+`link <http://example.com/>`_
+.. image:: image
+inline ``code is ``this
+
+code block ::
+
+  is
+  this block
+  is this
+
+highlighted
+
+.. code:: python3
+
+  block
+  of
+  code
+  is
+  this
+
+tralala
 
 The library can also be installed using ``pip``::
 
