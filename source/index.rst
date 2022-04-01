@@ -13,3 +13,4 @@ COMET LiCSAR
   Home <self>
   software_version_control
   documentation
+  wiki
