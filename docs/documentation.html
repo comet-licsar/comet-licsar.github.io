@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation &mdash; COMET LiCSAR  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Software Version Control" href="software_version_control.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> COMET LiCSAR
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software_version_control.html">Software Version Control</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sphinx-and-read-the-docs">Sphinx And Read The Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Sphinx</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rst-files">RST Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#autodoc">Autodoc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#documenting-the-python-code">Documenting The Python Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-documentation">Building The Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hosting-html-documentation-on-the-web">Hosting HTML Documentation On The Web</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Read The Docs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">GitHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">GitLab</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COMET LiCSAR</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/documentation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline"></a></h1>
+<p>Currently, most COMET LiCSAR documentation is stored in a GitLab wiki at:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/home">https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/home</a>.</p>
+</div></blockquote>
+<p>This wiki contains quite a lot of useful information, and the GitLab wiki renders the content in an easily readable format.</p>
+<p>The markdown format used by the wiki makes creating documentation fairly quick and simple.</p>
+<p>There is already interest in the group to further improve the documentation of the COMET LiCSAR activities and interest in the benefits which may be gained by making use of Sphinx and Read The Docs.</p>
+<div class="section" id="sphinx-and-read-the-docs">
+<h2>Sphinx And Read The Docs<a class="headerlink" href="#sphinx-and-read-the-docs" title="Permalink to this headline"></a></h2>
+<p><a class="reference external" href="https://readthedocs.org/">Read The Docs</a> is a documentation hosting platform which generates documentation written with the <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> documentation generator</p>
+<p>A set of documentation hosted using the Read The Docs service is know as a <em>Project</em>.</p>
+<p>A Read The Docs account can easily be linked with a repository hosted on GitHub or GitLab, which allows the documentation to automatically be rebuilt and updated when changes are made.</p>
+</div>
+<div class="section" id="id1">
+<h2>Sphinx<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
+<p>Sphinx is a documentation generator, which is able to generate formatted documentation in a range of formats (HTML, PDF, etc.) from plain text source files.</p>
+<p>Sphinx was originally created to produce the Python documentation, and has become a widely used tool for generating documentation.</p>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h3>
+<p>Some example of Sphinx generated documentation</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://matplotlib.org/stable/">Matplotlib Documentation</a></p></li>
+<li><p><a class="reference external" href="https://docs.qgis.org/latest/en/">QGIS Documentation</a></p></li>
+<li><p><a class="reference external" href="https://ncas-cms.github.io/um-training/">NCAS UM Training</a></p></li>
+</ul>
+<p>Many more listed at the <a class="reference external" href="https://www.sphinx-doc.org/en/master/examples.html">Sphinx Examples</a></p>
+</div>
+<div class="section" id="getting-started">
+<h3>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h3>
+<p>Sphinx documentation can be created on a local machine using the <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> Python library.</p>
+<p>This library can be installed in an anaconda environment using the <code class="docutils literal notranslate"><span class="pre">conda</span></code> command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">sphinx</span>
+</pre></div>
+</div>
+<p>The library can also be installed using <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span>
+</pre></div>
+</div>
+<p>The Read The Docs theme is also available for install using either <code class="docutils literal notranslate"><span class="pre">conda</span></code> or <code class="docutils literal notranslate"><span class="pre">pip</span></code> and can be useful for generating HTML documentation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">sphinx_rtd_theme</span>
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx_rtd_theme</span>
+</pre></div>
+</div>
+<p>A skeleton Sphinx project can be created with the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphinx</span><span class="o">-</span><span class="n">quickstart</span>
+</pre></div>
+</div>
+<p>This will prompt for some information, such as the name of the project, and create the required files to get started, most notably the files:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">source/conf.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">source/index.rst</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Makefile</span></code></p></li>
+</ul>
+<p>The first is the configuration file where various project parameters are set, such as the theme for HTML documentation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">html_theme</span> <span class="o">=</span> <span class="s1">&#39;sphinx_rtd_theme&#39;</span>
+</pre></div>
+</div>
+<p>The second is a sample index file for the documentation, and the third is the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> which can be used to build the documentation, for example to build HTML output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">html</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="rst-files">
+<h2>RST Files<a class="headerlink" href="#rst-files" title="Permalink to this headline"></a></h2>
+<p>By default, Sphinx uses the <em>rst</em> (<a class="reference external" href="https://docutils.sourceforge.io/rst.html">reStructuredText</a>) format for generating documentation.</p>
+<p>The rst format was developed for writing documentation. There are numerous markup options available such as using asterisks to emphasise text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span><span class="n">emphasised</span> <span class="n">text</span><span class="o">*</span>
+</pre></div>
+</div>
+<p>will be rendered as:</p>
+<p><em>emphasised text</em></p>
+<p>The Sphinx web pages include a useful rst primer:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html">reStructuredText Primer</a></p></li>
+</ul>
+<p>The rst web pages include detailed information regarding markup specification and available directives:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html">RST Markup Specification</a></p></li>
+<li><p><a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html">RST Directives</a></p></li>
+</ul>
+</div>
+<div class="section" id="autodoc">
+<h2>Autodoc<a class="headerlink" href="#autodoc" title="Permalink to this headline"></a></h2>
+<p>The <em>autodoc</em> feature of Sphinx can be used to automatically generate documentation from docstrings in Python code.</p>
+<p>To enable this feature the autodoc extension first needs to be enabled in the <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sphinx.ext.autodoc&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Sphinx also needs to be able to import the Python code from which the documentation should be generated, so it will likely also be necessary to make sure the directory containing the Python code is in the Python path.</p>
+<p>This can be done in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> file, and the default file contains a (commented) example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># If extensions (or modules to document with autodoc) are in another directory,</span>
+<span class="c1"># add these directories to sys.path here. If the directory is relative to the</span>
+<span class="c1"># documentation root, use os.path.abspath to make it absolute, like shown here.</span>
+<span class="c1">#</span>
+<span class="c1"># import os</span>
+<span class="c1"># import sys</span>
+<span class="c1"># sys.path.insert(0, os.path.abspath(&#39;.&#39;))</span>
+</pre></div>
+</div>
+<p>In the above example, the current directory (<code class="docutils literal notranslate"><span class="pre">.</span></code>), relative to the documentation root is added to the path.</p>
+<div class="section" id="documenting-the-python-code">
+<h3>Documenting The Python Code<a class="headerlink" href="#documenting-the-python-code" title="Permalink to this headline"></a></h3>
+<p>Python code documentation can be included in docstrings, for example this function includes a docstring describing it can be used:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_a</span><span class="p">(</span><span class="n">arg_a</span><span class="p">,</span> <span class="n">arg_b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is function a, which adds two values</span>
+
+<span class="sd">    :param arg_a: first argument is a ``float``</span>
+<span class="sd">    :param arg_b: second argument in an ``int``</span>
+<span class="sd">    :return: arg_a + arg_b</span>
+
+<span class="sd">    Example usage::</span>
+
+<span class="sd">      &gt;&gt;&gt; from python_library import function_a</span>
+<span class="sd">      &gt;&gt;&gt; function_a(2, 3)</span>
+<span class="sd">      5</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">arg_a</span> <span class="o">+</span> <span class="n">arg_b</span>
+</pre></div>
+</div>
+<p>This will produce documentation which renders as:</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">python_library.</span></span><span class="sig-name descname"><span class="pre">function_a</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg_b</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>This is function a, which adds two values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arg_a</strong> – first argument is a <code class="docutils literal notranslate"><span class="pre">float</span></code></p></li>
+<li><p><strong>arg_b</strong> – second argument in an <code class="docutils literal notranslate"><span class="pre">int</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>arg_a + arg_b</p>
+</dd>
+</dl>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">python_library</span> <span class="kn">import</span> <span class="n">function_a</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">function_a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>To include autogenerated documentation, there are various methods available (see the <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html">Sphinx Autodoc Documentation</a>), for example, to include documentation for all members of the Python library <code class="docutils literal notranslate"><span class="pre">python_library</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">automodule</span><span class="p">::</span> <span class="n">python_library</span>
+    <span class="p">:</span><span class="n">members</span><span class="p">:</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="building-the-documentation">
+<h2>Building The Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline"></a></h2>
+<p>The documentation can be built by running the <code class="docutils literal notranslate"><span class="pre">make</span></code> command in the documentation source directory.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">help</span></code> will be run, which will display information about how to build various targets:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make
+Sphinx v4.4.0
+Please use `make target&#39; where target is one of
+  html        to make standalone HTML files
+  dirhtml     to make HTML files named index.html in directories
+  singlehtml  to make a single large HTML file
+...
+</pre></div>
+</div>
+<p>For example, to build HTML documentation, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">html</span>
+</pre></div>
+</div>
+<p>This will produce create HTML files in the <code class="docutils literal notranslate"><span class="pre">build</span></code> directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make html
+Running Sphinx v4.4.0
+loading pickled environment... done
+building [mo]: targets for 0 po files that are out of date
+building [html]: targets for 1 source files that are out of date
+...
+build succeeded.
+
+The HTML pages are in build/html.
+</pre></div>
+</div>
+</div>
+<div class="section" id="hosting-html-documentation-on-the-web">
+<h2>Hosting HTML Documentation On The Web<a class="headerlink" href="#hosting-html-documentation-on-the-web" title="Permalink to this headline"></a></h2>
+<p>Once HTML documentation has been generated it can be hosted on the web in various ways.</p>
+<p>The content of the HTML directory could be copied to any web server and requires no special server capabilities.</p>
+<p>Documentation can also be hosted using popular services such as GitHub, GitLab and Read The Docs.</p>
+<div class="section" id="id2">
+<h3>Read The Docs<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h3>
+<p>The <a class="reference external" href="https://readthedocs.org/">Read The Docs</a> service provides a service for building and hosting Sphinx documentation.</p>
+<p>Once an account has been created, this can be linked with a GitHub or GitLab account, which then allows a Read The Docs project to be created from a repository hosted on one of these services.</p>
+<p>A Read The Docs project requires a unique name, with the documentation being published at <em>https://project-name.readthedocs.io/</em>.</p>
+<p>When integrated with a GitHub or GitLab repository, each time the repository is updated, the documentation will be rebuilt and updated.</p>
+<p>The Read The Docs service will search the repository for the <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> and use this to build the documentation.</p>
+<p>There are various options available via the Read The Docs interface, such the branch in the repository from which the documentation will be built.</p>
+<p>Git tags will be recognised, and by default the most recent tag will be labelled as <em>stable</em> and the most recent commit labelled as <em>latest</em>.</p>
+<p>Documentation builds can be triggered for additional versions (from Git tags), and so it is possible to have multiple versions of the documentation available, such as:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://project-name.readthedocs.io/en/latest/">https://project-name.readthedocs.io/en/latest/</a></p></li>
+<li><p><a class="reference external" href="https://project-name.readthedocs.io/en/stable/">https://project-name.readthedocs.io/en/stable/</a></p></li>
+<li><p><a class="reference external" href="https://project-name.readthedocs.io/en/v0.1/">https://project-name.readthedocs.io/en/v0.1/</a></p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>GitHub<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<p>The <a class="reference external" href="https://pages.github.com/">GitHub Pages</a> allows web content to easily be created and served from a GitHub repository.</p>
+<p>The Pages service can be enabled in the repository settings, for example to make the content of:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/username/repo-name">https://github.com/username/repo-name</a></p>
+</div></blockquote>
+<p>available at:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://username.github.io/repo-name">https://username.github.io/repo-name</a>.</p>
+</div></blockquote>
+<p>The simplest way to host HTML documentation with GitHub pages would be to build the files on a local machine, and then commit and push to a GitHub repository.</p>
+<p>A more automated method is possible using GitHub workflows. If a repository contains the Sphinx source files, a workflow can be created to automatically build and publish the documentation when the repository is updated.</p>
+<p>The source of this documentation is stored on GitHub at:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/cemacrr/sphinx-rtd">https://github.com/cemacrr/sphinx-rtd</a></p>
+</div></blockquote>
+<p>This repository contains a <code class="docutils literal notranslate"><span class="pre">.github/workflows</span></code> directory, where the <a class="reference external" href="https://github.com/cemacrr/sphinx-rtd/blob/main/.github/workflows/pages.yml">GitHub pages.yml</a> file  contains the instructions for building the documentation, which includes building the documentation with Python and then pushing the built HTML files to the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch, which is then available at:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://cemacrr.github.io/sphinx-rtd/">https://cemacrr.github.io/sphinx-rtd/</a></p>
+</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h3>GitLab<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h3>
+<p>GitLab also offers a <a class="reference external" href="https://docs.gitlab.com/ee/user/project/pages/">GitLab Pages</a> service, very similar to the GitHub service.</p>
+<p>The GitLab service is not quite so simple to use, and requires creating a <code class="docutils literal notranslate"><span class="pre">.gitlab-ci.yml</span></code> file, which works in a similar way to the GitHub workflows, containing instructions on how to build the web content.</p>
+<p>At present, it seems it is not currently possible to to use the GitLab CI service without first registering a credit card with GitLab …</p>
+<p>Similar to GitHub, it would be possible to either build the HTML files locally and the commit and push to GitLab, or to have the HTML documentation built automatically when changes are made to the repository. An example of how to automate the Sphinx build with GitLab can be found at the <a class="reference external" href="https://gitlab.com/pages/sphinx/">GitLab Pages Sphinx</a> documentation.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="software_version_control.html" class="btn btn-neutral float-left" title="Software Version Control" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, CEMAC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
