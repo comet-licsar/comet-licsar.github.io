@@ -14,3 +14,4 @@ COMET LiCSAR
   software_version_control
   documentation
   wiki
+  ciw
