@@ -5,13 +5,12 @@ COMET LiCSAR
 
 .. only:: html
 
-  `PDF <COMET_LiCSAR.pdf>`_
+..  `PDF <COMET_LiCSAR.pdf>`_
 
 .. toctree::
   :hidden:
 
   Home <self>
-..  software_version_control
   documentation
   wiki
   ciw
