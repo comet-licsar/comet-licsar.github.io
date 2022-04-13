@@ -1,0 +1,3 @@
+[submodule "licsar_proc"]
+	path = licsar_proc
+	url = https://github.com/comet-licsar/licsar_proc.git
