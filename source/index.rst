@@ -8,10 +8,12 @@ COMET LiCSAR
 ..  `PDF <COMET_LiCSAR.pdf>`_
 
 .. toctree::
+  :maxdepth: 2
   :hidden:
 
   Home <self>
   documentation
   wiki
+  licsar\_proc/docs/index
   ciw
   licsar_proc/docs/index
