@@ -13,6 +13,7 @@ COMET LiCSAR
 
   Home <self>
   wiki
-  licsar\_proc/docs/index
   ciw
   documentation
+  
+.. licsar\_proc/docs/index
