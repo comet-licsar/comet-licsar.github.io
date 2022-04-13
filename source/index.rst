@@ -11,7 +11,7 @@ COMET LiCSAR
   :hidden:
 
   Home <self>
-  software_version_control
+..  software_version_control
   documentation
   wiki
   ciw
