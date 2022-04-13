@@ -10,6 +10,43 @@ links are automatically converted, e.g. as:
   https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/home.
 
 
+Admin or dev comments
+=====================
+
+How do I..
+----------
+
+prepare hi res frames
+^^^^^^^^^^^^^^^^^^^^^
+
+say we have an AOI as e.g.
+
+::
+
+  import framecare as fc
+  lat1,lon1 = 51.1, 15.7
+  lat2,lon2 = 51.8, 16.5
+  
+  # first get bursts over that AOI, e.g. as:
+  bursts = fc.lq.get_bursts_in_polygon(lon1,lon2,lat1,lat2)
+  bursts = fc.lq.sql2outlist(bursts)
+  
+  # now manually check the bursts and select only 1 relorb related..
+  bursts = ....
+  
+  # then generate high res frame with the AOI
+  fc.generate_new_frame(bursts, testonly=False, hicode='H')
+  
+
+Afterwards initialize the new frame with parameter -C, i.e.:
+
+::
+
+   licsar_initialize_frame.sh -C 15.7/16.5/51.1/51.8 022A_0142H_000203
+
+test
+====
+
 this is section
 ------------------------
 
@@ -34,8 +71,8 @@ h1
 h2
 **
 
-h3
-==
+# h3
+# ==
 
 h4
 --
