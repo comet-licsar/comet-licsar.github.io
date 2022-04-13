@@ -4,7 +4,7 @@ COMET InSAR Workshop Materials
 COMET InSAR Workshop 2021
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-All materials are ... somewhere online (to be updated)
+All materials are *should* be `here <https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/COMET_InSAR_workshop_2021>`_
   
   
 COMET InSAR Workshop 2020  
