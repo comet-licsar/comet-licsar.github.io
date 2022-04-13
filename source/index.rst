@@ -14,3 +14,4 @@ COMET LiCSAR
   documentation
   wiki
   ciw
+  licsar_proc/docs/index
