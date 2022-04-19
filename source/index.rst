@@ -15,9 +15,6 @@ COMET LiCSAR
   wiki
   ciw
   documentation
+  licsar_proc/index
 
-.. include:: ../licsar_proc/docs/index.rst
-
-..  licsar_proc/index
-
-..  ../licsar\_proc/docs/index
+.. .. include:: ../licsar_proc/docs/index.rst  # this works but out of TOC!
