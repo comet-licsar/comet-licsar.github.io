@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation &mdash; COMET LiCSAR  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="licsar_proc/index.html" />
+    <link rel="prev" title="COMET InSAR Workshop Materials" href="ciw.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> COMET LiCSAR
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wiki.html">LiCSAR Wiki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ciw.html">COMET InSAR Workshop Materials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#admin-or-dev-comments">Admin or dev comments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i">How do I..</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-hi-res-frames">prepare hi res frames</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#test">test</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#this-is-section">this is section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#h4">h4</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#h5">h5</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#h6">h6</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COMET LiCSAR</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/documentation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline"></a></h1>
+<p>So it seems we can update documentation just by editing the rst files in the ‘source’ folder</p>
+<p>links are automatically converted, e.g. as:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/home">https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/home</a>.</p>
+</div></blockquote>
+</section>
+<section id="admin-or-dev-comments">
+<h1>Admin or dev comments<a class="headerlink" href="#admin-or-dev-comments" title="Permalink to this headline"></a></h1>
+<section id="how-do-i">
+<h2>How do I..<a class="headerlink" href="#how-do-i" title="Permalink to this headline"></a></h2>
+<section id="prepare-hi-res-frames">
+<h3>prepare hi res frames<a class="headerlink" href="#prepare-hi-res-frames" title="Permalink to this headline"></a></h3>
+<p>say we have an AOI as e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">framecare</span> <span class="k">as</span> <span class="nn">fc</span>
+<span class="n">lat1</span><span class="p">,</span><span class="n">lon1</span> <span class="o">=</span> <span class="mf">51.1</span><span class="p">,</span> <span class="mf">15.7</span>
+<span class="n">lat2</span><span class="p">,</span><span class="n">lon2</span> <span class="o">=</span> <span class="mf">51.8</span><span class="p">,</span> <span class="mf">16.5</span>
+
+<span class="c1"># first get bursts over that AOI, e.g. as:</span>
+<span class="n">bursts</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">lq</span><span class="o">.</span><span class="n">get_bursts_in_polygon</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span><span class="n">lon2</span><span class="p">,</span><span class="n">lat1</span><span class="p">,</span><span class="n">lat2</span><span class="p">)</span>
+<span class="n">bursts</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">lq</span><span class="o">.</span><span class="n">sql2outlist</span><span class="p">(</span><span class="n">bursts</span><span class="p">)</span>
+
+<span class="c1"># now manually check the bursts and select only 1 relorb related..</span>
+<span class="n">bursts</span> <span class="o">=</span> <span class="o">....</span>
+
+<span class="c1"># then generate high res frame with the AOI</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">generate_new_frame</span><span class="p">(</span><span class="n">bursts</span><span class="p">,</span> <span class="n">testonly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">hicode</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Afterwards initialize the new frame with parameter -C, i.e.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">licsar_initialize_frame</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">C</span> <span class="mf">15.7</span><span class="o">/</span><span class="mf">16.5</span><span class="o">/</span><span class="mf">51.1</span><span class="o">/</span><span class="mf">51.8</span> <span class="mi">022</span><span class="n">A_0142H_000203</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="test">
+<h1>test<a class="headerlink" href="#test" title="Permalink to this headline"></a></h1>
+<section id="this-is-section">
+<h2>this is section<a class="headerlink" href="#this-is-section" title="Permalink to this headline"></a></h2>
+<p><cite>this is quoted text</cite></p>
+<p>Some example of Sphinx generated documentation</p>
+<ul class="simple">
+<li><p>bullet 1</p></li>
+<li><p>bullet 2</p></li>
+</ul>
+<p>link to <a class="reference external" href="https://www.sphinx-doc.org/en/master/examples.html">Sphinx Examples</a></p>
+<p>ok, now this is from RSTPAD:</p>
+<p># h3
+# ==</p>
+</section>
+<section id="h4">
+<h2>h4<a class="headerlink" href="#h4" title="Permalink to this headline"></a></h2>
+<section id="h5">
+<h3>h5<a class="headerlink" href="#h5" title="Permalink to this headline"></a></h3>
+<section id="h6">
+<h4>h6<a class="headerlink" href="#h6" title="Permalink to this headline"></a></h4>
+<p><strong>bold</strong>
+<em>italic</em>
+- list
+#. numlist
+something</p>
+<p>s —- thing</p>
+<blockquote>
+<div><p>tab</p>
+</div></blockquote>
+<p><a class="reference external" href="http://example.com/">link</a>
+.. image:: image
+inline <a href="#id1"><span class="problematic" id="id2">``</span></a>code is <a href="#id3"><span class="problematic" id="id4">``</span></a>this</p>
+<p>code block</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ow">is</span>
+<span class="n">this</span> <span class="n">block</span>
+<span class="ow">is</span> <span class="n">this</span>
+</pre></div>
+</div>
+<p>highlighted</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">block</span>
+<span class="n">of</span>
+<span class="n">code</span>
+<span class="ow">is</span>
+<span class="n">this</span>
+</pre></div>
+</div>
+<p>tralala</p>
+<p>The library can also be installed using <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span>
+</pre></div>
+</div>
+<p>The rst format was developed for writing documentation. There are numerous markup options available such as using asterisks to emphasise text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span><span class="n">emphasised</span> <span class="n">text</span><span class="o">*</span>
+</pre></div>
+</div>
+<p>will be rendered as:</p>
+<p><em>emphasised text</em></p>
+<p>code example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_a</span><span class="p">(</span><span class="n">arg_a</span><span class="p">,</span> <span class="n">arg_b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is function a, which adds two values</span>
+
+<span class="sd">    :param arg_a: first argument is a ``float``</span>
+<span class="sd">    :param arg_b: second argument in an ``int``</span>
+<span class="sd">    :return: arg_a + arg_b</span>
+
+<span class="sd">    Example usage::</span>
+
+<span class="sd">      &gt;&gt;&gt; from python_library import function_a</span>
+<span class="sd">      &gt;&gt;&gt; function_a(2, 3)</span>
+<span class="sd">      5</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">arg_a</span> <span class="o">+</span> <span class="n">arg_b</span>
+</pre></div>
+</div>
+<p>This will produce documentation which renders as:</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">python_library.</span></span><span class="sig-name descname"><span class="pre">function_a</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg_b</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>This is function a, which adds two values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arg_a</strong> – first argument is a <code class="docutils literal notranslate"><span class="pre">float</span></code></p></li>
+<li><p><strong>arg_b</strong> – second argument in an <code class="docutils literal notranslate"><span class="pre">int</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>arg_a + arg_b</p>
+</dd>
+</dl>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">python_library</span> <span class="k">import</span> <span class="n">function_a</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">function_a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>To include autogenerated documentation, there are various methods available (see the <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html">Sphinx Autodoc Documentation</a>), for example, to include documentation for all members of the Python library <code class="docutils literal notranslate"><span class="pre">python_library</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">automodule</span><span class="p">::</span> <span class="n">python_library</span>
+    <span class="p">:</span><span class="n">members</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make
+Sphinx v4.4.0
+Please use `make target&#39; where target is one of
+  html        to make standalone HTML files
+  dirhtml     to make HTML files named index.html in directories
+  singlehtml  to make a single large HTML file
+...
+</pre></div>
+</div>
+<p>For example, to build HTML documentation, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">html</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ciw.html" class="btn btn-neutral float-left" title="COMET InSAR Workshop Materials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="licsar_proc/index.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, COMET and CEMAC teams.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
