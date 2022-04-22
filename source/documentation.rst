@@ -16,6 +16,30 @@ Admin or dev comments
 How do I..
 ----------
 
+clone and edit the docs
+^^^^^^^^^^^^^^^^^^^^^^^
+
+few steps are needed to clone and set the docs on your computer. first of all, you should set in github page, in Settings of your profile an up-to-date ssh key, formed with the email that is registered with your profile (you may add more emails in github profile settings, it works).
+
+you may do e.g.
+::
+  ssh-keygen -t ed25519 -f ~/.ssh/id_ed -C "YOURUSERNAME@leeds.ac.uk"
+
+then edit your ~/.ssh/config to contain:
+::
+  Host github.com
+    IdentityFile ~/.ssh/id_ed
+    IdentitiesOnly yes
+
+Afterwards, you can just enter some directory and clone (and set) the repo there using:
+::
+  git clone git@github.com:comet-licsar/comet-licsar.github.io.git
+  cd comet-licsar.github.io
+  git remote set-url origin git@github.com:comet-licsar/comet-licsar.github.io.git
+
+ok, then you're set and you can edit and push changes (if you are maintainer) as usual.
+
+
 prepare hi res frames
 ^^^^^^^^^^^^^^^^^^^^^
 
