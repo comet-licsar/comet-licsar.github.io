@@ -44,6 +44,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#admin-or-dev-comments">Admin or dev comments</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#how-do-i">How do I..</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clone-and-edit-the-docs">clone and edit the docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#prepare-hi-res-frames">prepare hi res frames</a></li>
 </ul>
 </li>
@@ -99,6 +100,27 @@
 <h1>Admin or dev comments<a class="headerlink" href="#admin-or-dev-comments" title="Permalink to this headline"></a></h1>
 <section id="how-do-i">
 <h2>How do I..<a class="headerlink" href="#how-do-i" title="Permalink to this headline"></a></h2>
+<section id="clone-and-edit-the-docs">
+<h3>clone and edit the docs<a class="headerlink" href="#clone-and-edit-the-docs" title="Permalink to this headline"></a></h3>
+<p>few steps are needed to clone and set the docs on your computer. first of all, you should set in github page, in Settings of your profile an up-to-date ssh key, formed with the email that is registered with your profile (you may add more emails in github profile settings, it works).</p>
+<p>you may do e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span><span class="o">-</span><span class="n">keygen</span> <span class="o">-</span><span class="n">t</span> <span class="n">ed25519</span> <span class="o">-</span><span class="n">f</span> <span class="o">~/.</span><span class="n">ssh</span><span class="o">/</span><span class="n">id_ed</span> <span class="o">-</span><span class="n">C</span> <span class="s2">&quot;YOURUSERNAME@leeds.ac.uk&quot;</span>
+</pre></div>
+</div>
+<p>then edit your ~/.ssh/config to contain:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Host</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span>
+  <span class="n">IdentityFile</span> <span class="o">~/.</span><span class="n">ssh</span><span class="o">/</span><span class="n">id_ed</span>
+  <span class="n">IdentitiesOnly</span> <span class="n">yes</span>
+</pre></div>
+</div>
+<p>Afterwards, you can just enter some directory and clone (and set) the repo there using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">comet</span><span class="o">-</span><span class="n">licsar</span><span class="o">/</span><span class="n">comet</span><span class="o">-</span><span class="n">licsar</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">comet</span><span class="o">-</span><span class="n">licsar</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="nb">set</span><span class="o">-</span><span class="n">url</span> <span class="n">origin</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">comet</span><span class="o">-</span><span class="n">licsar</span><span class="o">/</span><span class="n">comet</span><span class="o">-</span><span class="n">licsar</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>ok, then you’re set and you can edit and push changes (if you are maintainer) as usual.</p>
+</section>
 <section id="prepare-hi-res-frames">
 <h3>prepare hi res frames<a class="headerlink" href="#prepare-hi-res-frames" title="Permalink to this headline"></a></h3>
 <p>say we have an AOI as e.g.</p>
