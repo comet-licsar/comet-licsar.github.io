@@ -16,6 +16,13 @@ jobs:
       with:
         fetch-depth: 0
         submodules: true
+    - name: Checkout licsar_proc
+      uses: actions/checkout@master
+      with:
+        repository: comet-licsar/licsar_proc
+        path: licsar_proc
+        fetch-depth: 0
+        submodules: true
     - name: Build and Commit
       uses: sphinx-notes/pages@v2
       with:
