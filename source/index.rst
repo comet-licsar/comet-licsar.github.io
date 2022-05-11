@@ -18,7 +18,8 @@ COMET LiCSAR
 ^^^^^^^^^^^^^^^^^^^
 .. toctree::
   :maxdepth: 2
-  :caption: LiCSAR Tools
+  :hidden:
+.. :caption: LiCSAR Tools
   
   licsar_proc/index
   licsar_framebatch/index
@@ -29,7 +30,8 @@ COMET LiCSAR
 ^^^^^^^^^^^^^^^^^^^
 .. toctree::
   :maxdepth: 2
-  :caption: Further information
+  :hidden:
+..  :caption: Further information
   
   ciw
   documentation
