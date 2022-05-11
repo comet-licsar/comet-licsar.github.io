@@ -12,33 +12,33 @@ jobs:
         sudo locale-gen en_GB.UTF-8
         sudo update-locale
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@main
       with:
         fetch-depth: 0
         submodules: true
     - name: Checkout licsar_proc
-      uses: actions/checkout@master
+      uses: actions/checkout@main
       with:
         repository: comet-licsar/licsar_proc
         path: licsar_proc
         fetch-depth: 0
         submodules: true
     - name: Checkout licsar_framebatch
-      uses: actions/checkout@master
+      uses: actions/checkout@main
       with:
         repository: comet-licsar/licsar_framebatch
         path: licsar_framebatch
         fetch-depth: 0
         submodules: true
     - name: Checkout daz
-      uses: actions/checkout@master
+      uses: actions/checkout@main
       with:
         repository: comet-licsar/daz
         path: daz
         fetch-depth: 0
         submodules: true
     - name: Checkout licsbas
-      uses: actions/checkout@master
+      uses: actions/checkout@main
       with:
         repository: comet-licsar/licsbas
         path: licsbas
