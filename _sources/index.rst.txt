@@ -8,13 +8,30 @@ COMET LiCSAR
 ..  `PDF <COMET_LiCSAR.pdf>`_
 
 .. toctree::
-  :maxdepth: 2
+  :maxdepth: 1
   :hidden:
 
   Home <self>
   wiki
+  
+**LiCSAR Tools**
+^^^^^^^^^^^^^^^^^^^
+.. toctree::
+  :maxdepth: 2
+  :caption: LiCSAR Tools
+  
+  licsar_proc/index
+  licsar_framebatch/index
+  licsbas/index
+  daz/index
+
+**Further information**
+^^^^^^^^^^^^^^^^^^^
+.. toctree::
+  :maxdepth: 2
+  :caption: Further information
+  
   ciw
   documentation
-  licsar_proc/index
-
+  
 .. .. include:: ../licsar_proc/docs/index.rst  # this works but out of TOC!
