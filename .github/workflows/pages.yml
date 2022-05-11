@@ -23,6 +23,27 @@ jobs:
         path: licsar_proc
         fetch-depth: 0
         submodules: true
+    - name: Checkout licsar_framebatch
+      uses: actions/checkout@master
+      with:
+        repository: comet-licsar/licsar_framebatch
+        path: licsar_framebatch
+        fetch-depth: 0
+        submodules: true
+    - name: Checkout daz
+      uses: actions/checkout@master
+      with:
+        repository: comet-licsar/daz
+        path: daz
+        fetch-depth: 0
+        submodules: true
+    - name: Checkout licsbas
+      uses: actions/checkout@master
+      with:
+        repository: comet-licsar/licsbas
+        path: licsbas
+        fetch-depth: 0
+        submodules: true
     - name: Build and Commit
       uses: sphinx-notes/pages@v2
       with:
