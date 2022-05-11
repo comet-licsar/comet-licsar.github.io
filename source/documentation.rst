@@ -3,7 +3,13 @@
 Documentation
 =============
 
-So it seems we can update documentation just by editing the rst files in the 'source' folder
+Documentation can be updated simply by editing the rst files in the 'source' folder. After commit, github would auto-recreate web page of https://comet-licsar.github.io .
+
+these are some testing lines
+
+symbol $
+symbol \$
+
 
 links are automatically converted, e.g. as:
 
