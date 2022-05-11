@@ -1,6 +1,6 @@
 .. include:: links.rst
 
-Documentation
+Notes about documentation
 =============
 
 Documentation can be updated simply by editing the rst files in the 'source' folder. After commit, github would auto-recreate web page of https://comet-licsar.github.io .
