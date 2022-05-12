@@ -14,21 +14,21 @@ COMET LiCSAR
   Home <self>
   wiki
   
-**LiCSAR Tools**
-^^^^^^^^^^^^^^^^^^^
+.. **LiCSAR Tools**
+.. ^^^^^^^^^^^^^^^^^^^
 .. toctree::
   :maxdepth: 2
-  
+  :caption: LiCSAR Tools
   licsar_proc/index
   licsar_framebatch/index
   licsbas/index
   daz/index
 
-**Further information**
-^^^^^^^^^^^^^^^^^^^
+.. **Further information**
+.. ^^^^^^^^^^^^^^^^^^^
 .. toctree::
   :maxdepth: 2
-  
+  :caption: Further information
   ciw
   documentation
   
