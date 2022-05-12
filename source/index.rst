@@ -14,8 +14,7 @@ COMET LiCSAR
   Home <self>
   wiki
   
-**LiCSAR Tools**
-^^^^^^^^^^^^^^^^^^^
+
 .. toctree::
   :maxdepth: 2
   :caption: LiCSAR Tools
@@ -25,8 +24,7 @@ COMET LiCSAR
   licsbas/index
   daz/index
 
-.. **Further information**
-.. ^^^^^^^^^^^^^^^^^^^
+
 .. toctree::
   :maxdepth: 2
   :caption: Further information
