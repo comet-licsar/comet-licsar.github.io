@@ -75,10 +75,10 @@ Afterwards initialize the new frame with parameter -C, i.e.:
    licsar_initialize_frame.sh -C 15.7/16.5/51.1/51.8 022A_0142H_000203
 
 test
-====
+----
 
 this is section
-------------------------
+^^^^^^^^^^^^^^^
 
 `this is quoted text`
 
