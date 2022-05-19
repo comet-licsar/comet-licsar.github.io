@@ -102,6 +102,7 @@ Some parameters of particular use (often not fully integrated in FrameBatch) are
 standard project started by licsar_make_frame.sh.</p>
 <section id="forming-licsar-interferograms-sentinel-1">
 <h2>Forming LiCSAR interferograms (Sentinel-1)<a class="headerlink" href="#forming-licsar-interferograms-sentinel-1" title="Permalink to this headline"></a></h2>
+<p>The core processing scripts are also described (in more details, and still valid, although of older date) in <a class="reference external" href="https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/ciw2019/licsar">https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/ciw2019/licsar</a></p>
 <section id="create-slc-files">
 <h3>1. create SLC files<a class="headerlink" href="#create-slc-files" title="Permalink to this headline"></a></h3>
 <p>see</p>
@@ -140,22 +141,25 @@ RSLC3 for the spectral diversity (see e.g. <a class="reference external" href="h
 </section>
 <section id="create-interferograms">
 <h3>3. create interferograms<a class="headerlink" href="#create-interferograms" title="Permalink to this headline"></a></h3>
-<p>some tips and tricks about</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LiCSAR_03_mk_ifgs</span><span class="o">.</span><span class="n">py</span>
+<p>see:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LiCSAR_03_mk_ifgs</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
 </div>
+<p>The script is very useful if you have your own list of interferograms to form, e.g. in a text file containing lines as ‘20200101_20200202’ etc. (see help).
+An extra parameter -n would use parallel processing on given number of CPUs.</p>
 </section>
 <section id="unwrap-interferograms">
 <h3>4. unwrap interferograms<a class="headerlink" href="#unwrap-interferograms" title="Permalink to this headline"></a></h3>
-<p>some tips and tricks about</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LiCSAR_04_unwrap</span><span class="o">.</span><span class="n">py</span>
+<p>For the original unwrapping approach, running on radar-coordinate interferograms, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LiCSAR_04_unwrap</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
 </div>
-<p>and</p>
+<p>and then you may geocode the result, as discussed in next section.</p>
+<p>However, you may find useful (and faster) the updated version, currently used by LiCSAR FrameBatch, that performs unwrapping on already geocoded wrapped interferograms:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">unwrap_geo</span><span class="o">.</span><span class="n">sh</span>
 </pre></div>
 </div>
-<p>and perhaps</p>
+<p>Finally, you may experiment with the updated (much improved) unwrapper, running through python, and starting again from geocoded interferograms. This script is used by licsar2licbas.sh described later.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unwrp_multiscale</span> <span class="k">as</span> <span class="nn">unw</span>
 <span class="n">help</span><span class="p">(</span><span class="n">unw</span><span class="o">.</span><span class="n">process_frame</span><span class="p">)</span>
 </pre></div>
@@ -163,7 +167,10 @@ RSLC3 for the spectral diversity (see e.g. <a class="reference external" href="h
 </section>
 <section id="geocoding-results">
 <h3>5. geocoding results<a class="headerlink" href="#geocoding-results" title="Permalink to this headline"></a></h3>
-<p>some tips and tricks about geocoding (or explanation how does it work)</p>
+<p>For geocoding results, please use the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_geoctiffs_to_pub</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="post-processing">
