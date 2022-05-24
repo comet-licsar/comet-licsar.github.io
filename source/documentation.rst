@@ -8,6 +8,7 @@ Documentation can be updated simply by editing the rst files in the 'source' fol
 these are some testing lines
 
 symbol $
+
 symbol \$
 
 
