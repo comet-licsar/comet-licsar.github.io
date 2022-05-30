@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -78,10 +79,10 @@
            <div itemprop="articleBody">
              
   <section id="software-version-control">
-<h1>Software Version Control<a class="headerlink" href="#software-version-control" title="Permalink to this headline"></a></h1>
+<h1>Software Version Control<a class="headerlink" href="#software-version-control" title="Permalink to this heading"></a></h1>
 <p>The <a class="reference external" href="https://gitlab.com/">GitLab</a> service is currently used for hosting <a class="reference external" href="https://git-scm.com/">Git</a> repositories related to the operation of the COMET LiCSAR system.</p>
 <section id="current-gitlab-usage">
-<h2>Current GitLab Usage<a class="headerlink" href="#current-gitlab-usage" title="Permalink to this headline"></a></h2>
+<h2>Current GitLab Usage<a class="headerlink" href="#current-gitlab-usage" title="Permalink to this heading"></a></h2>
 <p>The COMET LiCSAR related material is stored within a GitLab <em>group</em> at:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://gitlab.com/comet_licsar">https://gitlab.com/comet_licsar</a>.</p>
@@ -92,12 +93,12 @@
 <p>The <em>licsar_documentation</em> repository makes use of the <a class="reference external" href="https://docs.gitlab.com/ee/user/project/wiki/">GitLab Wiki</a> functionality. This allows the documentation to be created in markdown format, and rendered by the GitLab web interface.</p>
 </section>
 <section id="git-hosting-options">
-<h2>Git Hosting Options<a class="headerlink" href="#git-hosting-options" title="Permalink to this headline"></a></h2>
+<h2>Git Hosting Options<a class="headerlink" href="#git-hosting-options" title="Permalink to this heading"></a></h2>
 <p>There are various options available for hosting Git repositories, with <a class="reference external" href="https://github.com/">GitHub</a> and GitLab being the most popular services available, and the two which we will consider.</p>
 <p>Both services have been around for several years, and can be considered stable and reliable. GitHub is the most well known and popular of the two services, and is owned by Microsoft.</p>
 </section>
 <section id="feature-comparison">
-<h2>Feature Comparison<a class="headerlink" href="#feature-comparison" title="Permalink to this headline"></a></h2>
+<h2>Feature Comparison<a class="headerlink" href="#feature-comparison" title="Permalink to this heading"></a></h2>
 <p>The features offered at the non charged level of hosting by GitHub and GitLab are both very similar.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://about.gitlab.com/pricing/">GitLab Pricing</a> information</p></li>
@@ -114,22 +115,22 @@
 <p>We do not have any experience with the GitLab offering, but there are several members of the School of Earth and Environment in Leeds who have applied successfully for the GitHub education program. The main benefit is that this allows the individual to upgrade an organisation to the <em>Team</em> level, which adds some additional features, mainly to the functionality of private repositories.</p>
 </section>
 <section id="hosting-considerations">
-<h2>Hosting Considerations<a class="headerlink" href="#hosting-considerations" title="Permalink to this headline"></a></h2>
+<h2>Hosting Considerations<a class="headerlink" href="#hosting-considerations" title="Permalink to this heading"></a></h2>
 <p>As there is not a huge number of repositories currently located within the COMET LiCSAR GitLab group, and these would be fairly simple to migrate to GitHub, I believe it would be worth seriously consider migrating to GitHub.</p>
 <section id="familiarity">
-<h3>Familiarity<a class="headerlink" href="#familiarity" title="Permalink to this headline"></a></h3>
+<h3>Familiarity<a class="headerlink" href="#familiarity" title="Permalink to this heading"></a></h3>
 <p>As GitHub is the most popular Git hosting service, this the service which is most likely to be familiar to new members of the group, so there is a lower barrier to entry.</p>
 <p>Git training (for example using the <a class="reference external" href="https://swcarpentry.github.io/git-novice/">Software Carpentry Git Lesson</a>) may also include specific sections of working with GitHub.</p>
 <p>GitLab works in a reasonably similar way to GitHub, and it is even possible to log in to GitLab with a GitHub account, but the requirement to use an ‘unfamiliar’ system can often prove a significant barrier to engagement.</p>
 </section>
 <section id="working-with-existing-projects">
-<h3>Working With Existing Projects<a class="headerlink" href="#working-with-existing-projects" title="Permalink to this headline"></a></h3>
+<h3>Working With Existing Projects<a class="headerlink" href="#working-with-existing-projects" title="Permalink to this heading"></a></h3>
 <p>Some projects of significant interest to the COMET LiCSAR group, such as <a class="reference external" href="https://github.com/yumorishita/LiCSBAS/">LiCSBAS</a> and <a class="reference external" href="https://github.com/isce-framework/">ISCE</a> are hosted on GitHub.</p>
 <p>Working on GitHub would make it easier to work with the code hosted in these repositories.</p>
 <p>For example, there is a fork of the LiCSBAS repository hosted in the COMET LiCSAR GitLab group. If this was hosted on GitLab, it would be possible to track the differences between this fork and the original repository via the GitHub web interface, as well as easily contribute changes back to the upstream source.</p>
 </section>
 <section id="integration-with-third-party-tools">
-<h3>Integration With Third Party Tools<a class="headerlink" href="#integration-with-third-party-tools" title="Permalink to this headline"></a></h3>
+<h3>Integration With Third Party Tools<a class="headerlink" href="#integration-with-third-party-tools" title="Permalink to this heading"></a></h3>
 <p>Many third party tools which integrate with Git repositories will integrate with GitLab repositories just as easily as as GitHub repositories, such as <a class="reference external" href="https://mybinder.org/">Binder</a> and <a class="reference external" href="https://readthedocs.org/">Read The Docs</a>.</p>
 <p>One tool which could be of significant interest to the group, and integrates easily with GitHub is <a class="reference external" href="https://zenodo.org/">Zenodo</a>, which allows creation a copy of the content of a repository at a particular release, with a DOI, making the code easily citable.</p>
 <p>There is some more information at the <a class="reference external" href="https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content/">GitHub Zenodo Documentation</a>, and a simple example of a repository which has been archived with Zenodo can be found at:</p>
@@ -139,7 +140,7 @@
 <p>Each time a new release is created in a repository which is linked to Zenodo, a new DOI is created, where there is also an overarching DOI which always links to the most recent release.</p>
 </section>
 <section id="restricted-gitlab-functionality-without-verification">
-<h3>Restricted GitLab Functionality Without Verification<a class="headerlink" href="#restricted-gitlab-functionality-without-verification" title="Permalink to this headline"></a></h3>
+<h3>Restricted GitLab Functionality Without Verification<a class="headerlink" href="#restricted-gitlab-functionality-without-verification" title="Permalink to this heading"></a></h3>
 <p>Possibly the largest issue with GitLab is the inability to use any of the CI / CD (continuous integration / continuous deployment) features without first verifying your identity by providing a credit card.</p>
 <p>This means it is not possible to use features such as the Pages (<a class="reference external" href="https://docs.gitlab.com/ee/user/project/pages/">GitLab Pages</a>, <a class="reference external" href="https://pages.github.com/">GitHub Pages</a>) feature to easily host web content, which can be extremely useful.</p>
 <p>It also means it is not possible to enable functionality such as automated testing of code, when changes are pushed to a repository.</p>
@@ -147,7 +148,7 @@
 </section>
 </section>
 <section id="future-use-of-hosting-services">
-<h2>Future Use Of Hosting Services<a class="headerlink" href="#future-use-of-hosting-services" title="Permalink to this headline"></a></h2>
+<h2>Future Use Of Hosting Services<a class="headerlink" href="#future-use-of-hosting-services" title="Permalink to this heading"></a></h2>
 <p>There are opportunities for increased use of features offered by services such as GitLab and GitHub which could benefit the COMET LiCSAR code and its users.</p>
 <p>This may include automated documentation building and deployment, or automated testing of code when changes are pushed to a Git repository.</p>
 <p>Some of these things may have an initial time cost, for example creating tests for the software, setting up the tasks to run the tests, and so on, but he benefits may be significant in the long run.</p>

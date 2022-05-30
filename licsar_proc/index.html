@@ -14,6 +14,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -96,15 +97,15 @@
            <div itemprop="articleBody">
              
   <section id="licsar-proc">
-<h1>LiCSAR proc<a class="headerlink" href="#licsar-proc" title="Permalink to this headline"></a></h1>
+<h1>LiCSAR proc<a class="headerlink" href="#licsar-proc" title="Permalink to this heading"></a></h1>
 <p>This section describes core functionality of LiCSAR system, that is used by LiCSAR FrameBatch system but can be used independently.
 Some parameters of particular use (often not fully integrated in FrameBatch) are discussed here, yet we assume that you work with
 standard project started by licsar_make_frame.sh.</p>
 <section id="forming-licsar-interferograms-sentinel-1">
-<h2>Forming LiCSAR interferograms (Sentinel-1)<a class="headerlink" href="#forming-licsar-interferograms-sentinel-1" title="Permalink to this headline"></a></h2>
+<h2>Forming LiCSAR interferograms (Sentinel-1)<a class="headerlink" href="#forming-licsar-interferograms-sentinel-1" title="Permalink to this heading"></a></h2>
 <p>The core processing scripts are also described (in more details, and still valid, although of older date) in <a class="reference external" href="https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/ciw2019/licsar">https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/ciw2019/licsar</a></p>
 <section id="create-slc-files">
-<h3>1. create SLC files<a class="headerlink" href="#create-slc-files" title="Permalink to this headline"></a></h3>
+<h3>1. create SLC files<a class="headerlink" href="#create-slc-files" title="Permalink to this heading"></a></h3>
 <p>see</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LiCSAR_01_mk_images</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
@@ -121,7 +122,7 @@ LiCSAR_01_mk_images.py -n -d . -f $frameid -m $m -s $s -e $e -a 4 -r 20
 ingested to LiCSInfo database (command arch2DB.py). This is done automatically through licsar_make_frame.sh.</p>
 </section>
 <section id="coregister-to-rslc-files">
-<h3>2. coregister to RSLC files<a class="headerlink" href="#coregister-to-rslc-files" title="Permalink to this headline"></a></h3>
+<h3>2. coregister to RSLC files<a class="headerlink" href="#coregister-to-rslc-files" title="Permalink to this heading"></a></h3>
 <p>see:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LiCSAR_02_coreg</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
@@ -133,14 +134,15 @@ LiCSAR_02_coreg.py -f $frameid -d . -m $m -i
 </pre></div>
 </div>
 <p>This command would coregister/resample all files in SLC folder to RSLC directory, for given frame.
-The standard constrains apply, for example limit for spectral diversity estimation to combine epochs with up to Btemp=180 days.
-In order to force-skip this limit, use parameter ‘-E’ (some extra tweaks there, EIDP-related, including skip of Btemp check),
-probably in combination of ‘-l slclist.txt’, i.e. better to include one SLC (with no missing bursts) to the slclist.txt and try coregister that one,
-and only then start the standard procedure (without -E) for all the SLCs left. This way you would make sure that the other epochs would use appropriate
+The standard constrains apply, for example limit for spectral diversity estimation to combine epochs with up to Btemp=180 days.</p>
+<p>In order to force-skip the 180 days limit, use parameter ‘-E’ (some extra tweaks there, EIDP-related, including skip of Btemp check).
+In practice, to connect a cluster of epochs far in time, choose one SLC in that cluster that has no missing bursts (see e.g. their mli preview, or check size),
+and add its date to slclist.txt and try coregister that one by <code class="docutils literal notranslate"><span class="pre">LiCSAR_02_coreg.py</span> <span class="pre">-f</span> <span class="pre">$frameid</span> <span class="pre">-d</span> <span class="pre">.</span> <span class="pre">-m</span> <span class="pre">$m</span> <span class="pre">-i</span> <span class="pre">-l</span> <span class="pre">slclist.txt</span> <span class="pre">-E</span></code>.</p>
+<p>Only then start the standard procedure (without -E) for all the SLCs left. This way you would make sure that the other epochs would use appropriate
 RSLC3 for the spectral diversity (see e.g. <a class="reference external" href="https://www.mdpi.com/2072-4292/12/15/2430">https://www.mdpi.com/2072-4292/12/15/2430</a> )</p>
 </section>
 <section id="create-interferograms">
-<h3>3. create interferograms<a class="headerlink" href="#create-interferograms" title="Permalink to this headline"></a></h3>
+<h3>3. create interferograms<a class="headerlink" href="#create-interferograms" title="Permalink to this heading"></a></h3>
 <p>see:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LiCSAR_03_mk_ifgs</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
@@ -149,7 +151,7 @@ RSLC3 for the spectral diversity (see e.g. <a class="reference external" href="h
 An extra parameter -n would use parallel processing on given number of CPUs.</p>
 </section>
 <section id="unwrap-interferograms">
-<h3>4. unwrap interferograms<a class="headerlink" href="#unwrap-interferograms" title="Permalink to this headline"></a></h3>
+<h3>4. unwrap interferograms<a class="headerlink" href="#unwrap-interferograms" title="Permalink to this heading"></a></h3>
 <p>For the original unwrapping approach, running on radar-coordinate interferograms, use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LiCSAR_04_unwrap</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
@@ -166,7 +168,7 @@ An extra parameter -n would use parallel processing on given number of CPUs.</p>
 </div>
 </section>
 <section id="geocoding-results">
-<h3>5. geocoding results<a class="headerlink" href="#geocoding-results" title="Permalink to this headline"></a></h3>
+<h3>5. geocoding results<a class="headerlink" href="#geocoding-results" title="Permalink to this heading"></a></h3>
 <p>For geocoding results, please use the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_geoctiffs_to_pub</span><span class="o">.</span><span class="n">sh</span>
 </pre></div>
@@ -174,9 +176,9 @@ An extra parameter -n would use parallel processing on given number of CPUs.</p>
 </section>
 </section>
 <section id="post-processing">
-<h2>Post-processing<a class="headerlink" href="#post-processing" title="Permalink to this headline"></a></h2>
+<h2>Post-processing<a class="headerlink" href="#post-processing" title="Permalink to this heading"></a></h2>
 <section id="licsar-to-licsbas-jasmin">
-<h3>LiCSAR to LiCSBAS (JASMIN)<a class="headerlink" href="#licsar-to-licsbas-jasmin" title="Permalink to this headline"></a></h3>
+<h3>LiCSAR to LiCSBAS (JASMIN)<a class="headerlink" href="#licsar-to-licsbas-jasmin" title="Permalink to this heading"></a></h3>
 <p>This script runs LiCSBAS processing from the LiCSAR data. To be used in JASMIN environment.</p>
 <p>The script would read frame data from $LiCSAR_public directory, prepare them for LiCSBAS and run LiCSBAS with default parameters.
 If you run the script from directory with your GEOC outputs, it would instead use the local data from this folder.
@@ -187,15 +189,18 @@ Afterwards, you may just fine tune parameters of LiCSBAS step 15 (and 16) and re
 <span class="c1">#-M 10 .... this will do extra multilooking (in this example, 10x multilooking)</span>
 <span class="c1">#-u ....... use the (extra Gaussian-improved multilooking and) reunwrapping procedure (useful if multilooking..)</span>
 <span class="c1">#-c ....... if the reunwrapping is to be performed, use cascade (might be better, especially when with shores)</span>
-<span class="c1">#-s ....... use coherence stability index instead of orig coh per ifg (experimental - might help against loop closure errors, maybe)</span>
-<span class="c1">#-k ....... use cohratio everywhere (i.e. for unwrapping, rather than orig coh - this is experimental attempt)</span>
+<span class="c1">#-s ....... if the reunwrapping is to be performed, use smoothing (two-pass unw approach, similar effect as with cascade, only milder)</span>
 <span class="c1">#-H ....... this will use hgt to support unwrapping (only if using reunwrapping)</span>
 <span class="c1">#-T ....... use testing version of LiCSBAS</span>
 <span class="c1">#-S ....... strict mode - e.g. in case of GACOS, use it only if available for ALL ifgs</span>
 <span class="c1">#-G lon1/lon2/lat1/lat2  .... clip to this AOI</span>
+<span class="c1">##</span>
+<span class="c1">## following is an ongoing work, for testing only:</span>
+<span class="c1">##-C ....... use coherence stability index instead of orig coh per ifg (experimental - might help against loop closure errors, maybe)</span>
+<span class="c1">##-k ....... use cohratio everywhere (i.e. for unwrapping, rather than orig coh - this is experimental attempt)</span>
 </pre></div>
 </div>
-<p>While parameters -s, -k are only related to a short-term experiment (should conclude in use of amplitude stability and/or general coherence for masking and weighting),
+<p>While parameters -C, -k are only related to a short-term experiment (should conclude in use of amplitude stability and/or general coherence for masking and weighting),
 the other parameters are practically used/recommended to understand.</p>
 <p>Explaining on example, use of</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">licsar2licsbas</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">c</span> <span class="o">-</span><span class="n">M</span> <span class="mi">5</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">T</span> <span class="o">-</span><span class="n">G</span> <span class="mf">5.1</span><span class="o">/</span><span class="mf">5.2</span><span class="o">/</span><span class="mf">3.3</span><span class="o">/</span><span class="mf">3.5</span> <span class="mi">100</span><span class="n">D_00000_010101</span> <span class="mi">20150101</span> <span class="mi">20160101</span>
@@ -211,11 +216,11 @@ The whole procedure will run in the background through JASMIN’s LOTUS server (
 (e.g. geotiffs of velocity estimate, or standard NetCDF file that can be loaded to e.g. QGIS or ncview to plot time series from ‘cum’ layer, etc.)</p>
 </section>
 <section id="decomposition-to-e-u-n-vectors">
-<h3>Decomposition to E-U(+N) vectors<a class="headerlink" href="#decomposition-to-e-u-n-vectors" title="Permalink to this headline"></a></h3>
+<h3>Decomposition to E-U(+N) vectors<a class="headerlink" href="#decomposition-to-e-u-n-vectors" title="Permalink to this heading"></a></h3>
 <p>This section should contain information on both decomposition from A+D (use of Andrew’s tutorial?)</p>
 </section>
 <section id="bringing-enu-model-values-to-line-of-sight">
-<h3>Bringing ENU model values to line-of-sight<a class="headerlink" href="#bringing-enu-model-values-to-line-of-sight" title="Permalink to this headline"></a></h3>
+<h3>Bringing ENU model values to line-of-sight<a class="headerlink" href="#bringing-enu-model-values-to-line-of-sight" title="Permalink to this heading"></a></h3>
 <p>Inverse procedure (with example?) using E,N,U tif files to convert ENU-&gt;LOS.</p>
 </section>
 </section>
