@@ -15,7 +15,7 @@ COMET LiCSAR
   wiki
   
 
-.. toctree::
+.. toctree:: 
   :maxdepth: 2
   :caption: LiCSAR Tools
   
