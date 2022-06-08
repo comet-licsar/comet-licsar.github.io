@@ -32,4 +32,4 @@ COMET LiCSAR
   ciw
   documentation
   
-.. .. include:: ../licsar_proc/docs/index.rst  # this works but out of TOC. !
+.. .. include:: ../licsar_proc/docs/index.rst  # this works but out of TOC. 
