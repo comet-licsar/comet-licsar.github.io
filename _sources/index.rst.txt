@@ -17,7 +17,7 @@ COMET LiCSAR
 
 .. toctree:: 
   :maxdepth: 2
-  :caption: LiCSAR Tools
+  :caption: Main LiCSAR Tools
   
   licsar_proc/index
   licsar_framebatch/index
@@ -25,11 +25,24 @@ COMET LiCSAR
   daz/index
 
 
+.. toctree:: 
+  :maxdepth: 2
+  :caption: API Documentation
+  
+  licsar_proc/apidoc
+
+
 .. toctree::
   :maxdepth: 2
   :caption: Further information
   
   ciw
+
+
+.. toctree::
+  :maxdepth: 2
+  :caption: Developer comments and advices
+  
   documentation
   
-.. .. include:: ../licsar_proc/docs/index.rst  # this works but out of TOC. 
+.. .. include:: ../licsar_proc/docs/index.rst  # this works but out of TOC. !

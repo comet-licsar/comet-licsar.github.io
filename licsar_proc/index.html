@@ -42,7 +42,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../wiki.html">LiCSAR Wiki</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">LiCSAR Tools</span></p>
+<p class="caption" role="heading"><span class="caption-text">Main LiCSAR Tools</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">LiCSAR proc</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#forming-licsar-interferograms-sentinel-1">Forming LiCSAR interferograms (Sentinel-1)</a><ul>
@@ -54,6 +54,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#post-processing">Post-processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#reunwrapping-existing-interferograms">Reunwrapping existing interferograms</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar-to-licsbas-jasmin">LiCSAR to LiCSBAS (JASMIN)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#decomposition-to-e-u-n-vectors">Decomposition to E-U(+N) vectors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bringing-enu-model-values-to-line-of-sight">Bringing ENU model values to line-of-sight</a></li>
@@ -65,9 +66,16 @@
 <li class="toctree-l1"><a class="reference internal" href="../licsbas/index.html">LiCSBAS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../daz/index.html">daz</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc.html">LiCSAR proc</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Further information</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../ciw.html">COMET InSAR Workshop Materials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer comments and advices</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../documentation.html">Notes about documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../documentation.html#admin-or-dev-comments">Admin or dev comments</a></li>
 </ul>
@@ -177,6 +185,11 @@ An extra parameter -n would use parallel processing on given number of CPUs.</p>
 </section>
 <section id="post-processing">
 <h2>Post-processing<a class="headerlink" href="#post-processing" title="Permalink to this heading"></a></h2>
+<section id="reunwrapping-existing-interferograms">
+<h3>Reunwrapping existing interferograms<a class="headerlink" href="#reunwrapping-existing-interferograms" title="Permalink to this heading"></a></h3>
+<p>Standard LiCSAR products use general parameters for unwrapping. Here we document the python tool <code class="docutils literal notranslate"><span class="pre">lics_unwrap.py</span></code>.
+We will soon augment it to allow processing directly from command line, for now you may check the <span class="xref std std-ref">API documentation</span>.</p>
+</section>
 <section id="licsar-to-licsbas-jasmin">
 <h3>LiCSAR to LiCSBAS (JASMIN)<a class="headerlink" href="#licsar-to-licsbas-jasmin" title="Permalink to this heading"></a></h3>
 <p>This script runs LiCSBAS processing from the LiCSAR data. To be used in JASMIN environment.</p>
@@ -192,7 +205,6 @@ Afterwards, you may just fine tune parameters of LiCSBAS step 15 (and 16) and re
 <span class="c1">#-s ....... if the reunwrapping is to be performed, use smoothing (two-pass unw approach, similar effect as with cascade, only milder)</span>
 <span class="c1">#-H ....... this will use hgt to support unwrapping (only if using reunwrapping)</span>
 <span class="c1">#-T ....... use testing version of LiCSBAS</span>
-<span class="c1">#-t 0.5 ... change coherence threshold to 0.5 (default: 0.3) during reunwrapping (-u)</span>
 <span class="c1">#-S ....... strict mode - e.g. in case of GACOS, use it only if available for ALL ifgs</span>
 <span class="c1">#-G lon1/lon2/lat1/lat2  .... clip to this AOI</span>
 <span class="c1">##</span>
