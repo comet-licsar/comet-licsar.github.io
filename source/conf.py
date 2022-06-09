@@ -68,3 +68,9 @@ latex_elements = {
     'preamble': f'\\usepackage{{customtitle}}\n\\newcommand\\email{{{email}}}',
     'maketitle': '\\customtitle'
 }
+
+# Mock imports for autodoc building:
+autodoc_mock_imports = [
+    'astropy', 'cv2', 'matplotlib', 'numpy', 'osgeo', 'pandas', 'rioxarray',
+    'scipy', 'sklearn', 'xarray'
+]
