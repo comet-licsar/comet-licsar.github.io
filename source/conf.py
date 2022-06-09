@@ -10,9 +10,9 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
 
 # Import datetime for date information:
 import datetime
@@ -32,6 +32,7 @@ email = 'cemac-support@leeds.ac.uk'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.autodoc',
     'sphinx.ext.githubpages'
 ]
 
@@ -67,3 +68,9 @@ latex_elements = {
     'preamble': f'\\usepackage{{customtitle}}\n\\newcommand\\email{{{email}}}',
     'maketitle': '\\customtitle'
 }
+
+# Mock imports for autodoc building:
+autodoc_mock_imports = [
+    'astropy', 'cv2', 'matplotlib', 'numpy', 'osgeo', 'pandas', 'rioxarray',
+    'scipy', 'sklearn', 'xarray'
+]
