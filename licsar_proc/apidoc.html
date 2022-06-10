@@ -99,17 +99,17 @@
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.cascade_unwrap">
 <span class="sig-name descname"><span class="pre">cascade_unwrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">downtoml</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/runner/work/comet-licsar.github.io/comet-licsar.github.io'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only10</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hgtcorr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outtif</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cliparea_geo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_gacos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dolocal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.cascade_unwrap" title="Permalink to this definition"></a></dt>
 <dd><p>Main function to unwrap a geocoded LiCSAR interferogram using a cascade approach.</p>
-<dl>
+<dl class="simple">
 <dt>Args:</dt><dd><p>frame (string): LiCSAR frame ID
 pair (string): identifier of interferometric pair, e.g. ‘20200120_20200201’
 downtoml (int): target multilook factor (default: 1, no extra multilooking)
-procdir (string): path to processing directory</p>
-<p>only10 (boolean): switch to use only 1 previous ramp, scaled 10x to the downtoml, instead of few cascades
+procdir (string): path to processing directory
+only10 (boolean): switch to use only 1 previous ramp, scaled 10x to the downtoml, instead of few cascades
 smooth (boolean): switch to use extra Gaussian filtering for 2-pass unwrapping
 thres (float): threshold between 0-1 for gaussian-based coherence-like measure (spatial phase consistence?); higher number - more is masked prior to unwrapping
-hgtcorr (boolean): switch to perform correction for height-phase correlation</p>
-<p>outtif (string): path to geotiff file to export result to (optional)
-cliparea_geo (string): use GMT/LiCSBAS string to identify area to clip, in geo-coordinates, as ‘lon1/lon2/lat1/lat2’
+hgtcorr (boolean): switch to perform correction for height-phase correlation.
+outtif (string): path to geotiff file to export result to (optional)
+cliparea_geo (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional): use GMT/LiCSBAS string to identify area to clip, in geo-coordinates, as ‘lon1/lon2/lat1/lat2’
 subtract_gacos (boolean): switch whether to return the interferograms with GACOS being subtracted (by default, GACOS is used only to support unwrapping and would be added back)
 dolocal (boolean): switch to use local directory to find interferograms, rather than search for LiCSAR_public directory in JASMIN</p>
 </dd>
