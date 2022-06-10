@@ -74,3 +74,10 @@ autodoc_mock_imports = [
     'astropy', 'cv2', 'matplotlib', 'numpy', 'osgeo', 'pandas', 'rioxarray',
     'scipy', 'sklearn', 'xarray'
 ]
+
+# Order autodoc functions as they are in source:
+autodoc_member_order = 'bysource'
+
+# Don't show full paths in autodoc:
+add_module_names = False
+
