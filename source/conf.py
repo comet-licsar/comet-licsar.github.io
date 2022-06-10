@@ -41,11 +41,11 @@ extensions = [
 
 # some fancy extensions for nicer overview...:
 
-#extensions += [
-#    'matplotlib.sphinxext.only_directives',
-#    'matplotlib.sphinxext.plot_directive',
-#    'matplotlib.sphinxext.ipython_directive',
-#    'matplotlib.sphinxext.ipython_console_highlighting']
+extensions += [
+    'matplotlib.sphinxext.only_directives',
+    'matplotlib.sphinxext.plot_directive',
+    'matplotlib.sphinxext.ipython_directive',
+    'matplotlib.sphinxext.ipython_console_highlighting']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
