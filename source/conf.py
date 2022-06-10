@@ -33,8 +33,19 @@ email = 'cemac-support@leeds.ac.uk'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.githubpages'
+    'sphinx.ext.githubpages',
+    'sphinx.ext.napoleon'
+#    'sphinx.ext.viewcode',
+#    'sphinx.ext.autosummary'
 ]
+
+# some fancy extensions for nicer overview...:
+
+#extensions += [
+#    'matplotlib.sphinxext.only_directives',
+#    'matplotlib.sphinxext.plot_directive',
+#    'matplotlib.sphinxext.ipython_directive',
+#    'matplotlib.sphinxext.ipython_console_highlighting']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
