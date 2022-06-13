@@ -110,8 +110,8 @@
 <li><p><strong>smooth</strong> (<em>boolean</em>) – switch to use extra Gaussian filtering for 2-pass unwrapping</p></li>
 <li><p><strong>thres</strong> (<em>float</em>) – threshold between 0-1 for gaussian-based coherence-like measure (spatial phase consistence?); higher number - more is masked prior to unwrapping</p></li>
 <li><p><strong>hgtcorr</strong> (<em>boolean</em>) – switch to perform correction for height-phase correlation.</p></li>
-<li><p><strong>outtif</strong> (<em>string</em>) – path to geotiff file to export result to (optional)</p></li>
-<li><p><strong>cliparea_geo</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – use GMT/LiCSBAS string to identify area to clip, in geo-coordinates, as ‘lon1/lon2/lat1/lat2’</p></li>
+<li><p><strong>outtif</strong> (<em>string</em><em> or </em><em>None</em>) – path to geotiff file to export result to.</p></li>
+<li><p><strong>cliparea_geo</strong> (<em>string</em><em> or </em><em>None</em>) – use GMT/LiCSBAS string to identify area to clip, in geo-coordinates, as <code class="docutils literal notranslate"><span class="pre">'lon1/lon2/lat1/lat2'</span></code></p></li>
 <li><p><strong>subtract_gacos</strong> (<em>boolean</em>) – switch whether to return the interferograms with GACOS being subtracted (by default, GACOS is used only to support unwrapping and would be added back)</p></li>
 <li><p><strong>dolocal</strong> (<em>boolean</em>) – switch to use local directory to find interferograms, rather than search for LiCSAR_public directory in JASMIN</p></li>
 </ul>
@@ -120,7 +120,7 @@
 <dd class="field-even"><p>unwrapped multilooked interferogram with additional layers</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>xr.Dataset</p>
+<dd class="field-odd"><p>xarray.Dataset</p>
 </dd>
 </dl>
 </dd></dl>
@@ -133,20 +133,20 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>frame</strong> (<em>string</em>) – LiCSAR frame ID</p></li>
-<li><p><strong>pair</strong> (<em>string</em>) – identifier of interferometric pair, e.g. ‘20200120_20200201’</p></li>
+<li><p><strong>pair</strong> (<em>string</em>) – identifier of interferometric pair, e.g. <code class="docutils literal notranslate"><span class="pre">'20200120_20200201'</span></code></p></li>
 <li><p><strong>procdir</strong> (<em>string</em>) – path to processing directory</p></li>
 <li><p><strong>ml</strong> (<em>int</em>) – multilooking factor used to reduce the interferogram in lon/lat</p></li>
-<li><p><strong>fillby</strong> (<em>string</em>) – algorithm to fill gaps. use one of values: ‘gauss’, ‘nearest’, ‘none’ (where ‘none’ would only fill NaNs by zeroes)</p></li>
+<li><p><strong>fillby</strong> (<em>string</em>) – algorithm to fill gaps. use one of values: <code class="docutils literal notranslate"><span class="pre">'gauss'</span></code>, <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>, <code class="docutils literal notranslate"><span class="pre">'none'</span></code> (where <code class="docutils literal notranslate"><span class="pre">'none'</span></code> would only fill NaNs by zeroes)</p></li>
 <li><p><strong>thres</strong> (<em>float</em>) – threshold between 0-1 for gaussian-based coherence-like measure (spatial phase consistence?); higher number - more is masked prior to unwrapping</p></li>
 <li><p><strong>smooth</strong> (<em>boolean</em>) – switch to use extra Gaussian filtering for 2-pass unwrapping</p></li>
 <li><p><strong>defomax</strong> (<em>float</em>) – parameter to snaphu for maximum deformation in rad per 2pi cycle (DEFOMAX_CYCLE)</p></li>
 <li><p><strong>hgtcorr</strong> (<em>boolean</em>) – switch to perform correction for height-phase correlation</p></li>
 <li><p><strong>gacoscorr</strong> (<em>boolean</em>) – switch to apply GACOS corrections (if detected)</p></li>
 <li><p><strong>pre_detrend</strong> (<em>boolean</em>) – switch to apply detrending on wrapped phase to support unwrapping</p></li>
-<li><p><strong>cliparea_geo</strong> (<em>string</em>) – use GMT/LiCSBAS string to identify area to clip, in geo-coordinates, as ‘lon1/lon2/lat1/lat2’</p></li>
-<li><p><strong>outtif</strong> (<em>string</em>) – path to geotiff file to export result to (optional)</p></li>
-<li><p><strong>prevest</strong> (<em>xr.DataArray</em>) – a previous rough estimate to be used by snaphu as the ESTFILE</p></li>
-<li><p><strong>prev_ramp</strong> (<em>xr.DataArray</em>) – a previous estimate or a ramp that will be removed prior to unwrapping (and added back)</p></li>
+<li><p><strong>cliparea_geo</strong> (<em>string</em><em> or </em><em>None</em>) – use GMT/LiCSBAS string to identify area to clip, in geo-coordinates, as <code class="docutils literal notranslate"><span class="pre">'lon1/lon2/lat1/lat2'</span></code></p></li>
+<li><p><strong>outtif</strong> (<em>string</em><em> or </em><em>None</em>) – path to geotiff file to export result to.</p></li>
+<li><p><strong>prevest</strong> (<em>xarray.DataArray</em><em> or </em><em>None</em>) – a previous rough estimate to be used by snaphu as the ESTFILE</p></li>
+<li><p><strong>prev_ramp</strong> (<em>xarray.DataArray</em><em> or </em><em>None</em>) – a previous estimate or a ramp that will be removed prior to unwrapping (and added back)</p></li>
 <li><p><strong>coh2var</strong> (<em>boolean</em>) – convert coherence to variance for weighting. could be useful, but need to change from squared, something to try…</p></li>
 <li><p><strong>add_resid</strong> (<em>boolean</em>) – switch to add back residuals from spatially filtered unwrapping (makes sense if smooth is ON)</p></li>
 <li><p><strong>rampit</strong> (<em>boolean</em>) – perform an extra strong gaussian filter to get a very rough unwrapping result. basically a longwave signal ramp. used by cascade approach</p></li>
@@ -160,7 +160,7 @@
 <dd class="field-even"><p>unwrapped multilooked interferogram with additional layers</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>xr.Dataset</p>
+<dd class="field-odd"><p>xarray.Dataset</p>
 </dd>
 </dl>
 </dd></dl>
@@ -179,8 +179,8 @@
 <li><p><strong>cascade</strong> (<em>boolean</em>) – switch to perform cascade unwrapping</p></li>
 <li><p><strong>hgtcorr</strong> (<em>boolean</em>) – switch to perform correction for height-phase correlation</p></li>
 <li><p><strong>gacoscorr</strong> (<em>boolean</em>) – switch to apply GACOS corrections (if detected)</p></li>
-<li><p><strong>cliparea_geo</strong> (<em>string</em>) – use GMT/LiCSBAS string to identify area to clip, in geo-coordinates: e.g.</p></li>
-<li><p><strong>pairsetfile</strong> (<em>string</em>) – path to file containing list of pairs to unwrap</p></li>
+<li><p><strong>cliparea_geo</strong> (<em>string</em><em> or </em><em>None</em>) – use GMT/LiCSBAS string to identify area to clip, in geo-coordinates: e.g. <code class="docutils literal notranslate"><span class="pre">'lon1/lon2/lat1/lat2'</span></code></p></li>
+<li><p><strong>pairsetfile</strong> (<em>string</em><em> or </em><em>None</em>) – path to file containing list of pairs to unwrap</p></li>
 <li><p><strong>export_to_tif</strong> (<em>boolean</em>) – switch to export unwrapped data to geotiffs (default: False, generate only binaries, as used by LiCSBAS)</p></li>
 <li><p><strong>subtract_gacos</strong> (<em>boolean</em>) – switch whether to return the interferograms with GACOS being subtracted (by default, GACOS is used only to support unwrapping and would be added back)</p></li>
 <li><p><strong>nproc</strong> (<em>int</em>) – use multiprocessing (one core per interferogram), not well tested, uses pathos</p></li>
@@ -194,7 +194,7 @@
 <dd class="field-even"><p>multilooked interferogram with additional layers</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>xr.Dataset</p>
+<dd class="field-odd"><p>xarray.Dataset</p>
 </dd>
 </dl>
 </dd></dl>
@@ -205,17 +205,17 @@
 <dd><p>Multilooking function that does much more.</p>
 <p>This function is normally called by process_ifg. It would use coherence as weights to multilook interferometric phase, and downsample other layers if available to a final datacube.
 It will apply mask, including based on number of valid pixels in the multilooking window.
-It will also apply Gaussian filter, mainly to get the Gaussian-based coherence-like measure (used no matter if smooth is ON)</p>
+It will also apply Gaussian filter, mainly to get the Gaussian-based coherence-like measure (used no matter if smooth is ON).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ifg</strong> (<em>xr.Dataset</em>) – xarray dataset containing interferogram layers, mainly cpx for complex numbers interferogram</p></li>
+<li><p><strong>ifg</strong> (<em>xarray.Dataset</em>) – xarray dataset containing interferogram layers, mainly cpx for complex numbers interferogram</p></li>
 <li><p><strong>ml</strong> (<em>int</em>) – multilooking factor used to reduce the interferogram in both x/y or lon/lat</p></li>
 <li><p><strong>tmpdir</strong> (<em>string</em>) – path to temporary directory</p></li>
 <li><p><strong>hgtcorr</strong> (<em>boolean</em>) – switch to perform correction for height-phase correlation</p></li>
 <li><p><strong>pre_detrend</strong> (<em>boolean</em>) – switch to perform detrending of phase</p></li>
-<li><p><strong>prev_ramp</strong> (<em>xr.DataArray</em>) – a previous (ramp) estimate. it can be of different dimensions as it would get interpolated</p></li>
-<li><p><strong>thres_pxcount</strong> (<em>int</em>) – by default, we nullify multilooked pixel that has less than 4/5 non-nan input values. You may change this, e.g. if ml=10, apply thres_pxcount=90 for keeping only pixel with over 9/10 values</p></li>
+<li><p><strong>prev_ramp</strong> (<em>xarray.DataArray</em>) – a previous (ramp) estimate. it can be of different dimensions as it would get interpolated</p></li>
+<li><p><strong>thres_pxcount</strong> (<em>int</em><em> or </em><em>None</em>) – by default, we nullify multilooked pixel that has less than 4/5 non-nan input values. You may change this, e.g. if ml=10, apply thres_pxcount=90 for keeping only pixel with over 9/10 values</p></li>
 <li><p><strong>keep_coh_debug</strong> (<em>boolean</em>) – for experiments, this would keep the original interferogram coherence instead of use average coherence or amplitude stability etc. for weighting</p></li>
 </ul>
 </dd>
@@ -223,7 +223,7 @@ It will also apply Gaussian filter, mainly to get the Gaussian-based coherence-l
 <dd class="field-even"><p>multilooked interferogram with additional layers</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>xr.Dataset</p>
+<dd class="field-odd"><p>xarray.Dataset</p>
 </dd>
 </dl>
 </dd></dl>
@@ -393,16 +393,70 @@ All nans in arr, stay nans in gauss.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.RI2cpx">
+<span class="sig-name descname"><span class="pre">RI2cpx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpxfile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#RI2cpx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.RI2cpx" title="Permalink to this definition"></a></dt>
+<dd><p>Convert real and imaginary binary files to a complex number binary file. Obsolete function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>R</strong> (<em>string</em>) – path to the binary file with real values</p></li>
+<li><p><strong>I</strong> (<em>string</em>) – path to the binary file with imaginary values</p></li>
+<li><p><strong>cpxfile</strong> (<em>string</em>) – path to the binary file for complex output</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_islands">
 <span class="sig-name descname"><span class="pre">remove_islands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">npa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixelsno</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#remove_islands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_islands" title="Permalink to this definition"></a></dt>
-<dd><p>removes isolated clusters of pixels from numpy array npa having less than pixelsno pixels</p>
+<dd><p>Removes isolated clusters of pixels from numpy array npa having less than pixelsno pixels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>npa</strong> (<em>np.array</em>) – (unwrapped) interferogram with NaNs</p></li>
+<li><p><strong>pixelsno</strong> (<em>int</em>) – minimum number of pixels in isolated clusters (connected components)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>array after removing islands</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap">
+<span class="sig-name descname"><span class="pre">main_unwrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpxbin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cohbin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maskbin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outunwbin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unwrapped.bin'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">est</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_pre_remove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defomax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">printout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#main_unwrap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap" title="Permalink to this definition"></a></dt>
+<dd><p>Main function to perform unwrapping with snaphu.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview">
+<span class="sig-name descname"><span class="pre">create_preview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unwrapped'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#create_preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview" title="Permalink to this definition"></a></dt>
+<dd><p>Creates preview of interferogram (wrapped or unwrapped)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_conf">
+<span class="sig-name descname"><span class="pre">make_snaphu_conf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defomax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_snaphu_conf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_conf" title="Permalink to this definition"></a></dt>
+<dd><p>Creates snaphu configuration file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_ifg">
+<span class="sig-name descname"><span class="pre">make_gacos_ifg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_gacos_ifg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_ifg" title="Permalink to this definition"></a></dt>
+<dd><p>Creates GACOS correction for the interferogram</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_height_corr">
 <span class="sig-name descname"><span class="pre">remove_height_corr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ifg_ml</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corr_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/runner/work/comet-licsar.github.io/comet-licsar.github.io'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dounw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonlinear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#remove_height_corr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_height_corr" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>first, correlate ifg_ml[‘pha’] and ifg_ml[‘hgt’] in blocks</dt><dd><ul class="simple">
+<dd><p>Removes height-correlated signal</p>
+<dl class="simple">
+<dt>first, correlate <code class="docutils literal notranslate"><span class="pre">`ifg_ml['pha']`</span></code> and <code class="docutils literal notranslate"><span class="pre">`ifg_ml['hgt']`</span></code> in blocks</dt><dd><ul class="simple">
 <li><p>better to keep dounw=True that unwraps each block by snaphu. but it can be slow</p></li>
 </ul>
 </dd>
@@ -413,9 +467,21 @@ multiply by hgt = ‘to_remove’</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_xr">
+<span class="sig-name descname"><span class="pre">unwrap_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ifg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defomax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/runner/work/comet-licsar.github.io/comet-licsar.github.io'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#unwrap_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_xr" title="Permalink to this definition"></a></dt>
+<dd><p>Quite direct unwrapping of the xarray Dataset of ifg</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_np">
 <span class="sig-name descname"><span class="pre">unwrap_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defomax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/runner/work/comet-licsar.github.io/comet-licsar.github.io'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deltemp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#unwrap_np"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_np" title="Permalink to this definition"></a></dt>
 <dd><p>unwraps given arrays</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.export_xr2tif">
+<span class="sig-name descname"><span class="pre">export_xr2tif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xrda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tif</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lonlat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dogdal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#export_xr2tif"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.export_xr2tif" title="Permalink to this definition"></a></dt>
+<dd><p>Exports xarray dataarray to a geotiff</p>
 </dd></dl>
 
 <dl class="py function">
@@ -433,7 +499,7 @@ improvised way, not reading much about it… pure intuition (knowing this is onl
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tif</strong> (<em>string</em>) – path to geotiff</p></li>
-<li><p><strong>cliparea_geo</strong> (<em>string</em>) – use GMT/LiCSBAS string to identify area to clip, in geo-coordinates, as ‘lon1/lon2/lat1/lat2’</p></li>
+<li><p><strong>cliparea_geo</strong> (<em>string</em>) – use GMT/LiCSBAS string to identify area to clip, in geo-coordinates, as <code class="docutils literal notranslate"><span class="pre">'lon1/lon2/lat1/lat2'</span></code></p></li>
 <li><p><strong>tolonlat</strong> (<em>boolean</em>) – if True, return as lon lat coordinates</p></li>
 </ul>
 </dd>
@@ -444,6 +510,72 @@ improvised way, not reading much about it… pure intuition (knowing this is onl
 <dd class="field-odd"><p>xr.DataArray</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.detrend_ifg_xr">
+<span class="sig-name descname"><span class="pre">detrend_ifg_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xrda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isphase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxfringes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#detrend_ifg_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.detrend_ifg_xr" title="Permalink to this definition"></a></dt>
+<dd><p>Estimates ramp of (wrapped) interferogram and corrects it. Based on Doris InSARMatlab Toolbox</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_ifg_ml">
+<span class="sig-name descname"><span class="pre">filter_ifg_ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ifg_ml</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_coh_from_delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#filter_ifg_ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_ifg_ml" title="Permalink to this definition"></a></dt>
+<dd><p>Normalises interferogram and performs Gaussian filtering (expects proper structure of the ifg dataset).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.wrap2phase">
+<span class="sig-name descname"><span class="pre">wrap2phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#wrap2phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.wrap2phase" title="Permalink to this definition"></a></dt>
+<dd><p>Wraps array to -pi,pi (or 0,2pi?)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_avg_amp">
+<span class="sig-name descname"><span class="pre">make_avg_amp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mlitiflist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hgtxr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_avg_amp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_avg_amp" title="Permalink to this definition"></a></dt>
+<dd><p>Generates average amplitude from list of MLI tiffs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_std_amp">
+<span class="sig-name descname"><span class="pre">make_std_amp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mlitiflist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avgamp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_std_amp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_std_amp" title="Permalink to this definition"></a></dt>
+<dd><p>Generates standard deviation of amplitude from list of MLI tiffs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_avg_coh">
+<span class="sig-name descname"><span class="pre">make_avg_coh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hgtxr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_avg_coh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_avg_coh" title="Permalink to this definition"></a></dt>
+<dd><p>Generates average coherence from ‘group’</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_std_coh">
+<span class="sig-name descname"><span class="pre">make_std_coh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avgcoh</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_std_coh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_std_coh" title="Permalink to this definition"></a></dt>
+<dd><p>Generates standard deviation of coherence from ‘group’</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.build_amp_avg_std">
+<span class="sig-name descname"><span class="pre">build_amp_avg_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_ampstab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#build_amp_avg_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.build_amp_avg_std" title="Permalink to this definition"></a></dt>
+<dd><p>Builds amplitude stability map (or just avg/std amplitude) of a frame</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.build_coh_avg_std">
+<span class="sig-name descname"><span class="pre">build_coh_avg_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ifgdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monthly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outnopx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_tif</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#build_coh_avg_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.build_coh_avg_std" title="Permalink to this definition"></a></dt>
+<dd><p>Builds coherence stability map (or just avg/std coherence) of a frame</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.deramp_unw">
+<span class="sig-name descname"><span class="pre">deramp_unw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xrda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['lat',</span> <span class="pre">'lon']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#deramp_unw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.deramp_unw" title="Permalink to this definition"></a></dt>
+<dd><p>Deramps unwrapped interferogram</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.deramp_ifg_tif">
+<span class="sig-name descname"><span class="pre">deramp_ifg_tif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phatif</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unwrap_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#deramp_ifg_tif"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.deramp_ifg_tif" title="Permalink to this definition"></a></dt>
+<dd><p>Deramps wrapped interferogram geotiff</p>
 </dd></dl>
 
 </section>
