@@ -585,6 +585,17 @@ nonlinear (boolean): pass nonlinear parameter to correct_hgt</p>
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.export_xr2tif">
 <span class="sig-name descname"><span class="pre">export_xr2tif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xrda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tif</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lonlat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dogdal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#export_xr2tif"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.export_xr2tif" title="Permalink to this definition"></a></dt>
 <dd><p>Exports xarray dataarray to a geotiff</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xrda</strong> (<em>xarray.Dataarray</em>) – dataarray to export</p></li>
+<li><p><strong>tif</strong> (<em>string</em>) – path to output tif file</p></li>
+<li><p><strong>lonlat</strong> (<em>boolean</em>) – are the dimensions named as lon, lat?</p></li>
+<li><p><strong>debug</strong> (<em>boolean</em>) – just load it as float32</p></li>
+<li><p><strong>dogdal</strong> (<em>boolean</em>) – after exporting, perform gdalwarp (fix for potential issues in output geotiff)</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -619,6 +630,22 @@ improvised way, not reading much about it… pure intuition (knowing this is onl
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.detrend_ifg_xr">
 <span class="sig-name descname"><span class="pre">detrend_ifg_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xrda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isphase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxfringes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#detrend_ifg_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.detrend_ifg_xr" title="Permalink to this definition"></a></dt>
 <dd><p>Estimates ramp of (wrapped) interferogram and corrects it. Based on Doris InSARMatlab Toolbox</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xrda</strong> (<em>xarray.Dataarray</em>) – input data array (interferogram)</p></li>
+<li><p><strong>isphase</strong> (<em>boolean</em>) – input array is phase (if not, expect complex ifg)</p></li>
+<li><p><strong>return_correction</strong> (<em>boolean</em>) – returns also the correction</p></li>
+<li><p><strong>maxfringes</strong> (<em>int</em>) – max amount of fringes to consider as proper correction</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataarray of corrected ifg</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xarray.Dataarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">

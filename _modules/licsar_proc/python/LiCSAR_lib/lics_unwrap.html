@@ -1702,6 +1702,13 @@
 
 <div class="viewcode-block" id="export_xr2tif"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.export_xr2tif">[docs]</a><span class="k">def</span> <span class="nf">export_xr2tif</span><span class="p">(</span><span class="n">xrda</span><span class="p">,</span> <span class="n">tif</span><span class="p">,</span> <span class="n">lonlat</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">dogdal</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exports xarray dataarray to a geotiff</span>
+<span class="sd">    </span>
+<span class="sd">     Args:</span>
+<span class="sd">        xrda (xarray.Dataarray): dataarray to export</span>
+<span class="sd">        tif (string): path to output tif file</span>
+<span class="sd">        lonlat (boolean): are the dimensions named as lon, lat?</span>
+<span class="sd">        debug (boolean): just load it as float32</span>
+<span class="sd">        dogdal (boolean): after exporting, perform gdalwarp (fix for potential issues in output geotiff)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">rioxarray</span>
     <span class="c1">#coordsys = xrda.crs.split(&#39;=&#39;)[1]</span>
@@ -1779,6 +1786,15 @@
 
 <div class="viewcode-block" id="detrend_ifg_xr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.detrend_ifg_xr">[docs]</a><span class="k">def</span> <span class="nf">detrend_ifg_xr</span><span class="p">(</span><span class="n">xrda</span><span class="p">,</span> <span class="n">isphase</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_correction</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">maxfringes</span> <span class="o">=</span> <span class="mi">4</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Estimates ramp of (wrapped) interferogram and corrects it. Based on Doris InSARMatlab Toolbox</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        xrda (xarray.Dataarray): input data array (interferogram)</span>
+<span class="sd">        isphase (boolean): input array is phase (if not, expect complex ifg)</span>
+<span class="sd">        return_correction (boolean): returns also the correction</span>
+<span class="sd">        maxfringes (int): max amount of fringes to consider as proper correction</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        xarray.Dataarray: dataarray of corrected ifg</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">xrda</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">isphase</span><span class="p">:</span>
