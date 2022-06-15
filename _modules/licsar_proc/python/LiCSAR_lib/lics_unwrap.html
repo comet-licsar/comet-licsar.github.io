@@ -1363,6 +1363,17 @@
 
 <div class="viewcode-block" id="main_unwrap"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap">[docs]</a><span class="k">def</span> <span class="nf">main_unwrap</span><span class="p">(</span><span class="n">cpxbin</span><span class="p">,</span> <span class="n">cohbin</span><span class="p">,</span> <span class="n">maskbin</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">outunwbin</span> <span class="o">=</span> <span class="s1">&#39;unwrapped.bin&#39;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">est</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">bin_pre_remove</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">printout</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Main function to perform unwrapping with snaphu.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        cpxbin (string): path to cpxfloat32 binary interferogram to unwrap</span>
+<span class="sd">        cohbin (string): path to float32 binary for coherence</span>
+<span class="sd">        maskbin (string or None): path to mask binary</span>
+<span class="sd">        outunwbin (string): path to output unwrapped binary</span>
+<span class="sd">        width (int): width of binary raster</span>
+<span class="sd">        est (string or None): path to coarse estimate binary (float32)</span>
+<span class="sd">        bin_pre_remove (string or None): path to float32 binary to remove from est, prior to unwrapping</span>
+<span class="sd">        defomax (float): max defo cycles</span>
+<span class="sd">        printout (boolean): controls verbosity of text output</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">width</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error - width is zero&#39;</span><span class="p">)</span>
@@ -1398,7 +1409,11 @@
 
 
 <div class="viewcode-block" id="create_preview"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview">[docs]</a><span class="k">def</span> <span class="nf">create_preview</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">ftype</span> <span class="o">=</span> <span class="s1">&#39;unwrapped&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates preview of interferogram (wrapped or unwrapped)</span>
+    <span class="sd">&quot;&quot;&quot;Creates preview of interferogram (wrapped or unwrapped) - works only with licsar_proc</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        infile (string): path to input tif to generate preview</span>
+<span class="sd">        ftype (string): type of the input file. can be: &#39;wrapped&#39;, &#39;unwrapped&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="s1">&#39;wrapped&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ftype</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;wrong ftype&#39;</span><span class="p">)</span>
@@ -1414,6 +1429,13 @@
 
 <div class="viewcode-block" id="make_snaphu_conf"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_conf">[docs]</a><span class="k">def</span> <span class="nf">make_snaphu_conf</span><span class="p">(</span><span class="n">sdir</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">1.2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Creates snaphu configuration file</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        sdir (string): directory where to generate snaphu.conf</span>
+<span class="sd">        defomax (float): DEFOMAX parameter to snaphu</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        string: path to generated snaphu.conf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">snaphuconf</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;STATCOSTMODE  DEFO</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
             <span class="s1">&#39;INFILEFORMAT  COMPLEX_DATA</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -1430,7 +1452,14 @@
 
 
 <div class="viewcode-block" id="make_gacos_ifg"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_ifg">[docs]</a><span class="k">def</span> <span class="nf">make_gacos_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">outfile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates GACOS correction for the interferogram</span>
+    <span class="sd">&quot;&quot;&quot;Creates GACOS correction for the interferogram. works only at JASMIN</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        frame (string): frame ID</span>
+<span class="sd">        pair (string): pair ID (e.g. &#39;20201001_20201201&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        string: path to generated GACOS correction, or False</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;preparing GACOS correction&#39;</span><span class="p">)</span>
     <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
@@ -1461,6 +1490,16 @@
 <span class="sd">     get coefficient for correction of correlating areas</span>
 <span class="sd">     interpolate the coefficient throughout whole raster</span>
 <span class="sd">     multiply by hgt = &#39;to_remove&#39;</span>
+<span class="sd">     </span>
+<span class="sd">     Args:</span>
+<span class="sd">        ifg_ml (xarray.Dataset): input dataset</span>
+<span class="sd">        corr_thres (float): threshold of correlation within window to keep</span>
+<span class="sd">        tmpdir (string): path to temp directory</span>
+<span class="sd">        dounw (boolean): whether to unwrap the small windows, or try correlate with wrapped phase</span>
+<span class="sd">        nonlinear (boolean): pass nonlinear parameter to correct_hgt</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        xarray.Dataarray: dataarray of height correlation corrections</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">ifg_mlc</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">ifg_mlc</span> <span class="o">=</span> <span class="n">filter_ifg_ml</span><span class="p">(</span><span class="n">ifg_mlc</span><span class="p">)</span>
@@ -1547,6 +1586,15 @@
 
 <div class="viewcode-block" id="unwrap_xr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_xr">[docs]</a><span class="k">def</span> <span class="nf">unwrap_xr</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">tmpdir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()):</span>
     <span class="sd">&quot;&quot;&quot;Quite direct unwrapping of the xarray Dataset of ifg</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        ifg (xarray.Dataset): ifg dataset</span>
+<span class="sd">        mask (boolean): whether to use mask</span>
+<span class="sd">        defomax (float): DEFOMAX to snaphu</span>
+<span class="sd">        tmpdir (string): temp dir</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        xarray.Dataset: ifg dataset now with unwrapped result</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">coh</span> <span class="o">=</span> <span class="n">ifg</span><span class="o">.</span><span class="n">coh</span><span class="o">.</span><span class="n">values</span>
     <span class="n">cpx</span> <span class="o">=</span> <span class="n">ifg</span><span class="o">.</span><span class="n">cpx</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
@@ -1559,16 +1607,27 @@
 
 
 <div class="viewcode-block" id="unwrap_np"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_np">[docs]</a><span class="k">def</span> <span class="nf">unwrap_np</span><span class="p">(</span><span class="n">cpx</span><span class="p">,</span> <span class="n">coh</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">tmpdir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">deltemp</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    unwraps given arrays</span>
+    <span class="sd">&#39;&#39;&#39;unwraps given numpy array</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        cpx (numpy.ndarray): array of complex interferogram</span>
+<span class="sd">        coh (numpy.ndarray): array of coherence</span>
+<span class="sd">        defomax (float): DEFOMAX to snaphu</span>
+<span class="sd">        tmpdir (string): temp dir</span>
+<span class="sd">        mask (boolean): whether to try use binary mask (if exists)</span>
+<span class="sd">        deltemp (boolean): clean temp dir after processing</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: unwrapped array</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">binmask</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span><span class="s1">&#39;mask.bin&#39;</span><span class="p">)</span>
-        <span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">byte</span><span class="p">)</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">binmask</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">binmask</span><span class="o">=</span><span class="kc">None</span>
+    <span class="k">if</span> <span class="n">mask</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">binmask</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span><span class="s1">&#39;mask.bin&#39;</span><span class="p">)</span>
+            <span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">byte</span><span class="p">)</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">binmask</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">binmask</span><span class="o">=</span><span class="kc">None</span>
     <span class="n">bincoh</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span><span class="s1">&#39;coh.bin&#39;</span><span class="p">)</span>
     <span class="c1">#binR = os.path.join(tmpdir,&#39;R.bin&#39;)</span>
     <span class="c1">#binI = os.path.join(tmpdir,&#39;I.bin&#39;)</span>

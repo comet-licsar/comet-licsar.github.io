@@ -431,31 +431,83 @@ All nans in arr, stay nans in gauss.</p>
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap">
 <span class="sig-name descname"><span class="pre">main_unwrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpxbin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cohbin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maskbin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outunwbin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unwrapped.bin'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">est</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_pre_remove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defomax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">printout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#main_unwrap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap" title="Permalink to this definition"></a></dt>
 <dd><p>Main function to perform unwrapping with snaphu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cpxbin</strong> (<em>string</em>) – path to cpxfloat32 binary interferogram to unwrap</p></li>
+<li><p><strong>cohbin</strong> (<em>string</em>) – path to float32 binary for coherence</p></li>
+<li><p><strong>maskbin</strong> (<em>string</em><em> or </em><em>None</em>) – path to mask binary</p></li>
+<li><p><strong>outunwbin</strong> (<em>string</em>) – path to output unwrapped binary</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – width of binary raster</p></li>
+<li><p><strong>est</strong> (<em>string</em><em> or </em><em>None</em>) – path to coarse estimate binary (float32)</p></li>
+<li><p><strong>bin_pre_remove</strong> (<em>string</em><em> or </em><em>None</em>) – path to float32 binary to remove from est, prior to unwrapping</p></li>
+<li><p><strong>defomax</strong> (<em>float</em>) – max defo cycles</p></li>
+<li><p><strong>printout</strong> (<em>boolean</em>) – controls verbosity of text output</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview">
 <span class="sig-name descname"><span class="pre">create_preview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unwrapped'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#create_preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview" title="Permalink to this definition"></a></dt>
-<dd><p>Creates preview of interferogram (wrapped or unwrapped)</p>
+<dd><p>Creates preview of interferogram (wrapped or unwrapped) - works only with licsar_proc</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>infile</strong> (<em>string</em>) – path to input tif to generate preview</p></li>
+<li><p><strong>ftype</strong> (<em>string</em>) – type of the input file. can be: ‘wrapped’, ‘unwrapped’</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_conf">
 <span class="sig-name descname"><span class="pre">make_snaphu_conf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defomax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_snaphu_conf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_conf" title="Permalink to this definition"></a></dt>
 <dd><p>Creates snaphu configuration file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sdir</strong> (<em>string</em>) – directory where to generate snaphu.conf</p></li>
+<li><p><strong>defomax</strong> (<em>float</em>) – DEFOMAX parameter to snaphu</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>path to generated snaphu.conf</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_ifg">
 <span class="sig-name descname"><span class="pre">make_gacos_ifg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_gacos_ifg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_ifg" title="Permalink to this definition"></a></dt>
-<dd><p>Creates GACOS correction for the interferogram</p>
+<dd><p>Creates GACOS correction for the interferogram. works only at JASMIN</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>string</em>) – frame ID</p></li>
+<li><p><strong>pair</strong> (<em>string</em>) – pair ID (e.g. ‘20201001_20201201’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>path to generated GACOS correction, or False</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_height_corr">
 <span class="sig-name descname"><span class="pre">remove_height_corr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ifg_ml</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corr_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/runner/work/comet-licsar.github.io/comet-licsar.github.io'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dounw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonlinear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#remove_height_corr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_height_corr" title="Permalink to this definition"></a></dt>
 <dd><p>Removes height-correlated signal</p>
-<dl class="simple">
+<blockquote>
+<div><dl class="simple">
 <dt>first, correlate <code class="docutils literal notranslate"><span class="pre">`ifg_ml['pha']`</span></code> and <code class="docutils literal notranslate"><span class="pre">`ifg_ml['hgt']`</span></code> in blocks</dt><dd><ul class="simple">
 <li><p>better to keep dounw=True that unwraps each block by snaphu. but it can be slow</p></li>
 </ul>
@@ -464,18 +516,69 @@ All nans in arr, stay nans in gauss.</p>
 <p>get coefficient for correction of correlating areas
 interpolate the coefficient throughout whole raster
 multiply by hgt = ‘to_remove’</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ifg_ml (xarray.Dataset): input dataset
+corr_thres (float): threshold of correlation within window to keep
+tmpdir (string): path to temp directory
+dounw (boolean): whether to unwrap the small windows, or try correlate with wrapped phase
+nonlinear (boolean): pass nonlinear parameter to correct_hgt</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dataarray of height correlation corrections</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xarray.Dataarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_xr">
 <span class="sig-name descname"><span class="pre">unwrap_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ifg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defomax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/runner/work/comet-licsar.github.io/comet-licsar.github.io'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#unwrap_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_xr" title="Permalink to this definition"></a></dt>
 <dd><p>Quite direct unwrapping of the xarray Dataset of ifg</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ifg</strong> (<em>xarray.Dataset</em>) – ifg dataset</p></li>
+<li><p><strong>mask</strong> (<em>boolean</em>) – whether to use mask</p></li>
+<li><p><strong>defomax</strong> (<em>float</em>) – DEFOMAX to snaphu</p></li>
+<li><p><strong>tmpdir</strong> (<em>string</em>) – temp dir</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ifg dataset now with unwrapped result</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xarray.Dataset</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_np">
 <span class="sig-name descname"><span class="pre">unwrap_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defomax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/runner/work/comet-licsar.github.io/comet-licsar.github.io'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deltemp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#unwrap_np"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_np" title="Permalink to this definition"></a></dt>
-<dd><p>unwraps given arrays</p>
+<dd><p>unwraps given numpy array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cpx</strong> (<em>numpy.ndarray</em>) – array of complex interferogram</p></li>
+<li><p><strong>coh</strong> (<em>numpy.ndarray</em>) – array of coherence</p></li>
+<li><p><strong>defomax</strong> (<em>float</em>) – DEFOMAX to snaphu</p></li>
+<li><p><strong>tmpdir</strong> (<em>string</em>) – temp dir</p></li>
+<li><p><strong>mask</strong> (<em>boolean</em>) – whether to try use binary mask (if exists)</p></li>
+<li><p><strong>deltemp</strong> (<em>boolean</em>) – clean temp dir after processing</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>unwrapped array</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
