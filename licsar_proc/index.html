@@ -250,23 +250,14 @@ The whole procedure will run in the background through JASMIN’s LOTUS server (
 If you inform us about bad interferograms in LiCSAR system by sending the file to our team, you directly help improve our open dataset, as we will remove and reprocessed the corrupt data.
 Additionally, if you are a student of University of Leeds, and you will run (after setting the environment as <a class="reference external" href="https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/licsar_settings_leeds">described here</a>) <code class="docutils literal notranslate"><span class="pre">lics_checker.py</span></code> at some Leeds server,
 all your flagged data and the output .savedResults file will be stored in folder <code class="docutils literal notranslate"><span class="pre">/nfs/a1/insar/lics_check</span></code>, and thus we will be able to apply machine learning, once we prepare a long-wished workflow to auto-detect such errors.</p>
-<p>The use of the tool is simple:
-#. Run <code class="docutils literal notranslate"><span class="pre">lics_checker.py</span></code> (make sure you install required python libraries if you run it from non-leeds-uni computer).
-#. The tool will download list of LiCSAR frames. Select track and frame you want to look into. If this frame was already <em>checked</em>, it will not appear in the list, until you untick <code class="docutils literal notranslate"><span class="pre">exclude</span> <span class="pre">checked</span></code>.
-#. Once you click OK, the tool will download existing png previews of wrapped and unwrapped interferograms - the output is shown in the terminal (together with info on output directory).
-Note, we actually notice some connection issues causing download to stuck - if this happens, just press CTRL+C, the program will continue downloading other pairs.
-#. Once downloaded, you will see main screen of the viewer:
-.. image:: images/lics_checker.png</p>
-<blockquote>
-<div><dl class="field-list simple">
-<dt class="field-odd">width</dt>
-<dd class="field-odd"><p>600</p>
-</dd>
-<dt class="field-even">alt</dt>
-<dd class="field-even"><p>Main window of lics_checker</p>
-</dd>
-</dl>
-</div></blockquote>
+<p>The use of the tool is simple:</p>
+<ol class="arabic simple">
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">lics_checker.py</span></code> (make sure you install required python libraries if you run it from non-leeds-uni computer).</p></li>
+<li><p>The tool will download list of LiCSAR frames. Select track and frame you want to look into. If this frame was already <em>checked</em>, it will not appear in the list, until you untick <code class="docutils literal notranslate"><span class="pre">exclude</span> <span class="pre">checked</span></code>.</p></li>
+<li><p>Once you click OK, the tool will download existing png previews of wrapped and unwrapped interferograms - the output is shown in the terminal (together with info on output directory). Note, we actually notice some connection issues causing download to stuck - if this happens, just press CTRL+C, the program will continue downloading other pairs.</p></li>
+<li><p>Once downloaded, you will see main screen of the viewer:</p></li>
+</ol>
+<a class="reference internal image-reference" href="licsar_proc/images/lics_checker.png"><img alt="Main window of lics_checker" src="licsar_proc/images/lics_checker.png" style="width: 600px;" /></a>
 <p>Here, you can flag type of error that you see - either by clicking on its radio button by mouse (by default: set to no error), or pressing key corresponding to the error’s number on your keyboard.
 To switch to the next image, either click on the ‘Next image’ button, or just press <code class="docutils literal notranslate"><span class="pre">Right</span> <span class="pre">arrow</span></code>. Especially using arrows, you can fast-scroll through the interferograms.
 You can also use buttons <code class="docutils literal notranslate"><span class="pre">PgDwn</span></code>, <code class="docutils literal notranslate"><span class="pre">PgUp</span></code> to scroll by 10 interferograms, or <code class="docutils literal notranslate"><span class="pre">shift-PgDwn</span></code>, <code class="docutils literal notranslate"><span class="pre">shift-PgUp</span></code> to scroll by 100.
