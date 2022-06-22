@@ -1,6 +1,3 @@
 # comet-licsar
 
-docs etc.
-test
-
-test3
+Documentation for LiCSAR tools, accessible at: https://comet-licsar.github.io/
