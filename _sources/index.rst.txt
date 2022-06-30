@@ -19,6 +19,7 @@ COMET LiCSAR
   :maxdepth: 2
   :caption: Main LiCSAR Tools
   
+  licsar_db/index
   licsar_proc/index
   licsar_framebatch/index
   licsbas/index

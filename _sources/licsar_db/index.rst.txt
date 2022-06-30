@@ -1,1 +1,1 @@
-.. include:: ../../licsbas/docs/index.rst
+.. include:: ../../licsar_db/docs/index.rst
