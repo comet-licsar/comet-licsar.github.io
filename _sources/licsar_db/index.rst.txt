@@ -4,7 +4,7 @@ LiCSInfo db
 Here we describe the LiCSInfo database that plays a key role in LiCSAR processing chain, especially in the LiCSAR FrameBatch solutions.
 For overall description, you may visit `article about LiCSAR system <https://doi.org/10.3390/rs12152430>`_ - we build on top of the existing architecture.
 
-In brief, as our frames are defined based on unique Sentinel-1 burst identifiers (that were not existing in the first years of S1 existence), we built a MySQL/MariaDB database that would link Sentinel-1 SLC zip files with their bursts and the LiCSAR frame definitions (polygs) - a LiCSInfo database. We further extended the database to contain geometric information (polygs2geom and bursts2geom are geodatabase tables) and some other relevant information, for example the ``esd`` table contains frame-scale offsets to measure development of tectonic plates (through `daz <https://comet-licsar.github.io/daz/index.html>`_ tool). See the 'base metadata' block at figure below:
+In brief, as our frames are defined based on unique Sentinel-1 burst identifiers (that were not existing in the first years of S1 existence), we built a MySQL/MariaDB database that would link Sentinel-1 SLC zip files with their bursts and the LiCSAR frame definitions (``polygs``) - a LiCSInfo database. We further extended the database to contain geometric information (``polygs2geom`` and ``bursts2geom`` are geodatabase tables) and some other relevant information, for example the ``esd`` table contains frame-scale offsets to measure development of tectonic plates (through `daz <https://comet-licsar.github.io/daz/index.html>`_ tool). See the 'base metadata' block at figure below:
 
 
 .. image:: ../../images/licsinfo.png
