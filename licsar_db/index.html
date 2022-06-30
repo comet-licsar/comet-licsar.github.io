@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; COMET LiCSAR  documentation</title>
+  <title>LiCSInfo db &mdash; COMET LiCSAR  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -43,7 +43,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../wiki.html">LiCSAR Wiki</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Main LiCSAR Tools</span></p>
-<ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LiCSInfo db</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../licsar_proc/index.html">LiCSAR proc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../licsar_framebatch/index.html">LiCSAR Framebatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../licsbas/index.html">LiCSBAS</a></li>
@@ -77,7 +78,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>&lt;no title&gt;</li>
+      <li>LiCSInfo db</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/licsar_db/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -87,7 +88,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
+  <section id="licsinfo-db">
+<h1>LiCSInfo db<a class="headerlink" href="#licsinfo-db" title="Permalink to this heading"></a></h1>
+<p>Here we describe the LiCSInfo database that plays a key role in LiCSAR processing chain, especially in the LiCSAR FrameBatch solutions.
+For overall description, you may visit <a class="reference external" href="https://doi.org/10.3390/rs12152430">article about LiCSAR system</a> - we build on top of the existing architecture.</p>
+<p>In brief, as our frames are defined based on unique Sentinel-1 burst identifiers (that were not existing in the first years of S1 existence), we built a MySQL database that would link Sentinel-1 SLC zip files with their bursts and the LiCSAR frame definitions (polygs) - a LiCSInfo database. We further extended the database to contain geometric information (polygs2geom and bursts2geom are geodatabase tables) and some other relevant information, for example the <code class="docutils literal notranslate"><span class="pre">esd</span></code> table contains frame-scale offsets to measure development of tectonic plates (through <a class="reference external" href="https://comet-licsar.github.io/daz/index.html">daz</a> tool). See the ‘base metadata’ block at figure below:</p>
+<a class="reference internal image-reference" href="images/licsinfo.png"><img alt="Basic flowchart of LiCSInfo database" src="images/licsinfo.png" style="width: 600px;" /></a>
+<p>Further on, the LiCSBatch processing database uses a view (a link) to the base metadata of LiCSInfo database and links requested files (through frames-bursts-files joins) with LiCSAR FrameBatch processing jobs that control frame-based processing from SLC files through coregistration to RSLCs to generation of (unwrapped) interferograms, in given configuration.</p>
+<p>Finally, we implemented additional tables related to the LiCSAR Earthquake InSAR Data Provider (for rapid generation of coseismic interferograms covering significant earthquakes) and LiCSVolc tables to map frame subsets with active volcanoes (currently under development).</p>
+<p>The LiCSInfo database solution is at the core of LiCSAR and was deployed in other systems as well, including <a class="reference external" href="https://www.mdpi.com/2072-4292/12/18/2960">Czech IT4S1</a> solution (combining LiCSInfo-ISCE-STAMPS for open-source nation-wide Sentinel-1 InSAR).</p>
+</section>
+
 
            </div>
           </div>
