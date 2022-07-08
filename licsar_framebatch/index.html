@@ -92,7 +92,9 @@
 <h1>LiCSAR Framebatch<a class="headerlink" href="#licsar-framebatch" title="Permalink to this heading"></a></h1>
 <p>This is a toolset combining LiCSAR core codes (licsar_proc) with the LiCSInfo database, as described in <a class="reference external" href="https://www.mdpi.com/2072-4292/12/15/2430/htm">https://www.mdpi.com/2072-4292/12/15/2430/htm</a> .
 It contains set of tools to be used by COMET users with access to JASMIN computing facility. The tools help process Sentinel-1 data systematically to generate
-standard LiCSAR interferometric products.</p>
+standard LiCSAR interferometric products. The solution relies on an extended LiCSInfo database that would link the files to process with the processing jobs (as seen at the image below),
+keeping control within the automatic processing using <code class="docutils literal notranslate"><span class="pre">licsar_make_frame.sh</span></code> and related tools.</p>
+<a class="reference internal image-reference" href="../_images/framebatch.png"><img alt="LiCSInfo LiCSBatch database scheme used at the core of the Framebatch processing scheme" src="../_images/framebatch.png" style="width: 450px;" /></a>
 </section>
 
 
