@@ -14,3 +14,4 @@ We name the core set of processing tools (on top of GAMMA software) as ``LiCSAR 
 .. image:: images/licsar_arch.png
    :width: 600
    :alt: Scheme of the LiCSAR system architecture
+
