@@ -252,7 +252,7 @@
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">resdeg</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">load_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">unw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dolocal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">load_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">unw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dolocal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
     <span class="n">geoframedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span><span class="n">frame</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">dolocal</span><span class="p">:</span>
@@ -303,6 +303,21 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR in importing heights!&#39;</span><span class="p">)</span>
             <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">cliparea_geo</span><span class="p">:</span>
+        <span class="n">minclipx</span><span class="p">,</span> <span class="n">maxclipx</span><span class="p">,</span> <span class="n">minclipy</span><span class="p">,</span> <span class="n">maxclipy</span> <span class="o">=</span> <span class="n">cliparea_geo</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">minclipx</span><span class="p">,</span> <span class="n">maxclipx</span><span class="p">,</span> <span class="n">minclipy</span><span class="p">,</span> <span class="n">maxclipy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">minclipx</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxclipx</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">minclipy</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxclipy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">minclipy</span> <span class="o">&gt;</span> <span class="n">maxclipy</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;you switched min max in crop coordinates (latitude). fixing&#39;</span><span class="p">)</span>
+            <span class="n">tmpcl</span> <span class="o">=</span> <span class="n">minclipy</span>
+            <span class="n">minclipy</span><span class="o">=</span><span class="n">maxclipy</span>
+            <span class="n">maxclipy</span><span class="o">=</span><span class="n">tmpcl</span>
+        <span class="k">if</span> <span class="n">minclipx</span> <span class="o">&gt;</span> <span class="n">maxclipx</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;you switched min max in crop coordinates (longitude). fixing&#39;</span><span class="p">)</span>
+            <span class="n">tmpcl</span> <span class="o">=</span> <span class="n">minclipx</span>
+            <span class="n">minclipx</span><span class="o">=</span><span class="n">maxclipx</span>
+            <span class="n">maxclipx</span><span class="o">=</span><span class="n">tmpcl</span>
+        <span class="c1"># now will clip it - lat is opposite-sorted, so need to slice from max to min in y</span>
+        <span class="n">ifg</span> <span class="o">=</span> <span class="n">ifg</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">minclipx</span><span class="p">,</span> <span class="n">maxclipx</span><span class="p">),</span> <span class="n">lat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">maxclipy</span><span class="p">,</span> <span class="n">minclipy</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">ifg</span>
 
 
@@ -1176,6 +1191,9 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># that part takes ages and it is not that big improvement..</span>
         <span class="n">calc_coh_from_delta</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="c1"># calculate gauss_coh, as a measure of spatial consistence</span>
+    <span class="c1"># ok, but let&#39;s have the radius of Gaussian kernel tightier - just 10x10 pixels, i.e.</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">get_resolution</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">)</span>
     <span class="n">ifg_ml</span> <span class="o">=</span> <span class="n">filter_ifg_ml</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">calc_coh_from_delta</span> <span class="o">=</span> <span class="n">calc_coh_from_delta</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">keep_coh_debug</span><span class="p">:</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;coh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;orig_coh&#39;</span><span class="p">]</span>
@@ -1947,6 +1965,8 @@
     <span class="n">sigma</span> <span class="o">=</span> <span class="p">(</span><span class="n">radius_px</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">)</span><span class="o">/</span><span class="n">trunc</span>
     <span class="c1">#normalise mag</span>
     <span class="n">tempar_mag1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">pha</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;cpx&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ifg_ml</span><span class="p">:</span>
+        <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;cpx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;cpx&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">magpha2RI_array</span><span class="p">(</span><span class="n">tempar_mag1</span><span class="p">,</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">pha</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;filter using (adapted) gauss filter&#39;</span><span class="p">)</span>
     <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gauss_cpx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filter_cpx_gauss</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="n">trunc</span><span class="p">)</span>
