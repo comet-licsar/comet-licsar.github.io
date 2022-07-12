@@ -147,6 +147,8 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cv2 not loaded - cascade will not work&#39;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;at JASMIN notebook service, cv2 does not load - cascade will not work&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;setting pyproj data directory&#39;</span><span class="p">)</span>
+    <span class="n">pyproj</span><span class="o">.</span><span class="n">datadir</span><span class="o">.</span><span class="n">set_data_dir</span><span class="p">(</span><span class="s1">&#39;/gws/smf/j04/nceo_geohazards/software/mambalics/share/proj&#39;</span><span class="p">)</span>
 
 
 <span class="k">try</span><span class="p">:</span>
@@ -287,7 +289,7 @@
     <span class="c1"># to load orig unw_file</span>
     <span class="k">if</span> <span class="n">unw</span><span class="p">:</span>
         <span class="n">unw_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoifgdir</span><span class="p">,</span><span class="n">pair</span><span class="o">+</span><span class="s1">&#39;.geo.unw.tif&#39;</span><span class="p">)</span>
-        <span class="n">incoh</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">unw_file</span><span class="p">)</span>
+        <span class="n">inunw</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">unw_file</span><span class="p">)</span>
         <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;unw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span>
         <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;unw&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">inunw</span><span class="o">.</span><span class="n">values</span>
     <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;mask_extent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -343,7 +345,7 @@
 <span class="sd">        xarray.Dataset: unwrapped multilooked interferogram with additional layers</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">ifg</span> <span class="o">=</span> <span class="n">load_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">dolocal</span><span class="o">=</span><span class="n">dolocal</span><span class="p">)</span>
+        <span class="n">ifg</span> <span class="o">=</span> <span class="n">load_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">unw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dolocal</span><span class="o">=</span><span class="n">dolocal</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error in loading data&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
