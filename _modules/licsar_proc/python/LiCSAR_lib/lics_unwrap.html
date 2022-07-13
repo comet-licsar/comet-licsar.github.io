@@ -159,12 +159,6 @@
 
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">framecare</span> <span class="k">as</span> <span class="nn">fc</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;framecare not loaded - amplitude stability will not work&#39;</span><span class="p">)</span>
-
-
-<span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">LiCSAR_lib.LiCSAR_misc</span> <span class="k">import</span> <span class="o">*</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;licsar misc not loaded&#39;</span><span class="p">)</span>
@@ -268,7 +262,7 @@
     <span class="c1"># load the files</span>
     <span class="n">inpha</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">ifg_pha_file</span><span class="p">)</span>
     <span class="n">incoh</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">coh_file</span><span class="p">)</span>
-    <span class="n">incoh</span> <span class="o">=</span> <span class="n">incoh</span><span class="o">/</span><span class="mi">255</span>
+    <span class="n">incoh</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">incoh</span><span class="o">.</span><span class="n">values</span><span class="o">/</span><span class="mi">255</span>
     <span class="n">inmask</span> <span class="o">=</span> <span class="n">incoh</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">inmask</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">byte</span><span class="p">(</span><span class="n">incoh</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">landmask_file</span><span class="p">):</span>
@@ -587,9 +581,12 @@
         <span class="c1">#ifg_ml[&#39;pha&#39;].values = interpolate_replace_nans(tofillpha.values, kernel)</span>
     <span class="k">elif</span> <span class="n">fillby</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;skipping any nan filling&#39;</span><span class="p">)</span>
-        <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">gauss_pha</span>
+        <span class="k">if</span> <span class="n">smooth</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">lowpass</span><span class="p">:</span>
+            <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">gauss_pha</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;filling by nearest neighbours&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">smooth</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">lowpass</span><span class="p">:</span>
+            <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">gauss_pha</span>
         <span class="c1">#tofillpha = ifg_ml.pha.fillna(0).where(ifg_ml.mask_coh.where(ifg_ml.mask == 1).fillna(1) == 1)</span>
         <span class="c1">#tofillpha = ifg_ml.pha.fillna(0).where(ifg_ml.mask_coh.where(ifg_ml.mask == 1).fillna(1) == 1)</span>
         <span class="n">tofillpha</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">pha</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">mask_full</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">mask_extent</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
@@ -600,7 +597,9 @@
     <span class="k">if</span> <span class="n">smooth</span><span class="p">:</span>
         <span class="c1">#ifg_ml = filter_ifg_ml(ifg_ml)</span>
         <span class="c1"># 2022/07: adding strong filter, say radius 1.5 km ... or... rather 15 pixels - this way it should be relatively long-wave signal</span>
-        <span class="n">radius</span> <span class="o">=</span> <span class="mi">15</span><span class="o">*</span><span class="n">get_resolution</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">)</span>
+        <span class="c1"># actually i prepared &#39;low-pass&#39; solution, so keep it calm... and also change it to Goldstein!</span>
+        <span class="c1">#radius = 15*get_resolution(ifg_ml)</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">get_resolution</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;an extra Gaussian smoothing here, of &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">radius</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39; m radius&#39;</span><span class="p">)</span>
         <span class="c1">#ifg_ml = filter_ifg_ml(ifg_ml, radius = 1500)</span>
         <span class="n">ifg_ml</span> <span class="o">=</span> <span class="n">filter_ifg_ml</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span><span class="p">)</span>
@@ -700,7 +699,7 @@
         <span class="n">RI2cpx</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">binCPX</span><span class="p">)</span>
         <span class="c1">#main_unwrap(binCPX, bincoh, binmask, outunwbin, width, defomax = defomax/2)</span>
         <span class="c1"># ok, just hold the defomax low - discontinuities are not wanted or expected here..or not?</span>
-        <span class="n">main_unwrap</span><span class="p">(</span><span class="n">binCPX</span><span class="p">,</span> <span class="n">bincoh</span><span class="p">,</span> <span class="n">binmask</span><span class="p">,</span> <span class="n">outunwbin</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">printout</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">main_unwrap</span><span class="p">(</span><span class="n">binCPX</span><span class="p">,</span> <span class="n">bincoh</span><span class="p">,</span> <span class="n">binmask</span><span class="p">,</span> <span class="n">outunwbin</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">printout</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">unw1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">binfile</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">unw1</span> <span class="o">=</span> <span class="n">unw1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">pha</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="n">daname</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span> <span class="c1">#.copy()</span>
@@ -2048,6 +2047,11 @@
     <span class="k">return</span> <span class="n">ifg_ml</span></div>
 
 
+<div class="viewcode-block" id="pha2cpx"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.pha2cpx">[docs]</a><span class="k">def</span> <span class="nf">pha2cpx</span><span class="p">(</span><span class="n">pha</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates normalised cpx interferogram from phase</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">pha</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="wrap2phase"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.wrap2phase">[docs]</a><span class="k">def</span> <span class="nf">wrap2phase</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Wraps array to -pi,pi (or 0,2pi?)</span>
@@ -2149,6 +2153,11 @@
 <div class="viewcode-block" id="build_amp_avg_std"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.build_amp_avg_std">[docs]</a><span class="k">def</span> <span class="nf">build_amp_avg_std</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">return_ampstab</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Builds amplitude stability map (or just avg/std amplitude) of a frame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">framecare</span> <span class="k">as</span> <span class="nn">fc</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;framecare not loaded - amplitude stability will not work&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
     <span class="n">track</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">]))</span>
     <span class="n">epochsdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">],</span> <span class="n">track</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="s1">&#39;epochs&#39;</span><span class="p">)</span>
     <span class="n">hgtfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">],</span> <span class="n">track</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="o">+</span><span class="s1">&#39;.geo.hgt.tif&#39;</span><span class="p">)</span>
