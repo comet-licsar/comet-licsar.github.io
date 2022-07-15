@@ -679,6 +679,26 @@ improvised way, not reading much about it… pure intuition (knowing this is onl
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.goldstein_filter_xr">
+<span class="sig-name descname"><span class="pre">goldstein_filter_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocklen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ovlwin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nproc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#goldstein_filter_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.goldstein_filter_xr" title="Permalink to this definition"></a></dt>
+<dd><p>Goldstein filtering of phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inpha</strong> (<em>xr.DataArray</em>) – array of phase (for now, the script will create cpx from phase)</p></li>
+<li><p><strong>clear</strong> (<em>other arguments are</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>filtered phase (not cpx!)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.pha2cpx">
 <span class="sig-name descname"><span class="pre">pha2cpx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#pha2cpx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.pha2cpx" title="Permalink to this definition"></a></dt>
 <dd><p>Creates normalised cpx interferogram from phase</p>
