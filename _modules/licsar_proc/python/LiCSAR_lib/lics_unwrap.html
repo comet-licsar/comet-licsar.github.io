@@ -366,7 +366,7 @@
         <span class="n">sp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">specmag</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
         <span class="n">sp</span><span class="p">[</span><span class="n">sp</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
         <span class="n">sp</span><span class="p">[</span><span class="n">sp</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
-        <span class="n">spmask</span><span class="o">=</span><span class="n">sp</span><span class="o">&gt;</span><span class="mf">0.25</span>
+        <span class="n">spmask</span><span class="o">=</span><span class="n">sp</span><span class="o">&gt;</span><span class="n">thres</span> <span class="c1"># try 0.25</span>
         <span class="c1"># and remove islands</span>
         <span class="n">npa</span><span class="o">=</span><span class="n">spmask</span><span class="o">*</span><span class="mf">1.0</span>
         <span class="n">npa</span><span class="p">[</span><span class="n">npa</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
