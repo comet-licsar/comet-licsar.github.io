@@ -2135,7 +2135,7 @@
     <span class="c1">#if not(block.dtype.type == np.complex128 or block.dtype.type == np.complex64):</span>
     <span class="c1">#    block=pha2cpx(block)</span>
     <span class="n">cpx_fft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-    <span class="n">H</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ph_fft</span><span class="p">)</span>
+    <span class="n">H</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cpx_fft</span><span class="p">)</span>
     <span class="n">H</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">convolve</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">H</span><span class="p">),</span> <span class="n">kernel</span><span class="p">))</span>
     <span class="n">meanH</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">meanH</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
