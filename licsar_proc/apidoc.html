@@ -40,7 +40,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../wiki.html">LiCSAR Wiki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wiki.html">LiCSAR Wiki (from gitlab)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Main LiCSAR Tools</span></p>
 <ul>
@@ -680,20 +680,23 @@ improvised way, not reading much about it… pure intuition (knowing this is onl
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.goldstein_filter_xr">
-<span class="sig-name descname"><span class="pre">goldstein_filter_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocklen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ovlwin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nproc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#goldstein_filter_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.goldstein_filter_xr" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">goldstein_filter_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocklen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ovlpx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nproc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#goldstein_filter_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.goldstein_filter_xr" title="Permalink to this definition"></a></dt>
 <dd><p>Goldstein filtering of phase</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>inpha</strong> (<em>xr.DataArray</em>) – array of phase (for now, the script will create cpx from phase)</p></li>
-<li><p><strong>clear</strong> (<em>other arguments are</em>) – </p></li>
+<li><p><strong>blocklen</strong> (<em>int</em>) – size of rectangular window in pixels</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – Goldstein alpha parameter</p></li>
+<li><p><strong>ovlpx</strong> (<em>int</em>) – how many pixels should overlap the window</p></li>
+<li><p><strong>nproc</strong> (<em>int</em>) – number of processors to be used by dask</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>filtered phase (not cpx!)</p>
+<dd class="field-even"><p>filtered phase, magnitude (try np.log to use for masking)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>xr.DataArray</p>
+<dd class="field-odd"><p>xr.DataArray,xr.DataArray</p>
 </dd>
 </dl>
 </dd></dl>

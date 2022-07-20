@@ -37,7 +37,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../wiki.html">LiCSAR Wiki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../wiki.html">LiCSAR Wiki (from gitlab)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Main LiCSAR Tools</span></p>
 <ul>
@@ -227,6 +227,10 @@
     <span class="k">return</span> <span class="n">ifg_ml</span></div>
 
 
+<span class="k">def</span> <span class="nf">get_cliparea_xr</span><span class="p">(</span><span class="n">xrd</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">xrd</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">min</span><span class="p">()))</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">xrd</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">xrd</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">min</span><span class="p">()))</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">xrd</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span>
+
+
 <div class="viewcode-block" id="process_ifg"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.process_ifg">[docs]</a><span class="k">def</span> <span class="nf">process_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">procdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> 
         <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">fillby</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">thres</span> <span class="o">=</span> <span class="mf">0.35</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">lowpass</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">goldstein</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
         <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">pre_detrend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -277,14 +281,10 @@
     <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">procdir</span><span class="p">,</span><span class="n">pair</span><span class="p">,</span><span class="s1">&#39;temp_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ml</span><span class="p">))</span>
     <span class="n">tmpgendir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">procdir</span><span class="p">,</span><span class="n">pair</span><span class="p">,</span><span class="s1">&#39;temp_gen&#39;</span><span class="p">)</span>
     <span class="n">tmpunwdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">procdir</span><span class="p">,</span><span class="n">pair</span><span class="p">,</span><span class="s1">&#39;temp_unw&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">procdir</span><span class="p">,</span><span class="n">pair</span><span class="p">)):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">procdir</span><span class="p">,</span><span class="n">pair</span><span class="p">))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tmpgendir</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">tmpgendir</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tmpunwdir</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">tmpunwdir</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">dodir</span> <span class="ow">in</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">procdir</span><span class="p">,</span><span class="n">pair</span><span class="p">),</span> <span class="n">tmpdir</span><span class="p">,</span> <span class="n">tmpgendir</span><span class="p">,</span> <span class="n">tmpunwdir</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dodir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">dodir</span><span class="p">)</span>
+
     <span class="c1"># do gacos if exists</span>
     <span class="k">if</span> <span class="n">gacoscorr</span><span class="p">:</span>
         <span class="n">gacoscorrfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpgendir</span><span class="p">,</span><span class="s1">&#39;gacos.tif&#39;</span><span class="p">)</span>
@@ -295,6 +295,8 @@
             <span class="n">gacoscorrfile</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">gacoscorrfile</span> <span class="o">=</span> <span class="kc">False</span>
+
+
     <span class="k">if</span> <span class="n">gacoscorrfile</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;GACOS data found, using to improve unwrapping&#39;</span><span class="p">)</span>
         <span class="c1">#ingacos = xr.open_dataset(gacoscorrfile)</span>
@@ -303,14 +305,20 @@
         <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">ingacos</span><span class="o">.</span><span class="n">values</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">False</span>
+
+
     <span class="c1"># masking by coherence if we do not use multilooking - here the coherence corresponds to reality</span>
     <span class="k">if</span> <span class="n">ml</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">cohthres</span> <span class="o">=</span> <span class="mf">0.15</span>
         <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;coh&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">cohthres</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+
     <span class="k">if</span> <span class="n">hgtcorr</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;hgt&#39;</span> <span class="ow">in</span> <span class="n">ifg</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR in importing heights!&#39;</span><span class="p">)</span>
             <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">False</span>
+
+
     <span class="c1"># now doing multilooking, using coh as mag...</span>
     <span class="c1">#make complex from coh and pha</span>
     <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;cpx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg</span><span class="o">.</span><span class="n">coh</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -322,14 +330,20 @@
             <span class="n">coh</span> <span class="o">=</span> <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;coh&#39;</span><span class="p">]</span>
         <span class="c1"># if this is better, i will change it and have it fixed</span>
         <span class="n">cohratio</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">coh</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">coh</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">cohratio</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;cpx&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">magpha2RI_array</span><span class="p">(</span><span class="n">cohratio</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ifg</span><span class="o">.</span><span class="n">pha</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;cpx&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">magpha2RI_array</span><span class="p">(</span><span class="n">ifg</span><span class="o">.</span><span class="n">coh</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ifg</span><span class="o">.</span><span class="n">pha</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-    <span class="c1">#fixing difference in xarray version... perhaps...</span>
+
+
+    <span class="c1">#fixing difference in xarray version...</span>
     <span class="k">if</span> <span class="s1">&#39;lat&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ifg</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;warning - perhaps old xarray version - trying anyway&#39;</span><span class="p">)</span>
         <span class="n">ifg</span> <span class="o">=</span> <span class="n">ifg</span><span class="o">.</span><span class="n">rename_dims</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">:</span><span class="s1">&#39;lat&#39;</span><span class="p">})</span>
+
+
     <span class="c1"># now crop if needed:</span>
     <span class="k">if</span> <span class="n">cliparea_geo</span><span class="p">:</span>
         <span class="n">minclipx</span><span class="p">,</span> <span class="n">maxclipx</span><span class="p">,</span> <span class="n">minclipy</span><span class="p">,</span> <span class="n">maxclipy</span> <span class="o">=</span> <span class="n">cliparea_geo</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
@@ -350,6 +364,8 @@
         <span class="c1"># not the best here, as pixels might get slightly shifted, but perhaps not that big deal (anyway prev_ramp is &#39;blurred&#39;)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">prev_ramp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
             <span class="n">prev_ramp</span> <span class="o">=</span> <span class="n">prev_ramp</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">minclipx</span><span class="o">-</span><span class="mi">10</span><span class="o">*</span><span class="n">resdeg</span><span class="p">,</span> <span class="n">maxclipx</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="n">resdeg</span><span class="p">),</span> <span class="n">lat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">maxclipy</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="n">resdeg</span><span class="p">,</span> <span class="n">minclipy</span><span class="o">-</span><span class="mi">10</span><span class="o">*</span><span class="n">resdeg</span><span class="p">))</span>
+
+
     <span class="c1">#WARNING - ONLY THIS FUNCTION HAS GACOS INCLUDED NOW! (and heights fix!!!)</span>
     <span class="n">ifg_ml</span> <span class="o">=</span> <span class="n">multilook_normalised</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">ml</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">tmpdir</span><span class="p">,</span> <span class="n">hgtcorr</span> <span class="o">=</span> <span class="n">hgtcorr</span><span class="p">,</span> <span class="n">pre_detrend</span> <span class="o">=</span> <span class="n">pre_detrend</span><span class="p">,</span> <span class="n">prev_ramp</span> <span class="o">=</span> <span class="n">prev_ramp</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="n">keep_coh_debug</span><span class="p">)</span>
     <span class="n">width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
@@ -357,7 +373,9 @@
     <span class="k">if</span> <span class="n">lowpass</span><span class="p">:</span>
         <span class="c1"># let&#39;s do longwave filtering:</span>
         <span class="n">ifg_ml</span> <span class="o">=</span> <span class="n">lowpass_gauss</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">)</span>
-    <span class="c1">#updat the origpha to keep state before filtering</span>
+
+
+    <span class="c1">#update the origpha to keep state before filtering</span>
     <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;origpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">pha</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">goldstein</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;filtering by goldstein filter&#39;</span><span class="p">)</span>
@@ -367,29 +385,37 @@
         <span class="n">sp</span><span class="p">[</span><span class="n">sp</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
         <span class="n">sp</span><span class="p">[</span><span class="n">sp</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
         <span class="n">spmask</span><span class="o">=</span><span class="n">sp</span><span class="o">&gt;</span><span class="n">thres</span> <span class="c1"># try 0.25</span>
-        <span class="c1"># and remove islands</span>
+        <span class="c1"># and remove islands - let&#39;s keep the 2x2 km islands...</span>
         <span class="n">npa</span><span class="o">=</span><span class="n">spmask</span><span class="o">*</span><span class="mf">1.0</span>
         <span class="n">npa</span><span class="p">[</span><span class="n">npa</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="n">spmask</span><span class="o">=</span><span class="n">remove_islands</span><span class="p">(</span><span class="n">npa</span><span class="p">,</span> <span class="mi">49</span><span class="p">)</span>
+        <span class="n">lenthres</span> <span class="o">=</span> <span class="mi">2000</span>  <span class="c1"># m</span>
+        <span class="n">mlres</span> <span class="o">=</span> <span class="n">get_resolution</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">in_m</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">pixels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">lenthres</span> <span class="o">/</span> <span class="n">mlres</span><span class="p">))</span>
+        <span class="n">pixelsno</span> <span class="o">=</span> <span class="n">pixels</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">spmask</span><span class="o">=</span><span class="n">remove_islands</span><span class="p">(</span><span class="n">npa</span><span class="p">,</span> <span class="n">pixelsno</span><span class="p">)</span>
         <span class="c1">#delta = np.angle(np.exp(1j*(ifg_ml[&#39;filtpha&#39;] - ifg_ml[&#39;pha&#39;])))</span>
         <span class="c1">#mask = np.abs(delta&lt;1)*1</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_filt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_extent&#39;</span><span class="p">]</span>
         <span class="c1">#ifg_ml[&#39;mask_filt&#39;].values=mask</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_filt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">=</span><span class="n">spmask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
-        <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_full&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_filt&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_extent&#39;</span><span class="p">]</span>
+        <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_full&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_filt&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_extent&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span>
         <span class="c1"># need to properly assess variance (or coherence-like measure) - but cannot use gaussian!</span>
         <span class="c1">#tofillpha = ifg_ml.filtpha.where(ifg_ml.mask_filt.where(ifg_ml.mask_extent == 1).fillna(1) == 1)</span>
         <span class="c1">#ifg_ml[&#39;pha&#39;].values = interpolate_nans(tofillpha.values, method=&#39;nearest&#39;)</span>
-        <span class="c1"># no gapfilling here!</span>
-        <span class="c1"># ok, so now unwrap it!</span>
-        <span class="n">cpx</span><span class="o">=</span><span class="n">pha2cpx</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;filtpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-        <span class="n">coh</span><span class="o">=</span><span class="n">sp</span>
+        <span class="c1"># no gapfilling here! but then it gets wrong... so.. gapfilling:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gapfilling&#39;</span><span class="p">)</span>
+        <span class="n">tofillpha</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">filtpha</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">mask_full</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">mask_extent</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">pha2unw</span> <span class="o">=</span> <span class="n">interpolate_nans</span><span class="p">(</span><span class="n">tofillpha</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+        <span class="n">cpx</span> <span class="o">=</span> <span class="n">pha2cpx</span><span class="p">(</span><span class="n">pha2unw</span><span class="p">)</span>
+        <span class="n">coh</span> <span class="o">=</span> <span class="n">sp</span>
         <span class="n">mask</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_full&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;unwrapping filtered phase&#39;</span><span class="p">)</span>
         <span class="n">unw</span><span class="o">=</span><span class="n">unwrap_np</span><span class="p">(</span><span class="n">cpx</span><span class="p">,</span><span class="n">coh</span><span class="p">,</span><span class="n">defomax</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span><span class="n">tmpdir</span><span class="o">=</span><span class="n">tmpunwdir</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span><span class="n">deltemp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;unw&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span>
         <span class="n">ifg_ml</span><span class="o">.</span><span class="n">unw</span><span class="o">.</span><span class="n">values</span><span class="o">=</span><span class="n">unw</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;filtpha&#39;</span><span class="p">]</span>
         <span class="c1"># add residuals, using orig coh</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;unwrapping residuals&#39;</span><span class="p">)</span>
         <span class="n">cpx</span><span class="o">=</span><span class="n">pha2cpx</span><span class="p">(</span><span class="n">wrap2phase</span><span class="p">((</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;filtpha&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;origpha&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">))</span> <span class="c1"># fillna probably not needed</span>
         <span class="n">coh</span><span class="o">=</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">coh</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
         <span class="n">unw</span><span class="o">=</span><span class="n">unwrap_np</span><span class="p">(</span><span class="n">cpx</span><span class="p">,</span><span class="n">coh</span><span class="p">,</span><span class="n">defomax</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">tmpdir</span><span class="o">=</span><span class="n">tmpunwdir</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span><span class="n">deltemp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -397,6 +423,7 @@
         <span class="c1"># so now we have it all done - let&#39;s return origpha from pre-filt state</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;origpha&#39;</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># now let&#39;s do the old way (not really recommended anymore, as the gaussian would not follow the phase gradient as fine as goldstein filter..</span>
         <span class="c1"># if not, do the original &#39;smooth&#39; approach, just to get proper mask</span>
         <span class="c1">#print(&#39;finally, filter using (adapted) gauss filter&#39;)</span>
         <span class="k">if</span> <span class="n">ml</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -414,12 +441,12 @@
         <span class="n">mask_gauss</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">mask_gauss</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">coh</span> <span class="o">&gt;</span> <span class="mf">0.25</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">mask_gauss</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_coh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask_gauss</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="c1"># additionally remove islands of size smaller than... 2x2 km...?</span>
-        <span class="c1">#lenthres = 2000 # m</span>
-        <span class="c1">#mlres = get_resolution(ifg_ml, in_m=True)</span>
-        <span class="c1">#pixels = int(round(lenthres/mlres))</span>
-        <span class="c1">#pixelsno = pixels**2</span>
-        <span class="c1"># ok, actually scale it just in pixels, so 7x7 px^2 area</span>
-        <span class="n">pixelsno</span> <span class="o">=</span> <span class="mi">7</span><span class="o">*</span><span class="mi">7</span>
+        <span class="n">lenthres</span> <span class="o">=</span> <span class="mi">2000</span> <span class="c1"># m</span>
+        <span class="n">mlres</span> <span class="o">=</span> <span class="n">get_resolution</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">in_m</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">pixels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">lenthres</span><span class="o">/</span><span class="n">mlres</span><span class="p">))</span>
+        <span class="n">pixelsno</span> <span class="o">=</span> <span class="n">pixels</span><span class="o">**</span><span class="mi">2</span>
+        <span class="c1"># or scale it just in pixels, so 7x7 px^2 area</span>
+        <span class="c1">#pixelsno = 7*7</span>
         <span class="n">npa</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_coh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_coh&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_full&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_coh&#39;</span><span class="p">]</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_full&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">remove_islands</span><span class="p">(</span><span class="n">npa</span><span class="p">,</span> <span class="n">pixelsno</span><span class="p">)</span>
@@ -508,9 +535,10 @@
         <span class="c1">#ifg_ml = filter_ifg_ml(ifg_ml, radius = 1500)</span>
         <span class="n">ifg_ml</span> <span class="o">=</span> <span class="n">filter_ifg_ml</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span><span class="p">)</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gauss_pha&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">goldstein</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">goldstein</span><span class="p">:</span>
         <span class="c1"># i did unw before...</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;goldstein is in use - need to update it to have prevest possible..&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
         <span class="c1">#exporting for snaphu</span>
         <span class="c1">#normalise mag from the final pha</span>
         <span class="n">tempar_mag1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">pha</span><span class="p">)</span>
@@ -1275,6 +1303,7 @@
     <span class="k">return</span> <span class="n">dapha</span>
 
 
+
 <span class="k">def</span> <span class="nf">lowpass_gauss</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">defomax</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">radius</span> <span class="o">=</span> <span class="mi">15</span><span class="o">*</span><span class="n">get_resolution</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">)</span>  <span class="c1">#in 30x30 window.. should be ok to do</span>
     <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;origpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span>
@@ -1283,12 +1312,12 @@
     <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">gauss_coh</span><span class="o">&gt;</span><span class="n">thres</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
     
     <span class="c1"># additionally remove islands that are smaller than 2x2 km</span>
-    <span class="c1">#lenthres = 2000 # m</span>
+    <span class="n">lenthres</span> <span class="o">=</span> <span class="mi">2000</span> <span class="c1"># m</span>
     <span class="c1"># resolution of orig ifg is expected 0.1 km</span>
-    <span class="c1">#mlres = get_resolution(ifg_ml, in_m=True)</span>
-    <span class="c1">#pixels = int(round(lenthres/mlres))</span>
-    <span class="c1">#pixelsno = pixels**2</span>
-    <span class="n">pixelsno</span> <span class="o">=</span> <span class="mi">7</span><span class="o">*</span><span class="mi">7</span> <span class="c1"># let&#39;s just have it in pixels</span>
+    <span class="n">mlres</span> <span class="o">=</span> <span class="n">get_resolution</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">in_m</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pixels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">lenthres</span><span class="o">/</span><span class="n">mlres</span><span class="p">))</span>
+    <span class="n">pixelsno</span> <span class="o">=</span> <span class="n">pixels</span><span class="o">**</span><span class="mi">2</span>
+    <span class="c1">#pixelsno = 7*7 # let&#39;s just have it in pixels</span>
     <span class="n">npa</span><span class="o">=</span><span class="n">mask</span><span class="o">*</span><span class="mf">1.0</span>
     <span class="n">npa</span><span class="p">[</span><span class="n">npa</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="n">mask</span><span class="o">=</span><span class="n">remove_islands</span><span class="p">(</span><span class="n">npa</span><span class="p">,</span> <span class="n">pixelsno</span><span class="p">)</span>
@@ -1531,9 +1560,8 @@
     <span class="n">cpx</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">cpxfile</span><span class="p">)</span></div>
 
 
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">ndimage</span>
 <div class="viewcode-block" id="remove_islands"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_islands">[docs]</a><span class="k">def</span> <span class="nf">remove_islands</span><span class="p">(</span><span class="n">npa</span><span class="p">,</span> <span class="n">pixelsno</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Removes isolated clusters of pixels from numpy array npa having less than pixelsno pixels.</span>
+    <span class="sd">&quot;&quot;&quot;Removes isolated clusters of pixels from numpy array npa having less than pixelsno pixels.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        npa (np.array): (unwrapped) interferogram with NaNs</span>
@@ -1541,7 +1569,7 @@
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        np.array: array after removing islands</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#check the mask - should be 1 for islands and 0 for nans</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">npa</span><span class="p">)</span>
     <span class="n">islands</span><span class="p">,</span> <span class="n">ncomp</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
@@ -2145,23 +2173,29 @@
     <span class="k">return</span> <span class="n">cpxfilt</span>
 
 
-<div class="viewcode-block" id="goldstein_filter_xr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.goldstein_filter_xr">[docs]</a><span class="k">def</span> <span class="nf">goldstein_filter_xr</span><span class="p">(</span><span class="n">inpha</span><span class="p">,</span> <span class="n">blocklen</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">ovlwin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nproc</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span> <span class="c1">#ovlwin=8, nproc=1):</span>
+
+<div class="viewcode-block" id="goldstein_filter_xr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.goldstein_filter_xr">[docs]</a><span class="k">def</span> <span class="nf">goldstein_filter_xr</span><span class="p">(</span><span class="n">inpha</span><span class="p">,</span> <span class="n">blocklen</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">ovlpx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nproc</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span> <span class="c1">#ovlwin=8, nproc=1):</span>
     <span class="sd">&quot;&quot;&quot;Goldstein filtering of phase</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        inpha (xr.DataArray): array of phase (for now, the script will create cpx from phase)</span>
-<span class="sd">        other arguments are clear</span>
+<span class="sd">        blocklen (int): size of rectangular window in pixels</span>
+<span class="sd">        alpha (float): Goldstein alpha parameter</span>
+<span class="sd">        ovlpx (int): how many pixels should overlap the window</span>
+<span class="sd">        nproc (int): number of processors to be used by dask</span>
 <span class="sd">        </span>
 <span class="sd">    Returns:</span>
-<span class="sd">        xr.DataArray: filtered phase (not cpx!)</span>
+<span class="sd">        xr.DataArray,xr.DataArray: filtered phase, magnitude (try np.log to use for masking)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">ovlwin</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
-        <span class="n">ovlwin</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">blocklen</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># does it make sense? gamma recommends /8 but this might be too much?</span>
+    <span class="k">if</span> <span class="n">ovlpx</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">ovlpx</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">blocklen</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># does it make sense? gamma recommends /8 but this might be too much?</span>
+    <span class="c1"># dask works by adding extra pixels around the block window. thus calculate the central window here:</span>
+    <span class="n">blocklen</span><span class="o">=</span><span class="n">blocklen</span><span class="o">-</span><span class="n">ovlpx</span>
     <span class="n">outpha</span><span class="o">=</span><span class="n">inpha</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">incpx</span><span class="o">=</span><span class="n">pha2cpx</span><span class="p">(</span><span class="n">inpha</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
     <span class="n">winsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">blocklen</span><span class="p">,</span> <span class="n">blocklen</span><span class="p">)</span>
     <span class="n">cpxb</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">incpx</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">=</span><span class="n">cpxb</span><span class="o">.</span><span class="n">map_overlap</span><span class="p">(</span><span class="n">goldstein_AH</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">ovlwin</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">),</span> <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">=</span><span class="n">cpxb</span><span class="o">.</span><span class="n">map_overlap</span><span class="p">(</span><span class="n">goldstein_AH</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">ovlpx</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">),</span> <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
     <span class="n">cpxb</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">num_workers</span><span class="o">=</span><span class="n">nproc</span><span class="p">)</span>
     <span class="n">outpha</span><span class="o">.</span><span class="n">values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">cpxb</span><span class="p">)</span>
     <span class="n">outmag</span><span class="o">=</span><span class="n">outpha</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
