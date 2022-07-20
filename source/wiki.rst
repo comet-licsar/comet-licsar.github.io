@@ -1,5 +1,5 @@
-LiCSAR Wiki
-===========
+LiCSAR Wiki (from gitlab)
+=========================
 
 General LiCSAR related information
 ----------------------------------
@@ -41,3 +41,11 @@ Use the LiCSAR codes
 
 #. Setting up `LiCSAR environment at Leeds Uni servers <https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/licsar_settings_leeds>`_ (not JASMIN)
 
+
+Processing at JASMIN
+--------------------
+
+LiCSAR at JASMIN notebooks
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Instructions on setting LiCSAR mamba environment at JASMIN notebooks:
