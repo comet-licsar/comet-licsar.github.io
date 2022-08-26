@@ -1594,6 +1594,8 @@
 <span class="sd">        defomax (float): max defo cycles</span>
 <span class="sd">        printout (boolean): controls verbosity of text output</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING - we skip using mask here, as snaphu -M really does not do good job. need to change for AH+KS solution soon&#39;</span><span class="p">)</span>
+    <span class="n">maskbin</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">width</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error - width is zero&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
