@@ -172,42 +172,63 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.process_ifg">
 <span class="sig-name descname"><span class="pre">process_ifg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/runner/work/comet-licsar.github.io/comet-licsar.github.io'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ml</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fillby</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gauss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lowpass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goldstein</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specmag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defomax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hgtcorr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gacoscorr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_detrend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cliparea_geo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outtif</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prevest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_ramp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coh2var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_resid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rampit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_gacos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dolocal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cohratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_coh_debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#process_ifg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.process_ifg" title="Permalink to this definition"></a></dt>
-<dd><p>Main function to unwrap a geocoded LiCSAR interferogram. Works on JASMIN (but can be easily adapted for local use)</p>
+<dd><p>Main function to unwrap a geocoded LiCSAR interferogram. Works on JASMIN (but can be easily adapted for local use)
+:param frame: LiCSAR frame ID
+:type frame: string
+:param pair: identifier of interferometric pair, e.g. <code class="docutils literal notranslate"><span class="pre">'20200120_20200201'</span></code>
+:type pair: string
+:param procdir: path to processing directory
+:type procdir: string
+:param ml: multilooking factor used to reduce the interferogram in lon/lat
+:type ml: int
+:param fillby: algorithm to fill gaps. use one of values: <code class="docutils literal notranslate"><span class="pre">'gauss'</span></code>, <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>, <code class="docutils literal notranslate"><span class="pre">'none'</span></code> (where <code class="docutils literal notranslate"><span class="pre">'none'</span></code> would only fill NaNs by zeroes)
+:type fillby: string
+:param thres: threshold between 0-1 for gaussian-based coherence-like measure (spatial phase consistence?); higher number - more is masked prior to unwrapping
+:type thres: float
+:param smooth: switch to use extra Gaussian filtering for 2-pass unwrapping (not recommended anymore)
+:type smooth: boolean
+:param lowpass: additional large-window Gaussian low-pass filtering (recommended to use)
+:type lowpass: boolean
+:param goldstein: use Goldstein filter (recommended to use, but might slow down the procedure)
+:type goldstein: boolean
+:param specmag: use spectral magnitude of the Goldstein filter (if it is on) as an experimental measure of coherence
+:type specmag: boolean
+:param defomax: parameter to snaphu for maximum deformation in rad per 2pi cycle (DEFOMAX_CYCLE)
+:type defomax: float
+:param hgtcorr: switch to perform correction for height-phase correlation
+:type hgtcorr: boolean
+:param gacoscorr: switch to apply GACOS corrections (if detected)
+:type gacoscorr: boolean
+:param pre_detrend: switch to apply detrending on wrapped phase to support unwrapping
+:type pre_detrend: boolean
+:param cliparea_geo: use GMT/LiCSBAS string to identify area to clip, in geo-coordinates, as <code class="docutils literal notranslate"><span class="pre">'lon1/lon2/lat1/lat2'</span></code>
+:type cliparea_geo: string or None
+:param outtif: path to geotiff file to export result to.
+:type outtif: string or None
+:param prevest: a previous rough estimate to be used by snaphu as the ESTFILE
+:type prevest: xarray.DataArray or None
+:param prev_ramp: a previous estimate or a ramp that will be removed prior to unwrapping (and added back)
+:type prev_ramp: xarray.DataArray or None
+:param coh2var: convert coherence to variance for weighting. now used wrongly, for experimentation - please avoid
+:type coh2var: boolean
+:param add_resid: switch to add back residuals from spatially filtered unwrapping (makes sense if smooth is ON)
+:type add_resid: boolean
+:param rampit: perform an extra strong gaussian filter to get a very rough unwrapping result. basically a longwave signal ramp. used by cascade approach
+:type rampit: boolean
+:param subtract_gacos: switch whether to return the interferograms with GACOS being subtracted (by default, GACOS is used only to support unwrapping and would be added back)
+:type subtract_gacos: boolean
+:param dolocal: switch to use local directory to find interferograms, rather than search for LiCSAR_public directory in JASMIN
+:type dolocal: boolean
+:param cohratio: coherence ratio (or another array) to be used for weighting the phase instead of the original coherence
+:type cohratio: xr.DataArray
+:param keep_coh_debug: only in combination with use_coh_stab - whether or not to keep original (downsampled) ifg coherence after using the coh_stab to weight the phase during multilooking
+:type keep_coh_debug: boolean</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>frame</strong> (<em>string</em>) – LiCSAR frame ID</p></li>
-<li><p><strong>pair</strong> (<em>string</em>) – identifier of interferometric pair, e.g. <code class="docutils literal notranslate"><span class="pre">'20200120_20200201'</span></code></p></li>
-<li><p><strong>procdir</strong> (<em>string</em>) – path to processing directory</p></li>
-<li><p><strong>ml</strong> (<em>int</em>) – multilooking factor used to reduce the interferogram in lon/lat</p></li>
-<li><p><strong>fillby</strong> (<em>string</em>) – algorithm to fill gaps. use one of values: <code class="docutils literal notranslate"><span class="pre">'gauss'</span></code>, <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>, <code class="docutils literal notranslate"><span class="pre">'none'</span></code> (where <code class="docutils literal notranslate"><span class="pre">'none'</span></code> would only fill NaNs by zeroes)</p></li>
-<li><p><strong>thres</strong> (<em>float</em>) – threshold between 0-1 for gaussian-based coherence-like measure (spatial phase consistence?); higher number - more is masked prior to unwrapping</p></li>
-<li><p><strong>smooth</strong> (<em>boolean</em>) – switch to use extra Gaussian filtering for 2-pass unwrapping (not recommended anymore)</p></li>
-<li><p><strong>lowpass</strong> (<em>boolean</em>) – additional large-window Gaussian low-pass filtering (recommended to use)</p></li>
-<li><p><strong>goldstein</strong> (<em>boolean</em>) – use Goldstein filter (recommended to use, but might slow down the procedure)</p></li>
-<li><p><strong>specmag</strong> (<em>boolean</em>) – use spectral magnitude of the Goldstein filter (if it is on) as an experimental measure of coherence</p></li>
-<li><p><strong>defomax</strong> (<em>float</em>) – parameter to snaphu for maximum deformation in rad per 2pi cycle (DEFOMAX_CYCLE)</p></li>
-<li><p><strong>hgtcorr</strong> (<em>boolean</em>) – switch to perform correction for height-phase correlation</p></li>
-<li><p><strong>gacoscorr</strong> (<em>boolean</em>) – switch to apply GACOS corrections (if detected)</p></li>
-<li><p><strong>pre_detrend</strong> (<em>boolean</em>) – switch to apply detrending on wrapped phase to support unwrapping</p></li>
-<li><p><strong>cliparea_geo</strong> (<em>string</em><em> or </em><em>None</em>) – use GMT/LiCSBAS string to identify area to clip, in geo-coordinates, as <code class="docutils literal notranslate"><span class="pre">'lon1/lon2/lat1/lat2'</span></code></p></li>
-<li><p><strong>outtif</strong> (<em>string</em><em> or </em><em>None</em>) – path to geotiff file to export result to.</p></li>
-<li><p><strong>prevest</strong> (<em>xarray.DataArray</em><em> or </em><em>None</em>) – a previous rough estimate to be used by snaphu as the ESTFILE</p></li>
-<li><p><strong>prev_ramp</strong> (<em>xarray.DataArray</em><em> or </em><em>None</em>) – a previous estimate or a ramp that will be removed prior to unwrapping (and added back)</p></li>
-<li><p><strong>coh2var</strong> (<em>boolean</em>) – convert coherence to variance for weighting. now used wrongly, for experimentation - please avoid</p></li>
-<li><p><strong>add_resid</strong> (<em>boolean</em>) – switch to add back residuals from spatially filtered unwrapping (makes sense if smooth is ON)</p></li>
-<li><p><strong>rampit</strong> (<em>boolean</em>) – perform an extra strong gaussian filter to get a very rough unwrapping result. basically a longwave signal ramp. used by cascade approach</p></li>
-<li><p><strong>subtract_gacos</strong> (<em>boolean</em>) – switch whether to return the interferograms with GACOS being subtracted (by default, GACOS is used only to support unwrapping and would be added back)</p></li>
-<li><p><strong>dolocal</strong> (<em>boolean</em>) – switch to use local directory to find interferograms, rather than search for LiCSAR_public directory in JASMIN</p></li>
-<li><p><strong>cohratio</strong> (<em>xr.DataArray</em>) – coherence ratio (or another array) to be used for weighting the phase instead of the original coherence</p></li>
-<li><p><strong>keep_coh_debug</strong> (<em>boolean</em>) – only in combination with use_coh_stab - whether or not to keep original (downsampled) ifg coherence after using the coh_stab to weight the phase during multilooking</p></li>
-</ul>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>unwrapped multilooked interferogram with additional layers</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>unwrapped multilooked interferogram with additional layers</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>xarray.Dataset</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xarray.Dataset</p>
 </dd>
 </dl>
 </dd></dl>
