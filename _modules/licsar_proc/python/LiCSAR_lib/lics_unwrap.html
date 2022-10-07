@@ -1522,14 +1522,15 @@
 <span class="sd">        xr.Dataarray: filtered complex numbers dataarray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># tried with R, I separately --- EXACT same result as if using cpx numbers...</span>
-    <span class="c1">#R = np.real(ifg_ml.cpx.values)</span>
-    <span class="c1">#I = np.imag(ifg_ml.cpx.values)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">cpx</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">cpx</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
     <span class="c1">#</span>
-    <span class="c1">#gR = filter_nan_gaussian_conserving(R, sigma=sigma, trunc=trunc)</span>
-    <span class="c1">#gI = filter_nan_gaussian_conserving(I, sigma=sigma, trunc=trunc)</span>
+    <span class="n">gR</span> <span class="o">=</span> <span class="n">filter_nan_gaussian_conserving</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">trunc</span><span class="o">=</span><span class="n">trunc</span><span class="p">)</span>
+    <span class="n">gI</span> <span class="o">=</span> <span class="n">filter_nan_gaussian_conserving</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">trunc</span><span class="o">=</span><span class="n">trunc</span><span class="p">)</span>
     <span class="c1">#</span>
-    <span class="c1">#gauss_cpx = gR + 1j*gI</span>
-    <span class="n">gauss_cpx</span> <span class="o">=</span> <span class="n">filter_nan_gaussian_conserving</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">cpx</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">trunc</span><span class="o">=</span><span class="n">trunc</span><span class="p">)</span>
+    <span class="n">gauss_cpx</span> <span class="o">=</span> <span class="n">gR</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">gI</span>
+    <span class="c1"># ok, but this is possible only with new numpy:</span>
+    <span class="c1">#gauss_cpx = filter_nan_gaussian_conserving(ifg_ml.cpx.values, sigma=sigma, trunc=trunc)</span>
     <span class="n">gauss_xr</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;cpx&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1">#</span>
     <span class="n">gauss_xr</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">gauss_cpx</span>
