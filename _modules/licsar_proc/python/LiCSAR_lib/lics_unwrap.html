@@ -1506,9 +1506,10 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.array: coherence based on the variance</span>
+<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">variance</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">generic_filter</span><span class="p">(</span><span class="n">phadiff</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
-    <span class="n">outcoh</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">winsize</span><span class="o">*</span><span class="n">winsize</span><span class="o">*</span><span class="n">variance</span><span class="p">)</span>
+    <span class="n">outcoh</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">winsize</span><span class="o">*</span><span class="n">winsize</span><span class="o">*</span><span class="n">variance</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">outcoh</span></div>
 
 
