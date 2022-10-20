@@ -996,24 +996,24 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">pathos.multiprocessing</span> <span class="kn">import</span> <span class="n">ProcessingPool</span> <span class="k">as</span> <span class="n">Pool</span>
         <span class="k">except</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pathos not installed - not parallelism&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pathos not installed - no parallelism&#39;</span><span class="p">)</span>
             <span class="n">nproc</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">nproc</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">p</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">nproc</span><span class="p">)</span>
             <span class="n">outs</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">check_and_process_ifg</span><span class="p">,</span> <span class="n">pairset</span><span class="p">)</span>  <span class="c1"># out is one output per pair -&gt; list</span>
             <span class="n">p</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># or not?</span>
-            <span class="n">fix_additionals</span><span class="p">()</span>
+            <span class="c1">#fix_additionals()</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;some error appeared - please try manually (debug). now, just returning to no parallelism&#39;</span><span class="p">)</span>
             <span class="n">nproc</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">nproc</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">pairset</span><span class="p">:</span>
             <span class="n">check_and_process_ifg</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">fix_additionals</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;debug - should continue ok&#39;</span><span class="p">)</span></div>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">fix_additionals</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;debug - function fix_additionals() failed&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_ml_hgt"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.get_ml_hgt">[docs]</a><span class="k">def</span> <span class="nf">get_ml_hgt</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">ml</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
