@@ -881,22 +881,6 @@
             <span class="n">landmask</span> <span class="o">=</span> <span class="n">landmask_frame</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">hgt</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
             <span class="n">export_xr2tif</span><span class="p">(</span><span class="n">landmask</span><span class="p">,</span> <span class="n">landmask_file</span><span class="p">,</span> <span class="n">dogdal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     
-    <span class="c1">#orig files</span>
-    <span class="c1"># will use only the filtered ifgs now..</span>
-    <span class="n">ifg_pha_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoifgdir</span><span class="p">,</span><span class="n">pair</span><span class="o">+</span><span class="s1">&#39;.geo.diff_pha.tif&#39;</span><span class="p">)</span>
-    <span class="n">coh_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoifgdir</span><span class="p">,</span><span class="n">pair</span><span class="o">+</span><span class="s1">&#39;.geo.cc.tif&#39;</span><span class="p">)</span>
-    <span class="c1">#landmask_file = os.path.join(geoframedir,&#39;metadata&#39;,frame+&#39;.geo.landmask.tif&#39;)</span>
-    <span class="c1"># load the files</span>
-    <span class="n">inpha</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">ifg_pha_file</span><span class="p">)</span>
-    <span class="n">incoh</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">coh_file</span><span class="p">)</span>
-    <span class="n">incoh</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">incoh</span><span class="o">.</span><span class="n">values</span><span class="o">/</span><span class="mi">255</span>
-    <span class="n">inmask</span> <span class="o">=</span> <span class="n">incoh</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">inmask</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">byte</span><span class="p">(</span><span class="n">incoh</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">landmask_file</span><span class="p">):</span>
-        <span class="n">landmask</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">landmask_file</span><span class="p">)</span>
-        
-        
-        
     <span class="c1">#if cliparea_geo:</span>
     <span class="c1">#    import rioxarray as rio</span>
     <span class="c1">#    hgt = xr.open_dataarray(hgtfile)</span>
