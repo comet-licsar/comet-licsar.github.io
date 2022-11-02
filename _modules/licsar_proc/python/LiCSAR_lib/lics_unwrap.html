@@ -75,9 +75,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      <li>licsar_proc.python.LiCSAR_lib.lics_unwrap</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">licsar_proc.python.LiCSAR_lib.lics_unwrap</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -426,12 +426,24 @@
         <span class="c1"># spmask=sp&gt;thres # try 0.25</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;filtpha&#39;</span><span class="p">],</span> <span class="n">sp</span> <span class="o">=</span> <span class="n">goldstein_filter_xr</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">pha</span><span class="p">,</span> <span class="n">blocklen</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">nproc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">returncoh</span><span class="o">=</span><span class="p">(</span><span class="ow">not</span> <span class="n">specmag</span><span class="p">))</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gold_coh&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">sp</span>
-        <span class="n">sp</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
-        <span class="k">if</span> <span class="n">specmag</span><span class="p">:</span>
-            <span class="n">sp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
-            <span class="n">sp</span><span class="p">[</span><span class="n">sp</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="n">sp</span><span class="p">[</span><span class="n">sp</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gold_coh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">=</span><span class="n">sp</span>
+        <span class="n">sp</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">sp</span><span class="p">[</span><span class="n">sp</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># should not happen, but just in case...</span>
+        <span class="n">sp</span><span class="p">[</span><span class="n">sp</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gold_coh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">sp</span>
+        <span class="c1">#sp=sp.fillna(0).values</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        if specmag:</span>
+<span class="sd">            #sp = np.log10(sp)</span>
+<span class="sd">            sp[sp &gt; 1] = 1</span>
+<span class="sd">            sp[sp &lt; 0] = 0</span>
+<span class="sd">            # now improve the corr weights with using the coh from phasediff</span>
+<span class="sd">            phadiff = A.origpha.copy()</span>
+<span class="sd">            phadiff.values = wrap2phase(A.origpha - B[0])</span>
+<span class="sd">            phadiff.values = coh_from_phadiff(phadiff.values)</span>
+<span class="sd">            phadiff = phadiff.fillna(0)</span>
+<span class="sd">            phadiff = phadiff * B[1]</span>
+<span class="sd">        ifg_ml[&#39;gold_coh&#39;].values=sp</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="c1"># this is just to have the masked pixels zeroes...</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gold_coh&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gold_coh&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span>
         <span class="n">sp</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gold_coh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
@@ -462,6 +474,7 @@
         <span class="k">if</span> <span class="n">specmag</span><span class="p">:</span>
             <span class="n">phadiff</span><span class="o">=</span><span class="n">wrap2phase</span><span class="p">((</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;filtpha&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
             <span class="n">coh</span> <span class="o">=</span> <span class="n">coh_from_phadiff</span><span class="p">(</span><span class="n">phadiff</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">coh</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">coh</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">coh</span> <span class="o">=</span> <span class="n">sp</span>
         <span class="n">mask</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_full&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
@@ -1391,7 +1404,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">lowpass_gauss</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">defomax</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">use_gold</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">lowpass_gauss</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">defomax</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">use_gold</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">goldwin</span><span class="o">=</span><span class="mi">16</span><span class="p">):</span>
     <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;origpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">use_gold</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;warning, switched fully from Gaussian filtering to Goldstein fashion, also for lowpass&#39;</span><span class="p">)</span>
@@ -1399,7 +1412,7 @@
         <span class="n">mask</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">values</span>
         <span class="n">dapha</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">pha</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">interpolate_nans</span><span class="p">(</span><span class="n">dapha</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
-        <span class="n">dd</span><span class="p">,</span><span class="n">cc</span> <span class="o">=</span> <span class="n">goldstein_filter_xr</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">],</span> <span class="n">blocklen</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">dd</span><span class="p">,</span><span class="n">cc</span> <span class="o">=</span> <span class="n">goldstein_filter_xr</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">],</span> <span class="n">blocklen</span><span class="o">=</span><span class="n">goldwin</span><span class="p">)</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">values</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">cc</span><span class="o">&gt;</span><span class="n">thres</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">*</span><span class="n">mask</span>
@@ -2364,7 +2377,9 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># only now convolve with Gaussian kernel to filter (not masking here, although we might consider it)</span>
     <span class="n">kernel</span> <span class="o">=</span> <span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">x_stddev</span><span class="o">=</span><span class="n">kernelsigma</span><span class="p">)</span>  <span class="c1"># sigma 1 gives 9x9 gaussian kernel</span>
-    <span class="n">H</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+    <span class="c1">#kernel = Gaussian2DKernel(x_stddev=kernelsigma, x_size = H.shape[1], y_size = H.shape[0] )</span>
+    <span class="c1">#H = H * kernel.array</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>   <span class="c1"># but correctly i should only multiply with the gauss window, see above</span>
     <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
     <span class="c1"># centering not needed? but maybe yes for mag/specmag</span>
     <span class="c1">#if meanH:</span>
@@ -2372,8 +2387,21 @@
     <span class="k">if</span> <span class="n">meanH</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">/</span> <span class="n">meanH</span>
     <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">**</span> <span class="n">alpha</span>
+    <span class="c1"># try maxx it</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">nyquistmask</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+    <span class="n">Hm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">*</span><span class="n">mask</span>  <span class="c1"># but here i am masking from centre, not from freq that appears most (max H)...</span>
+    <span class="n">noisesum</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">Hm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.001</span>
+    <span class="n">snr</span> <span class="o">=</span> <span class="n">Hm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">noisesum</span>
+    <span class="c1">#nsr = noisesum/Hm.sum()</span>
+    <span class="n">maxH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">Hm</span><span class="p">)</span>
+    <span class="c1">#maxH = np.max(H)</span>
+    <span class="c1">#ratioH = block.shape[0]*block.shape[1]/maxH</span>
+    <span class="n">ratioH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">maxH</span>
+    <span class="c1">#x = 1024/maxH  * valH</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span> <span class="n">ratioH</span> <span class="o">*</span><span class="n">snr</span> <span class="c1"># / 1024)</span>
     <span class="n">cpxfilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="n">cpx_fft</span> <span class="o">*</span> <span class="n">H</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">returnphadiff</span><span class="p">:</span>  <span class="c1"># Oct 28, 2022: using the goldstein-filtered block to get the phadiff (for coh measure, later)</span>
+    <span class="c1">#cpxfilt = magpha2RI_array(np.abs(cpxfilt)*(1-nsr), np.angle(cpxfilt))</span>
+    <span class="k">if</span> <span class="n">returnphadiff</span><span class="p">:</span>  <span class="c1"># Oct 28, 2022: using the goldstein-filtered ck to get the phadiff (for coh measure, later)</span>
         <span class="c1"># this is based on phase difference after convolution within Nyquist freq range - needs improvement, but it works</span>
         <span class="c1"># recalc now, from the filtered version</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">nyquistmask</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
@@ -2416,7 +2444,7 @@
     <span class="n">blocklen</span> <span class="o">=</span> <span class="n">blocklen</span> <span class="o">-</span> <span class="n">ovlpx</span>
     <span class="n">outpha</span> <span class="o">=</span> <span class="n">inpha</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">incpx</span> <span class="o">=</span> <span class="n">pha2cpx</span><span class="p">(</span><span class="n">inpha</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-    <span class="n">winsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">blocklen</span><span class="p">,</span> <span class="n">blocklen</span><span class="p">)</span>
+    <span class="n">winsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">blocklen</span><span class="o">-</span><span class="n">ovlpx</span><span class="p">,</span> <span class="n">blocklen</span><span class="o">-</span><span class="n">ovlpx</span><span class="p">)</span>
     <span class="n">incpxb</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">incpx</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
     <span class="c1"># f=cpxb.map_overlap(goldstein_AH, alpha=alpha, depth=ovlpx, boundary=&#39;reflect&#39;, meta=np.array((), dtype=np.complex128), chunks = (1,1))</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">incpxb</span><span class="o">.</span><span class="n">map_overlap</span><span class="p">(</span><span class="n">goldstein_AHML</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">mask_nyquist</span><span class="o">=</span><span class="n">mask_nyquist</span><span class="p">,</span> <span class="n">returnphadiff</span> <span class="o">=</span> <span class="n">returncoh</span><span class="p">,</span>
@@ -2426,18 +2454,123 @@
     <span class="n">outpha</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">cpxb</span><span class="p">)</span>
     <span class="n">outmag</span> <span class="o">=</span> <span class="n">outpha</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">outmag</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cpxb</span><span class="p">)</span>
+    <span class="n">outmag</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">outmag</span><span class="o">.</span><span class="n">values</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">returncoh</span><span class="p">:</span>
         <span class="n">outmag</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">coh_from_phadiff</span><span class="p">(</span><span class="n">outmag</span><span class="o">.</span><span class="n">values</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">outpha</span><span class="p">,</span> <span class="n">outmag</span></div>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">def goldstein_AHML(block, alpha=0.8, kernelsigma=0.75, mask_nyquist=False, returnphadiff=True):</span>
+<span class="sd">    cpx_fft = np.fft.fft2(block)</span>
+<span class="sd">    # get 2d spectral magnitude of the block</span>
+<span class="sd">    H = np.abs(cpx_fft)</span>
+<span class="sd">    #firstfreq = H[0][0]   # useful to get avg coh if /block.shape</span>
+<span class="sd">    H = np.fft.fftshift(H)</span>
+<span class="sd">    # mask frequencies above Nyquist frequency</span>
+<span class="sd">    if mask_nyquist:</span>
+<span class="sd">        mask = nyquistmask(block)</span>
+<span class="sd">        H = H*mask</span>
+<span class="sd">    # phase ramps using masked H (i.e. low pass)</span>
+<span class="sd">    # cpxm=np.fft.ifft2(cpx_fft*np.fft.fftshift(Hm))</span>
+<span class="sd">    </span>
+<span class="sd">    if returnphadiff: </span>
+<span class="sd">        # this is based on phase difference after convolution within Nyquist freq range - needs improvement, but it works</span>
+<span class="sd">        phadiff = wrap2phase(np.angle(block) - np.angle(np.fft.ifft2(cpx_fft * np.fft.ifftshift(H))))  # C[0])</span>
+<span class="sd">        #cc = 1 - coh_from_phadiff(phadiff, 3)</span>
+<span class="sd">        #cpxfilt = magpha2RI_array(cc, np.angle(cpxfilt))</span>
+<span class="sd">        return phadiff</span>
+<span class="sd">    # perform cross-correlation of the original cpx block with the low-pass result</span>
+<span class="sd">    cc = cpx_fft * np.conj(np.fft.fftshift(Hm))</span>
+<span class="sd">    cc = cpx_fft * np.conj(np.fft.fftshift(H))</span>
+<span class="sd">    cc = np.abs(np.fft.ifft2(cc))  # now i need to somehow normalise cc - not solved yet</span>
+<span class="sd">    #</span>
+<span class="sd">    # horrible solution, but maybe works?</span>
+<span class="sd">    gh = wrap2phase(np.angle(block) - np.angle(np.fft.ifft2(cpx_fft * np.fft.ifftshift(Hm))))  # C[0])</span>
+<span class="sd">    bgr = 1 - coh_from_phadiff(gh, 3)</span>
+<span class="sd">    # avgcc=np.max(Hm)/32/32</span>
+<span class="sd">    # avgcc=firstfreq/32/32</span>
+<span class="sd">    # cc=cc/32/32</span>
+<span class="sd">    # cc=10*np.log10(cc)*avgcc/32/32</span>
+<span class="sd">    </span>
+<span class="sd">    # only now convolve with Gaussian kernel to filter (not masking here, although we might consider it)</span>
+<span class="sd">    kernel = Gaussian2DKernel(x_stddev=kernelsigma)  # sigma 1 gives 9x9 gaussian kernel</span>
+<span class="sd">    H = convolve(H, kernel)</span>
+<span class="sd">    H = np.fft.ifftshift(H)</span>
+<span class="sd">    # centering not needed? but maybe yes for mag/specmag</span>
+<span class="sd">    #if meanH:</span>
+<span class="sd">    meanH = np.median(H)</span>
+<span class="sd">    if meanH != 0:</span>
+<span class="sd">        H = H / meanH</span>
+<span class="sd">    H = H ** alpha</span>
+<span class="sd">    cpxfilt = np.fft.ifft2(cpx_fft * H)</span>
+<span class="sd">    if returnphadiff:  # Oct 28, 2022: using the goldstein-filtered block to get the phadiff (for coh measure, later)</span>
+<span class="sd">        # this is based on phase difference after convolution within Nyquist freq range - needs improvement, but it works</span>
+<span class="sd">        # recalc now, from the filtered version</span>
+<span class="sd">        mask = nyquistmask(block)</span>
+<span class="sd">        cpx_fft = np.fft.fft2(pha2cpx(np.angle(cpxfilt)))</span>
+<span class="sd">        H = np.abs(cpx_fft)</span>
+<span class="sd">        H = np.fft.fftshift(H)</span>
+<span class="sd">        H = H * mask</span>
+<span class="sd">        cpxnyquistfilt = np.fft.ifft2(cpx_fft * np.fft.ifftshift(H))</span>
+<span class="sd">        # nah the phase difference can be done easier, just.. for now this:</span>
+<span class="sd">        #phadiff = wrap2phase(np.angle(block) - np.angle(cpxnyquistfilt))  # C[0])</span>
+<span class="sd">        phadiff = wrap2phase(np.angle(cpxfilt) - np.angle(cpxnyquistfilt))  # C[0])</span>
+<span class="sd">        #cc = 1 - coh_from_phadiff(phadiff, 3) # will calc this only later, to avoid ovlps aliasing</span>
+<span class="sd">        cpxfilt = magpha2RI_array(phadiff+np.pi, np.angle(cpxfilt))  # can mag be negative? i don&#39;t think so</span>
+<span class="sd">        #return phadiff</span>
+<span class="sd">    # cc=np.abs(cpxfilt)</span>
+<span class="sd">    # cc = cpx_fft*np.conj(np.fft.fftshift(Hm))</span>
+<span class="sd">    # cc = np.abs(np.fft.ifft2(cc))</span>
+<span class="sd">    # now put cc instead of the filtered spectral magnitude</span>
+<span class="sd">    return cpxfilt</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">def goldstein_filter_xr(inpha, blocklen=16, alpha=0.8, ovlpx=None, nproc=1, returncoh=True,</span>
+<span class="sd">                        mask_nyquist=False):  # ovlwin=8, nproc=1):</span>
+<span class="sd">    &quot;&quot;&quot;Goldstein filtering of phase</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        inpha (xr.DataArray): array of phase (for now, the script will create cpx from phase)</span>
+<span class="sd">        blocklen (int): size of rectangular window in pixels</span>
+<span class="sd">        alpha (float): Goldstein alpha parameter</span>
+<span class="sd">        ovlpx (int): how many pixels should overlap the window</span>
+<span class="sd">        nproc (int): number of processors to be used by dask</span>
+<span class="sd">        returncoh (boolean): return coherence instead of the spectral magnitude</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        xr.DataArray,xr.DataArray: filtered phase, magnitude (try np.log to use for masking)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    if ovlpx == None:</span>
+<span class="sd">        ovlpx = int(blocklen / 4)  # does it make sense? gamma recommends /8 but this might be too much?</span>
+<span class="sd">    # dask works by adding extra pixels around the block window. thus calculate the central window here:</span>
+<span class="sd">    blocklen = blocklen - ovlpx</span>
+<span class="sd">    outpha = inpha.copy()</span>
+<span class="sd">    incpx = pha2cpx(inpha.fillna(0).values)</span>
+<span class="sd">    winsize = (blocklen, blocklen)</span>
+<span class="sd">    incpxb = da.from_array(incpx, chunks=winsize)</span>
+<span class="sd">    # f=cpxb.map_overlap(goldstein_AH, alpha=alpha, depth=ovlpx, boundary=&#39;reflect&#39;, meta=np.array((), dtype=np.complex128), chunks = (1,1))</span>
+<span class="sd">    f = incpxb.map_overlap(goldstein_AHML, alpha=alpha, mask_nyquist=mask_nyquist, returnphadiff = returncoh,</span>
+<span class="sd">                         depth=ovlpx, boundary=&#39;reflect&#39;,</span>
+<span class="sd">                         meta=np.array((), dtype=np.complex128), chunks=(1, 1))</span>
+<span class="sd">    cpxb = f.compute(num_workers=nproc)</span>
+<span class="sd">    outpha.values = np.angle(cpxb)</span>
+<span class="sd">    outmag = outpha.copy()</span>
+<span class="sd">    outmag.values = np.abs(cpxb)</span>
+<span class="sd">    if returncoh:</span>
+<span class="sd">        outmag.values = coh_from_phadiff(outmag.values-np.pi, 3)</span>
+<span class="sd">        </span>
 <span class="sd">        # calculating the fake coh from freqs below nyquist, proper way (although longer - need to improve it:</span>
 <span class="sd">        f = incpxb.map_overlap(goldstein_AHML, alpha=alpha, mask_nyquist=True, returnphadiff=True,</span>
 <span class="sd">                             depth=ovlpx, boundary=&#39;reflect&#39;,</span>
 <span class="sd">                             meta=np.array((), dtype=np.float32), chunks=(1, 1))</span>
 <span class="sd">        phadiff = f.compute(num_workers=nproc)</span>
 <span class="sd">        outmag.values = 1 - coh_from_phadiff(phadiff, 3)</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="c1">#outmag[outmag==1]=0</span>
-    <span class="k">return</span> <span class="n">outpha</span><span class="p">,</span> <span class="n">outmag</span></div>
+<span class="sd">        </span>
+<span class="sd">        #outmag[outmag==1]=0</span>
+<span class="sd">    return outpha, outmag</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">def goldstein_filter_xr(inpha, blocklen=16, alpha=0.8, ovlpx=None, nproc=1, returncoh=True, mask_nyquist=False): #ovlwin=8, nproc=1):</span>
 <span class="sd">    &quot;&quot;&quot;Goldstein filtering of phase</span>
