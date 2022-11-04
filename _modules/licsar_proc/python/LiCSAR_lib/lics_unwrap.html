@@ -2436,10 +2436,12 @@
     <span class="n">nsr</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">noisesum</span><span class="o">/</span><span class="n">H</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">Hs</span> <span class="o">=</span> <span class="n">H</span> <span class="o">*</span><span class="n">snr</span>
     <span class="n">Hn</span> <span class="o">=</span> <span class="n">H</span> <span class="o">*</span><span class="n">nsr</span>
-    <span class="n">H</span> <span class="o">=</span> <span class="n">Hn</span> <span class="c1">#* Hn * Hr #s * H</span>
+    <span class="c1">#H = Hn #* Hn * Hr #s * H</span>
+    <span class="n">H</span><span class="o">=</span><span class="n">Hr</span>
     
     <span class="n">cpxfilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="n">cpx_fft</span> <span class="o">*</span> <span class="n">H</span><span class="p">)</span>
     <span class="c1">#cpxfilt = magpha2RI_array(np.abs(cpxfilt)*(1-nsr), np.angle(cpxfilt))</span>
+    <span class="n">cpxfilt</span> <span class="o">=</span> <span class="n">magpha2RI_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cpxfilt</span><span class="p">)</span><span class="o">*</span><span class="n">nsr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">cpxfilt</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">returnphadiff</span><span class="p">:</span>  <span class="c1"># Oct 28, 2022: using the goldstein-filtered ck to get the phadiff (for coh measure, later)</span>
         <span class="c1"># this is based on phase difference after convolution within Nyquist freq range - needs improvement, but it works</span>
         <span class="c1"># recalc now, from the filtered version</span>
