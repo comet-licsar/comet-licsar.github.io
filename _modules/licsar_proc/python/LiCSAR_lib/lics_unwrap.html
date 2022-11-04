@@ -2433,8 +2433,10 @@
     
     <span class="n">noisesum</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">Hm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.001</span>
     <span class="n">snr</span> <span class="o">=</span> <span class="n">Hm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">noisesum</span>
+    <span class="n">nsr</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">noisesum</span><span class="o">/</span><span class="n">H</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">Hs</span> <span class="o">=</span> <span class="n">H</span> <span class="o">*</span><span class="n">snr</span>
-    <span class="n">H</span> <span class="o">=</span> <span class="n">Hr</span> <span class="o">*</span> <span class="n">Hs</span> <span class="o">*</span> <span class="n">H</span>
+    <span class="n">Hn</span> <span class="o">=</span> <span class="n">H</span> <span class="o">*</span><span class="n">nsr</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">Hr</span> <span class="o">*</span> <span class="n">Hn</span> <span class="c1">#s * H</span>
     
     <span class="n">cpxfilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="n">cpx_fft</span> <span class="o">*</span> <span class="n">H</span><span class="p">)</span>
     <span class="c1">#cpxfilt = magpha2RI_array(np.abs(cpxfilt)*(1-nsr), np.angle(cpxfilt))</span>
