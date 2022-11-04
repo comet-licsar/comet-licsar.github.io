@@ -2432,9 +2432,9 @@
     <span class="n">Hr</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span> <span class="n">ratioH</span> <span class="c1"># not bad try! but then some real dark areas as too bright then</span>
     
     <span class="n">noisesum</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">Hm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.001</span>
-    <span class="n">snr</span> <span class="o">=</span> <span class="n">Hm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">noisesum</span>
+    <span class="c1">#snr = Hm.sum()/noisesum</span>
     <span class="n">nsr</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">noisesum</span><span class="o">/</span><span class="n">H</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="n">Hs</span> <span class="o">=</span> <span class="n">H</span> <span class="o">*</span><span class="n">snr</span>
+    <span class="c1">#Hs = H *snr</span>
     <span class="n">Hn</span> <span class="o">=</span> <span class="n">H</span> <span class="o">*</span><span class="n">nsr</span>
     <span class="n">Hb</span> <span class="o">=</span> <span class="n">Hn</span> <span class="o">*</span> <span class="n">Hr</span> <span class="c1">#s * H</span>
     <span class="n">H</span><span class="o">=</span><span class="n">Hr</span>
