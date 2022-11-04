@@ -2425,16 +2425,14 @@
 <span class="sd">    #x = 1024/maxH  * valH</span>
 <span class="sd">    H = H* ratioH *snr # / 1024)</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="n">nyquistmask</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-    <span class="n">Hm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">*</span><span class="n">mask</span>
-    <span class="n">kernel2</span> <span class="o">=</span> <span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">x_stddev</span><span class="o">=</span><span class="n">kernelsigma</span><span class="o">*</span><span class="mi">5</span><span class="p">,</span> <span class="n">x_size</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_size</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">)</span>
-    <span class="n">Hm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">H</span><span class="p">)</span> <span class="o">*</span> <span class="n">kernel2</span><span class="o">.</span><span class="n">array</span>  <span class="c1"># just really the peak only</span>
-    <span class="n">am</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">Hm</span><span class="p">)</span> <span class="c1"># where is max value after the gauss filt</span>
-    <span class="n">maxH</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="n">am</span><span class="p">]</span>
+    <span class="c1">#mask = nyquistmask(block)</span>
+    <span class="c1">#Hm = np.fft.ifftshift(H)*mask</span>
+    <span class="c1">##am = np.argmax(Hm) # where is max value after the gauss filt</span>
+    <span class="c1">##maxH=np.fft.ifftshift(H).ravel()[am]</span>
     <span class="c1">#maxH = np.max(Hm)</span>
     <span class="c1">#maxH = np.fft.ifftshift(H)[0][0]</span>
-    <span class="n">ratioH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">maxH</span>
-    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span> <span class="n">ratioH</span>  <span class="c1"># not bad try! but then some real dark areas as too bright then</span>
+    <span class="c1">#ratioH = 1/maxH</span>
+    <span class="c1">#H = H* ratioH  # not bad try! but then some real dark areas as too bright then</span>
     
     <span class="n">cpxfilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="n">cpx_fft</span> <span class="o">*</span> <span class="n">H</span><span class="p">)</span>
     <span class="c1">#cpxfilt = magpha2RI_array(np.abs(cpxfilt)*(1-nsr), np.angle(cpxfilt))</span>
