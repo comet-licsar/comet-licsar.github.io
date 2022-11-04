@@ -2411,18 +2411,22 @@
     <span class="k">if</span> <span class="n">meanH</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">/</span> <span class="n">meanH</span>
     <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">**</span> <span class="n">alpha</span>
-    <span class="c1"># try maxx it</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="n">nyquistmask</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-    <span class="n">Hm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">*</span><span class="n">mask</span>  <span class="c1"># but here i am masking from centre, not from freq that appears most (max H)...</span>
-    <span class="n">noisesum</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">Hm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.001</span>
-    <span class="n">snr</span> <span class="o">=</span> <span class="n">Hm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">noisesum</span>
-    <span class="c1">#nsr = noisesum/Hm.sum()</span>
-    <span class="n">maxH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">Hm</span><span class="p">)</span>
-    <span class="c1">#maxH = np.max(H)</span>
-    <span class="c1">#ratioH = block.shape[0]*block.shape[1]/maxH</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    # try maxx it</span>
+<span class="sd">    mask = nyquistmask(block)</span>
+<span class="sd">    Hm = np.fft.ifftshift(H)*mask  # but here i am masking from centre, not from freq that appears most (max H)...</span>
+<span class="sd">    noisesum = H.sum() - Hm.sum() + 0.001</span>
+<span class="sd">    snr = Hm.sum()/noisesum</span>
+<span class="sd">    #nsr = noisesum/Hm.sum()</span>
+<span class="sd">    maxH = np.max(Hm)</span>
+<span class="sd">    #maxH = np.max(H)</span>
+<span class="sd">    #ratioH = block.shape[0]*block.shape[1]/maxH</span>
+<span class="sd">    ratioH = 1/maxH</span>
+<span class="sd">    #x = 1024/maxH  * valH</span>
+<span class="sd">    H = H* ratioH *snr # / 1024)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">ratioH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">maxH</span>
-    <span class="c1">#x = 1024/maxH  * valH</span>
-    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span> <span class="n">ratioH</span> <span class="o">*</span><span class="n">snr</span> <span class="c1"># / 1024)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span> <span class="n">ratioH</span> 
     <span class="n">cpxfilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="n">cpx_fft</span> <span class="o">*</span> <span class="n">H</span><span class="p">)</span>
     <span class="c1">#cpxfilt = magpha2RI_array(np.abs(cpxfilt)*(1-nsr), np.angle(cpxfilt))</span>
     <span class="k">if</span> <span class="n">returnphadiff</span><span class="p">:</span>  <span class="c1"># Oct 28, 2022: using the goldstein-filtered ck to get the phadiff (for coh measure, later)</span>
