@@ -2427,12 +2427,14 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">nyquistmask</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
     <span class="n">Hm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">*</span><span class="n">mask</span>
-    <span class="c1">##am = np.argmax(Hm) # where is max value after the gauss filt</span>
-    <span class="c1">##maxH=np.fft.ifftshift(H).ravel()[am]</span>
     <span class="n">maxH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">Hm</span><span class="p">)</span>
-    <span class="c1">#maxH = np.fft.ifftshift(H)[0][0]</span>
     <span class="n">ratioH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">maxH</span>
-    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span> <span class="n">ratioH</span>  <span class="c1"># not bad try! but then some real dark areas as too bright then</span>
+    <span class="n">Hr</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span> <span class="n">ratioH</span> <span class="c1"># not bad try! but then some real dark areas as too bright then</span>
+    
+    <span class="n">noisesum</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">Hm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.001</span>
+    <span class="n">snr</span> <span class="o">=</span> <span class="n">Hm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">noisesum</span>
+    <span class="n">Hs</span> <span class="o">=</span> <span class="n">H</span> <span class="o">*</span><span class="n">snr</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">Hr</span> <span class="o">*</span> <span class="n">Hs</span> <span class="o">*</span> <span class="n">H</span>
     
     <span class="n">cpxfilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="n">cpx_fft</span> <span class="o">*</span> <span class="n">H</span><span class="p">)</span>
     <span class="c1">#cpxfilt = magpha2RI_array(np.abs(cpxfilt)*(1-nsr), np.angle(cpxfilt))</span>
