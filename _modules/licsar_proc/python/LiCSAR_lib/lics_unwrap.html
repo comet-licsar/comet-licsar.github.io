@@ -1002,7 +1002,7 @@
                     <span class="k">except</span><span class="p">:</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error with new preview, doing old way&#39;</span><span class="p">)</span>
                         <span class="n">create_preview_bin</span><span class="p">(</span><span class="n">pair</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">pair</span><span class="o">+</span><span class="s1">&#39;.unw&#39;</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">ftype</span> <span class="o">=</span> <span class="s1">&#39;unw&#39;</span><span class="p">)</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm &#39;</span><span class="o">+</span><span class="n">pair</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">pair</span><span class="o">+</span><span class="s1">&#39;.unw.ras&#39;</span><span class="p">)</span>
+                    <span class="c1">#os.system(&#39;rm &#39;+pair+&#39;/&#39;+pair+&#39;.unw.ras&#39;)</span>
                     <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm -r &#39;</span><span class="o">+</span><span class="n">pair</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="s1">&#39;temp_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ml</span><span class="p">))</span>
                     <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm -r &#39;</span><span class="o">+</span><span class="n">pair</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="s1">&#39;temp_gen&#39;</span><span class="p">)</span>
                 <span class="k">except</span><span class="p">:</span>
@@ -1543,9 +1543,9 @@
     <span class="n">out</span> <span class="o">=</span> <span class="n">R</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">I</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-
-<div class="viewcode-block" id="coh_from_phadiff"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.coh_from_phadiff">[docs]</a><span class="k">def</span> <span class="nf">coh_from_phadiff</span><span class="p">(</span><span class="n">phadiff</span><span class="p">,</span> <span class="n">winsize</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculates coherence based on variance of interferogram, computed in window with given size</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">def coh_from_phadiff(phadiff, winsize = 3):</span>
+<span class="sd">    &quot;&quot;&quot;Calculates coherence based on variance of interferogram, computed in window with given size</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        phadiff (np.array): interferogram</span>
@@ -1555,9 +1555,28 @@
 <span class="sd">        np.array: coherence based on the variance</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">variance</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">generic_filter</span><span class="p">(</span><span class="n">phadiff</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
-    <span class="n">outcoh</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">winsize</span><span class="o">*</span><span class="n">winsize</span><span class="o">*</span><span class="n">variance</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">outcoh</span></div>
+<span class="sd">    variance = ndimage.generic_filter(phadiff, np.var, size=winsize)</span>
+<span class="sd">    outcoh = 1/np.sqrt(1+winsize*winsize*variance)</span>
+<span class="sd">    return outcoh</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="coh_from_phadiff"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.coh_from_phadiff">[docs]</a><span class="k">def</span> <span class="nf">coh_from_phadiff</span><span class="p">(</span><span class="n">phadiff</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates coherence based on variance of interferogram, computed in window with given size</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        phadiff (np.array): interferogram</span>
+<span class="sd">        winsize (int): window size</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.array: coherence based on the variance</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cpxdiff</span> <span class="o">=</span> <span class="n">pha2cpx</span><span class="p">(</span><span class="n">phadiff</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">generic_filter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">cpxdiff</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="n">outcohr</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">winsize</span> <span class="o">*</span> <span class="n">winsize</span> <span class="o">*</span> <span class="n">variance</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">generic_filter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">cpxdiff</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="n">outcohi</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">winsize</span> <span class="o">*</span> <span class="n">winsize</span> <span class="o">*</span> <span class="n">variance</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">outcohr</span> <span class="o">+</span> <span class="n">outcohi</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
 
 
 <div class="viewcode-block" id="filter_cpx_gauss"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_cpx_gauss">[docs]</a><span class="k">def</span> <span class="nf">filter_cpx_gauss</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="mi">4</span><span class="p">):</span>
@@ -2496,9 +2515,17 @@
     <span class="n">outpha</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">cpxb</span><span class="p">)</span>
     <span class="n">outmag</span> <span class="o">=</span> <span class="n">outpha</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">outmag</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cpxb</span><span class="p">)</span>
-    <span class="n">outmag</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">outmag</span><span class="o">.</span><span class="n">values</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">outmag</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">outmag</span><span class="o">.</span><span class="n">values</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># just in case..</span>
     <span class="k">if</span> <span class="n">returncoh</span><span class="p">:</span>
+        <span class="c1"># obsolete, will probably remove it</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;better use specmag - we will probably remove the returncoh function&#39;</span><span class="p">)</span>
         <span class="n">outmag</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">coh_from_phadiff</span><span class="p">(</span><span class="n">outmag</span><span class="o">.</span><span class="n">values</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">phadiff</span> <span class="o">=</span> <span class="n">outpha</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">phadiff</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">wrap2phase</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">incpx</span><span class="p">)</span> <span class="o">-</span> <span class="n">outpha</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">phadiff</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">coh_from_phadiff</span><span class="p">(</span><span class="n">phadiff</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">phadiff</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">phadiff</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">outmag</span> <span class="o">=</span> <span class="n">phadiff</span> <span class="o">*</span> <span class="n">outmag</span>
     <span class="k">return</span> <span class="n">outpha</span><span class="p">,</span> <span class="n">outmag</span></div>
 
 <span class="sd">&#39;&#39;&#39;</span>
