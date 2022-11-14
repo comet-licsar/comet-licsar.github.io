@@ -855,7 +855,8 @@
     <span class="c1">#the best to run in directory named by the frame id</span>
     <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">geoframedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">track</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">geoframedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">track</span><span class="p">),</span><span class="n">frame</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">dolocal</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;using fake frame id, continuing (local proc.)&#39;</span><span class="p">)</span>
