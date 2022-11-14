@@ -814,7 +814,7 @@
     <span class="k">return</span> <span class="n">ifg_ml</span>
 
 
-<div class="viewcode-block" id="process_frame"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.process_frame">[docs]</a><span class="k">def</span> <span class="nf">process_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">thres</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<div class="viewcode-block" id="process_frame"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.process_frame">[docs]</a><span class="k">def</span> <span class="nf">process_frame</span><span class="p">(</span><span class="n">frame</span> <span class="o">=</span> <span class="s1">&#39;dummy&#39;</span><span class="p">,</span> <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">thres</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">only10</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
             <span class="n">lowpass</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">goldstein</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
             <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pairsetfile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
@@ -854,7 +854,15 @@
     <span class="c1">#    return False</span>
     <span class="c1">#the best to run in directory named by the frame id</span>
     <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
-    <span class="n">geoframedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span><span class="n">frame</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">geoframedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span><span class="n">frame</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dolocal</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;using fake frame id, continuing (local proc.)&#39;</span><span class="p">)</span>
+            <span class="n">geoframedir</span><span class="o">=</span><span class="n">frame</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;provided wrong frame id&#39;</span><span class="p">)</span>
+            <span class="n">exit</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">dolocal</span><span class="p">:</span>
         <span class="n">geoifgdir</span> <span class="o">=</span> <span class="s1">&#39;GEOC&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">geoifgdir</span><span class="p">):</span>
