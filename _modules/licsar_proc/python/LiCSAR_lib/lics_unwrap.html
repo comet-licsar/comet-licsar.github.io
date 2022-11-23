@@ -319,6 +319,20 @@
     
     <span class="k">return</span> <span class="n">ifg_ml</span></div>
 
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">import glob</span>
+<span class="sd">pairs=glob.glob(&#39;2*&#39;)</span>
+<span class="sd">for p in pairs:</span>
+<span class="sd">    print(p)</span>
+<span class="sd">    phatif=os.path.join(p,p+&#39;.geo.diff_pha.tif&#39;)</span>
+<span class="sd">    cohtif=os.path.join(p,p+&#39;.geo.cc.tif&#39;)</span>
+<span class="sd">    outtif=os.path.join(p,p+&#39;.geo.unw.tif&#39;)</span>
+<span class="sd">    b=process_ifg_pair(phatif, cohtif, procdir = os.getcwd(), ml = 1, fillby = &#39;nearest&#39;, </span>
+<span class="sd">        thres = 0.3, smooth = False, lowpass = True, goldstein = True, specmag = True, defomax = 0.6, hgtcorr = False, outtif=outtif, gacoscorr = False)</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+
 
 <span class="k">def</span> <span class="nf">process_ifg_pair</span><span class="p">(</span><span class="n">phatif</span><span class="p">,</span> <span class="n">cohtif</span><span class="p">,</span> <span class="n">procdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> 
         <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">fillby</span> <span class="o">=</span> <span class="s1">&#39;gauss&#39;</span><span class="p">,</span> <span class="n">thres</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">lowpass</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">goldstein</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">specmag</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
