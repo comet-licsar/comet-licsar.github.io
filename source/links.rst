@@ -18,7 +18,8 @@
 .. _licsar_documentation: https://gitlab.com/comet_licsar/licsar_documentation/
 .. _licsar_framebatch: https://gitlab.com/comet_licsar/licsar_framebatch/
 .. _licsar_proc: https://gitlab.com/comet_licsar/licsar_proc/
-.. _LiCSBAS: https://github.com/yumorishita/LiCSBAS/
+.. _LiCSBAS: https://github.com/comet_licsar/LiCSBAS/
+.. _original LiCSBAS: https://github.com/yumorishita/LiCSBAS/
 .. _Matplotlib Documentation: https://matplotlib.org/stable/
 .. _Met Office GitHub Organisation: https://github.com/MetOffice/
 .. _NCAS UM Training:  https://ncas-cms.github.io/um-training/
