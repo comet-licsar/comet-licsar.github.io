@@ -138,15 +138,17 @@
     <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-
-<span class="k">if</span> <span class="ow">not</span> <span class="n">in_ipynb</span><span class="p">():</span>
-    <span class="c1"># some extra imports, used by additional functions</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">cv2</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cv2 not loaded - cascade will not work&#39;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;at JASMIN notebook service, cv2 does not load - cascade will not work&#39;</span><span class="p">)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">if not in_ipynb():</span>
+<span class="sd">    # some extra imports, used by additional functions</span>
+<span class="sd">    try:</span>
+<span class="sd">        import cv2</span>
+<span class="sd">    except:</span>
+<span class="sd">        print(&#39;cv2 not loaded - cascade will not work&#39;)</span>
+<span class="sd">else:</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="k">if</span> <span class="n">in_ipynb</span><span class="p">():</span>
+    <span class="c1">#print(&#39;at JASMIN notebook service, cv2 does not load - cascade will not work&#39;)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;setting pyproj data directory&#39;</span><span class="p">)</span>
     <span class="kn">import</span> <span class="nn">pyproj</span>
     <span class="n">pyproj</span><span class="o">.</span><span class="n">datadir</span><span class="o">.</span><span class="n">set_data_dir</span><span class="p">(</span><span class="s1">&#39;/gws/smf/j04/nceo_geohazards/software/mambalics/share/proj&#39;</span><span class="p">)</span>
@@ -174,7 +176,47 @@
 <span class="c1">################################################################################</span>
 <span class="c1"># Main functions to perform the unwrapping</span>
 <span class="c1">################################################################################</span>
-
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">class UnwOptions(object):</span>
+<span class="sd">    def __init__(self):</span>
+<span class="sd">        self.frame = None</span>
+<span class="sd">        self.pair = None</span>
+<span class="sd">        self.procdir = os.getcwd()</span>
+<span class="sd">        </span>
+<span class="sd">        # standard ifg processing parameters</span>
+<span class="sd">        self.ml = 10</span>
+<span class="sd">        self.fillby = &#39;nearest&#39;</span>
+<span class="sd">        self.thres = 0.3</span>
+<span class="sd">        self.smooth = False</span>
+<span class="sd">        self.lowpass = True</span>
+<span class="sd">        self.goldstein = True</span>
+<span class="sd">        self.specmag = False</span>
+<span class="sd">        self.defomax = 0.6</span>
+<span class="sd">        self.hgtcorr = False</span>
+<span class="sd">        self.gacoscorr = True</span>
+<span class="sd">        self.pre_detrend = True</span>
+<span class="sd">        self.cliparea_geo = None</span>
+<span class="sd">        self.outtif = None</span>
+<span class="sd">        self.prevest = None</span>
+<span class="sd">        self.prev_ramp = None</span>
+<span class="sd">        self.coh2var = False</span>
+<span class="sd">        self.add_resid = True</span>
+<span class="sd">        self.rampit=False</span>
+<span class="sd">        self.subtract_gacos = False</span>
+<span class="sd">        self.dolocal = False,</span>
+<span class="sd">        self.cohratio = None</span>
+<span class="sd">        self.keep_coh_debug = True</span>
+<span class="sd">        </span>
+<span class="sd">        # parameters for cascade processing</span>
+<span class="sd">        self.downtoml = 1</span>
+<span class="sd">        self.only10 = True</span>
+<span class="sd">        #</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">    def show_params(self):</span>
+<span class="sd">        for x in self.__dict__.items():</span>
+<span class="sd">            print(x[0]+&#39;: &#39;+str(x[1]))</span>
+<span class="sd">&#39;&#39;&#39;</span>
 <div class="viewcode-block" id="cascade_unwrap"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.cascade_unwrap">[docs]</a><span class="k">def</span> <span class="nf">cascade_unwrap</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">downtoml</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">procdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span>
                    <span class="n">only10</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
                    <span class="n">outtif</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">subtract_gacos</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dolocal</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -685,16 +727,26 @@
             <span class="n">bin_est</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span><span class="s1">&#39;prevest.rescaled.bin&#39;</span><span class="p">)</span>
             <span class="n">bin_pre_remove</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span><span class="s1">&#39;prevest.rescaled.remove.bin&#39;</span><span class="p">)</span>
             <span class="c1">#binI_pre = os.path.join(tmpdir,&#39;prevest.I.bin&#39;)</span>
-            
+
+            <span class="c1"># that is not the best we can do - need to change it</span>
             <span class="n">kernel</span> <span class="o">=</span> <span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">x_stddev</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
             <span class="n">prevest</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">interpolate_replace_nans</span><span class="p">(</span><span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">prevest</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
             <span class="c1">#prevest.values = interpolate_replace_nans(prevest.values, kernel)</span>
+
+            <span class="c1"># let&#39;s interpolate the (smaller?) prevest to ifg_ml shape</span>
+            <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+            <span class="c1"># in some cases it might still contain nans, so just.. interpolate them... how?:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">prevest</span><span class="p">)):</span>
+                <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
+                <span class="c1">#method = &#39;nearest&#39;</span>
+                <span class="n">prevest</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">interpolate_nans</span><span class="p">(</span><span class="n">prevest</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
             <span class="c1">#filling other nans to 0 - this can happen if null regions are too large (larger than the kernel accepts)</span>
-            <span class="n">prevest</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">bin_pre</span><span class="p">)</span>
-            <span class="n">width_pre</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prevest</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
-            <span class="n">length_pre</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prevest</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
+            <span class="c1">#prevest.astype(np.float32).fillna(0).values.tofile(bin_pre)</span>
+            <span class="n">prevest</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">bin_est</span><span class="p">)</span>
+            <span class="c1">#width_pre = len(prevest.lon)</span>
+            <span class="c1">#length_pre = len(prevest.lat)</span>
             <span class="c1">#resize_bin(bin_pre, width_pre, length_pre, bin_est, width, length, dtype = np.float32, intertype = cv2.INTER_CUBIC)</span>
-            <span class="n">resize_bin</span><span class="p">(</span><span class="n">bin_pre</span><span class="p">,</span> <span class="n">width_pre</span><span class="p">,</span> <span class="n">length_pre</span><span class="p">,</span> <span class="n">bin_est</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">intertype</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">INTER_LINEAR</span><span class="p">)</span>
+            <span class="c1">#resize_bin(bin_pre, width_pre, length_pre, bin_est, width, length, dtype = np.float32, intertype = cv2.INTER_LINEAR)</span>
             <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;toremove&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">bin_pre_remove</span><span class="p">)</span>
             <span class="n">main_unwrap</span><span class="p">(</span><span class="n">binCPX</span><span class="p">,</span> <span class="n">bincoh</span><span class="p">,</span> <span class="n">binmask</span><span class="p">,</span> <span class="n">outunwbin</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">bin_est</span><span class="p">,</span> <span class="n">bin_pre_remove</span> <span class="o">=</span> <span class="n">bin_pre_remove</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="n">defomax</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1209,8 +1261,21 @@
         <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
         <span class="c1">#prev_width = len(prev_ramp.lon)</span>
         <span class="c1">#prev_length = len(prev_ramp.lat)</span>
-        <span class="n">prev_ramp</span> <span class="o">=</span> <span class="n">prev_ramp</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">resized</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">prev_ramp</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">length</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_LINEAR</span><span class="p">)</span> <span class="c1">#or INTER_CUBIC ?</span>
+        <span class="c1">#prev_ramp = prev_ramp.fillna(0)</span>
+        <span class="c1">#12/2022:</span>
+        <span class="c1"># let&#39;s interpolate the (smaller?) prevest to ifg_ml shape</span>
+        <span class="n">prev_ramp</span> <span class="o">=</span> <span class="n">prev_ramp</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+        <span class="c1"># in some cases it might still contain nans, so just.. interpolate them... how?:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">prev_ramp</span><span class="p">)):</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
+            <span class="c1">#method = &#39;nearest&#39;</span>
+            <span class="n">prev_ramp</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">interpolate_nans</span><span class="p">(</span><span class="n">prev_ramp</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">prev_ramp</span><span class="p">)):</span>
+            <span class="n">prev_ramp</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">interpolate_nans</span><span class="p">(</span><span class="n">prev_ramp</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+        
+        <span class="n">resized</span> <span class="o">=</span> <span class="n">prev_ramp</span><span class="o">.</span><span class="n">values</span>
+        <span class="c1">#resized = cv2.resize(prev_ramp.values,dsize=(width,length), interpolation=cv2.INTER_LINEAR) #or INTER_CUBIC ?</span>
+        <span class="c1">#prev_ramp = prev_ramp.interp_like(ifg_ml, method=&#39;linear&#39;)</span>
         <span class="c1"># if gacos is to be applied, need to remove its effect first here:</span>
         <span class="k">if</span> <span class="s1">&#39;gacos&#39;</span> <span class="ow">in</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
             <span class="n">resized</span> <span class="o">=</span> <span class="n">resized</span> <span class="o">-</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
@@ -1643,9 +1708,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cpxdiff</span> <span class="o">=</span> <span class="n">pha2cpx</span><span class="p">(</span><span class="n">phadiff</span><span class="p">)</span>
     <span class="n">variance</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">generic_filter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">cpxdiff</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
-    <span class="n">outcohr</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">winsize</span> <span class="o">*</span> <span class="n">winsize</span> <span class="o">*</span> <span class="n">variance</span><span class="p">)</span>
+    <span class="n">outcohr</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">winsize</span> <span class="o">*</span> <span class="n">winsize</span> <span class="o">*</span> <span class="n">variance</span><span class="p">)</span>
     <span class="n">variance</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">generic_filter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">cpxdiff</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
-    <span class="n">outcohi</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">winsize</span> <span class="o">*</span> <span class="n">winsize</span> <span class="o">*</span> <span class="n">variance</span><span class="p">)</span>
+    <span class="n">outcohi</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">winsize</span> <span class="o">*</span> <span class="n">winsize</span> <span class="o">*</span> <span class="n">variance</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">outcohr</span> <span class="o">+</span> <span class="n">outcohi</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
 
 
@@ -1751,7 +1816,7 @@
 
 
 <span class="k">try</span><span class="p">:</span>
-<div class="viewcode-block" id="resize_bin"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.resize_bin">[docs]</a>    <span class="k">def</span> <span class="nf">resize_bin</span><span class="p">(</span><span class="n">inbin</span><span class="p">,</span> <span class="n">inwid</span><span class="p">,</span> <span class="n">inlen</span><span class="p">,</span> <span class="n">outbin</span><span class="p">,</span> <span class="n">outwid</span><span class="p">,</span> <span class="n">outlen</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">byte</span><span class="p">,</span> <span class="n">intertype</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">INTER_NEAREST</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">resize_bin</span><span class="p">(</span><span class="n">inbin</span><span class="p">,</span> <span class="n">inwid</span><span class="p">,</span> <span class="n">inlen</span><span class="p">,</span> <span class="n">outbin</span><span class="p">,</span> <span class="n">outwid</span><span class="p">,</span> <span class="n">outlen</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">byte</span><span class="p">,</span> <span class="n">intertype</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">INTER_NEAREST</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Use of cv2 to interpolate/resize binary file to new dimensions</span>
 
 <span class="sd">        Args:</span>
@@ -1769,7 +1834,7 @@
         <span class="c1">#a = a - np.nanmedian(a)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">outwid</span><span class="p">,</span><span class="n">outlen</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">intertype</span><span class="p">)</span>
         <span class="n">out</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">outbin</span><span class="p">)</span>
-        <span class="k">return</span></div>
+        <span class="k">return</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error loading resize_bin function - cascade will not work (install cv2)&#39;</span><span class="p">)</span>
 

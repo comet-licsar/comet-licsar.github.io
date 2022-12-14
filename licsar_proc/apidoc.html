@@ -67,7 +67,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_cpx_gauss"><code class="docutils literal notranslate"><span class="pre">filter_cpx_gauss()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_nan_gaussian_conserving"><code class="docutils literal notranslate"><span class="pre">filter_nan_gaussian_conserving()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview_bin"><code class="docutils literal notranslate"><span class="pre">create_preview_bin()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.resize_bin"><code class="docutils literal notranslate"><span class="pre">resize_bin()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.RI2cpx"><code class="docutils literal notranslate"><span class="pre">RI2cpx()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_islands"><code class="docutils literal notranslate"><span class="pre">remove_islands()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap"><code class="docutils literal notranslate"><span class="pre">main_unwrap()</span></code></a></li>
@@ -449,26 +448,6 @@ All nans in arr, stay nans in gauss.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>string</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.resize_bin">
-<span class="sig-name descname"><span class="pre">resize_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inbin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inwid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inlen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outbin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outwid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">numpy.byte</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">cv2.INTER_NEAREST</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#resize_bin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.resize_bin" title="Permalink to this definition"></a></dt>
-<dd><p>Use of cv2 to interpolate/resize binary file to new dimensions</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>inbin</strong> (<em>string</em>) – path to the binary file</p></li>
-<li><p><strong>inwid</strong> (<em>int</em>) – width of the input binary file</p></li>
-<li><p><strong>inlen</strong> (<em>int</em>) – length of the input binary file</p></li>
-<li><p><strong>outbin</strong> (<em>string</em>) – path to the output binary file</p></li>
-<li><p><strong>outwid</strong> (<em>int</em>) – target width of the output binary file</p></li>
-<li><p><strong>outlen</strong> (<em>int</em>) – target length of the output binary file</p></li>
-<li><p><strong>dtype</strong> (<em>string</em>) – data type of the binary, e.g. np.byte</p></li>
-<li><p><strong>intertype</strong> (<em>string</em>) – type of interpolation for cv2, e.g. cv2.INTER_NEAREST, cv2.INTER_LINEAR, cv2.INTER_CUBIC</p></li>
-</ul>
 </dd>
 </dl>
 </dd></dl>
