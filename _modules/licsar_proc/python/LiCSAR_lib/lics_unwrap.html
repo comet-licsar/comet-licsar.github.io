@@ -556,7 +556,9 @@
         <span class="c1"># no gapfilling here! but then it gets wrong... so.. gapfilling:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gapfilling&#39;</span><span class="p">)</span>
         <span class="n">tofillpha</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">filtpha</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">mask_full</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">mask_extent</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">pha2unw</span> <span class="o">=</span> <span class="n">interpolate_nans</span><span class="p">(</span><span class="n">tofillpha</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+        <span class="c1">#pha2unw = interpolate_nans(tofillpha.values, method=&#39;nearest&#39;)   # this takes 2 min 24 s for ml1</span>
+        <span class="c1">#pha2unw = interpolate_nans(tofillpha.values, method=&#39;nearest&#39;)   </span>
+        <span class="n">pha2unw</span> <span class="o">=</span> <span class="n">tofillpha</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">set_spatial_dims</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="n">y_dim</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">interpolate_na</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>  <span class="c1"># this takes 2 min 3 s for ml1 - rio expects nan=0</span>
         <span class="n">cpx</span> <span class="o">=</span> <span class="n">pha2cpx</span><span class="p">(</span><span class="n">pha2unw</span><span class="p">)</span>
         <span class="c1">#coh = sp  # actually ,let&#39;s use the phasediff if we use specmag...</span>
         <span class="k">if</span> <span class="n">specmag</span><span class="p">:</span>
@@ -690,7 +692,7 @@
         <span class="c1">#ifg_ml[&#39;gauss_pha&#39;] = ifg_ml[&#39;gauss_pha&#39;].fillna(0)</span>
     <span class="c1">#print(&#39;debug: now pha is fine-filled layer but with some noise at edges - why is that? not resolved. so adding one extra gauss filter&#39;)</span>
     <span class="c1"># ok, i see some high freq signal is still there.. so filtering once more (should also help after the nan filling)</span>
-    <span class="k">if</span> <span class="n">smooth</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">smooth</span> <span class="ow">and</span> <span class="n">fillby</span> <span class="o">==</span> <span class="s1">&#39;gauss&#39;</span><span class="p">:</span>
         <span class="c1"># OBSOLETE - do not use with lowpass!</span>
         <span class="c1">#ifg_ml = filter_ifg_ml(ifg_ml)</span>
         <span class="c1"># 2022/07: adding strong filter, say radius 1.5 km ... or... rather 15 pixels - this way it should be relatively long-wave signal</span>
@@ -736,12 +738,10 @@
             <span class="n">bin_est</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span><span class="s1">&#39;prevest.rescaled.bin&#39;</span><span class="p">)</span>
             <span class="n">bin_pre_remove</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span><span class="s1">&#39;prevest.rescaled.remove.bin&#39;</span><span class="p">)</span>
             <span class="c1">#binI_pre = os.path.join(tmpdir,&#39;prevest.I.bin&#39;)</span>
-
             <span class="c1"># that is not the best we can do - need to change it</span>
             <span class="n">kernel</span> <span class="o">=</span> <span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">x_stddev</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
             <span class="n">prevest</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">interpolate_replace_nans</span><span class="p">(</span><span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">prevest</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
             <span class="c1">#prevest.values = interpolate_replace_nans(prevest.values, kernel)</span>
-
             <span class="c1"># let&#39;s interpolate the (smaller?) prevest to ifg_ml shape</span>
             <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
             <span class="c1"># in some cases it might still contain nans, so just.. interpolate them... how?:</span>
