@@ -2287,12 +2287,21 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">rioxarray</span>
     <span class="c1">#coordsys = xrda.crs.split(&#39;=&#39;)[1]</span>
+    <span class="n">coordsys</span> <span class="o">=</span> <span class="s2">&quot;epsg:4326&quot;</span>
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
         <span class="n">xrda</span> <span class="o">=</span> <span class="n">xrda</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">coordsys</span> <span class="o">=</span> <span class="s2">&quot;epsg:4326&quot;</span>
+        <span class="c1"># reset original spatial_ref</span>
+        <span class="k">if</span> <span class="s1">&#39;spatial_ref&#39;</span> <span class="ow">in</span> <span class="n">xrda</span><span class="p">:</span>
+            <span class="n">xrda</span> <span class="o">=</span> <span class="n">xrda</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;spatial_ref&#39;</span><span class="p">)</span>
+        <span class="c1"># remove attributes</span>
+        <span class="n">xrda</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">lonlat</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">xrda</span><span class="o">.</span><span class="n">lat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">xrda</span><span class="o">.</span><span class="n">lat</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">xrda</span> <span class="o">=</span> <span class="n">xrda</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">xrda</span> <span class="o">=</span> <span class="n">xrda</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">set_spatial_dims</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="s2">&quot;lon&quot;</span><span class="p">,</span> <span class="n">y_dim</span><span class="o">=</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">xrda</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">xrda</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">xrda</span> <span class="o">=</span> <span class="n">xrda</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">xrda</span> <span class="o">=</span> <span class="n">xrda</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">set_spatial_dims</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">y_dim</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">xrda</span> <span class="o">=</span> <span class="n">xrda</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="n">coordsys</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">dogdal</span><span class="p">:</span>
