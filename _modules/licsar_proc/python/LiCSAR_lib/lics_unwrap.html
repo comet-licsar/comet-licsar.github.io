@@ -220,7 +220,7 @@
 <div class="viewcode-block" id="cascade_unwrap"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.cascade_unwrap">[docs]</a><span class="k">def</span> <span class="nf">cascade_unwrap</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">downtoml</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">procdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span>
                    <span class="n">only10</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
                    <span class="n">outtif</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">subtract_gacos</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dolocal</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Main function to unwrap a geocoded LiCSAR interferogram using a cascade approach.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Main function to unwrap a geocoded LiCSAR interferogram using a cascade approach.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        frame (string): LiCSAR frame ID</span>
@@ -279,7 +279,7 @@
         <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">outtif</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">prevest</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">prev_ramp</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">coh2var</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">add_resid</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>  <span class="n">rampit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">subtract_gacos</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dolocal</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">extweights</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Main function to unwrap a geocoded LiCSAR interferogram. Works on JASMIN (but can be easily adapted for local use)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Main function to unwrap a geocoded LiCSAR interferogram. Works on JASMIN (but can be easily adapted for local use)</span>
 <span class="sd">    Args:</span>
 <span class="sd">        frame (string): LiCSAR frame ID</span>
 <span class="sd">        pair (string): identifier of interferometric pair, e.g. ``&#39;20200120_20200201&#39;``</span>
@@ -517,7 +517,7 @@
         <span class="n">sp</span><span class="p">[</span><span class="n">sp</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gold_coh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">sp</span>
         <span class="c1">#sp=sp.fillna(0).values</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        if specmag:</span>
 <span class="sd">            #sp = np.log10(sp)</span>
 <span class="sd">            sp[sp &gt; 1] = 1</span>
@@ -915,7 +915,7 @@
             <span class="n">export_to_tif</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">subtract_gacos</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
             <span class="n">nproc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dolocal</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">specmag</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
             <span class="n">use_amp_stab</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_coh_stab</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Main function to process whole LiCSAR frame (i.e. unwrap all available interferograms within the frame). Works only at JASMIN.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Main function to process whole LiCSAR frame (i.e. unwrap all available interferograms within the frame). Works only at JASMIN.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        frame (string): LiCSAR frame ID</span>
@@ -1053,7 +1053,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">pair</span><span class="p">):</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
             <span class="c1">#check its dimensions..</span>
-            <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">            </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            raster = gdal.Open(os.path.join(geoifgdir, pair, pair+&#39;.geo.diff_pha.tif&#39;))</span>
 <span class="sd">            if (framewid != raster.RasterXSize) or (framelen != raster.RasterYSize):</span>
 <span class="sd">                #use tolerance of max pixels</span>
@@ -1186,7 +1186,7 @@
 
 
 <div class="viewcode-block" id="get_ml_hgt"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.get_ml_hgt">[docs]</a><span class="k">def</span> <span class="nf">get_ml_hgt</span><span class="p">(</span><span class="n">hgtfile</span><span class="p">,</span> <span class="n">ml</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Support function to load DEM of frame, incl. multilook (downsample) and clipping</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Support function to load DEM of frame, incl. multilook (downsample) and clipping</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#pubdir = os.environ[&#39;LiCSAR_public&#39;]</span>
     <span class="c1">#geoframedir = os.path.join(pubdir, str(int(frame[:3])), frame)</span>
@@ -1201,7 +1201,7 @@
 
 
 <div class="viewcode-block" id="multilook_normalised"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.multilook_normalised">[docs]</a><span class="k">def</span> <span class="nf">multilook_normalised</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">pre_detrend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">prev_ramp</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">thres_pxcount</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Multilooking function that does much more.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Multilooking function that does much more.</span>
 <span class="sd">    </span>
 <span class="sd">    This function is normally called by process_ifg. It would use coherence as weights to multilook interferometric phase, and downsample other layers if available to a final datacube.</span>
 <span class="sd">    It will apply mask, including based on number of valid pixels in the multilooking window.</span>
@@ -1314,7 +1314,7 @@
     <span class="c1">#    ifg_ml.coh.values = np.abs(ifg_ml.cpx)</span>
     <span class="c1">#have gacos removed first, prior to doing height corr:</span>
     <span class="k">if</span> <span class="s1">&#39;gacos&#39;</span> <span class="ow">in</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39; removing this check, because we want to FORCE-apply GACOS.. otherwise we get loop closure errors...</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; removing this check, because we want to FORCE-apply GACOS.. otherwise we get loop closure errors...</span>
 <span class="sd">        pha_no_gacos = wrap2phase(ifg_ml[&#39;pha&#39;] - ifg_ml[&#39;gacos&#39;])</span>
 <span class="sd">        #if np.nanstd(pha_no_gacos) &gt;= np.nanstd(ifg_ml.pha.values):</span>
 <span class="sd">        if get_fft_std(pha_no_gacos) &gt;= get_fft_std(ifg_ml[&#39;pha&#39;].values):</span>
@@ -1419,7 +1419,7 @@
 
 
 <div class="viewcode-block" id="get_resolution"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.get_resolution">[docs]</a><span class="k">def</span> <span class="nf">get_resolution</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">in_m</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Gets resolution of the xr.dataset (or dataarray), either in metres or degrees</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets resolution of the xr.dataset (or dataarray), either in metres or degrees</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">resdeg</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ifg</span><span class="o">.</span><span class="n">lat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ifg</span><span class="o">.</span><span class="n">lat</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ifg</span><span class="o">.</span><span class="n">lon</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ifg</span><span class="o">.</span><span class="n">lon</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span><span class="o">/</span><span class="mi">2</span>
     <span class="k">if</span> <span class="n">in_m</span><span class="p">:</span>
@@ -1657,7 +1657,7 @@
 
 
 <div class="viewcode-block" id="interpolate_nans"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.interpolate_nans">[docs]</a><span class="k">def</span> <span class="nf">interpolate_nans</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;cubic&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Interpolation of NaN values in a grid</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolation of NaN values in a grid</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        array (np.array): numpy array with nans to interpolate</span>
@@ -1679,7 +1679,7 @@
 
 
 <div class="viewcode-block" id="runcmd"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.runcmd">[docs]</a><span class="k">def</span> <span class="nf">runcmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">printcmd</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Runs command through os.system</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs command through os.system</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cmd (string): command to run</span>
@@ -1696,7 +1696,7 @@
 
 
 <div class="viewcode-block" id="magpha2RI_array"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.magpha2RI_array">[docs]</a><span class="k">def</span> <span class="nf">magpha2RI_array</span><span class="p">(</span><span class="n">mag</span><span class="p">,</span> <span class="n">pha</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Converts arrays of magnitude and phase to complex number array (real and imaginary)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts arrays of magnitude and phase to complex number array (real and imaginary)</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        mag (np.array): numpy array with magnitude values</span>
@@ -1728,7 +1728,7 @@
 <span class="sd">&#39;&#39;&#39;</span>
 
 <div class="viewcode-block" id="coh_from_phadiff"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.coh_from_phadiff">[docs]</a><span class="k">def</span> <span class="nf">coh_from_phadiff</span><span class="p">(</span><span class="n">phadiff</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculates coherence based on variance of interferogram, computed in window with given size</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates coherence based on variance of interferogram, computed in window with given size</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        phadiff (np.array): interferogram</span>
@@ -1747,7 +1747,7 @@
 
 
 <div class="viewcode-block" id="filter_cpx_gauss"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_cpx_gauss">[docs]</a><span class="k">def</span> <span class="nf">filter_cpx_gauss</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="mi">4</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Gaussian-based spatial filter on complex numbers (interferogram)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gaussian-based spatial filter on complex numbers (interferogram)</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        ifg_ml (xr.Dataset): xarray dataset of the interferogram, must contain &#39;cpx&#39; dataarray</span>
@@ -1774,7 +1774,7 @@
 
 
 <div class="viewcode-block" id="filter_nan_gaussian_conserving"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_nan_gaussian_conserving">[docs]</a><span class="k">def</span> <span class="nf">filter_nan_gaussian_conserving</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">trunc</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Apply a gaussian filter to an array with nans.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a gaussian filter to an array with nans.</span>
 <span class="sd">    </span>
 <span class="sd">    based on:</span>
 <span class="sd">    https://stackoverflow.com/questions/18697532/gaussian-filtering-a-image-with-nan-in-python</span>
@@ -1808,7 +1808,7 @@
 
 
 <div class="viewcode-block" id="create_preview_bin"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview_bin">[docs]</a><span class="k">def</span> <span class="nf">create_preview_bin</span><span class="p">(</span><span class="n">binfile</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">ftype</span> <span class="o">=</span> <span class="s1">&#39;unw&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Use of cpxfiddle to create simple preview PNG rasters from binary files</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use of cpxfiddle to create simple preview PNG rasters from binary files</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        binfile (string): path to the binary file to generate preview from</span>
@@ -1873,7 +1873,7 @@
 
 
 <div class="viewcode-block" id="RI2cpx"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.RI2cpx">[docs]</a><span class="k">def</span> <span class="nf">RI2cpx</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">cpxfile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert real and imaginary binary files to a complex number binary file. Obsolete function.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert real and imaginary binary files to a complex number binary file. Obsolete function.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        R (string): path to the binary file with real values</span>
@@ -1894,7 +1894,7 @@
 
 
 <div class="viewcode-block" id="remove_islands"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_islands">[docs]</a><span class="k">def</span> <span class="nf">remove_islands</span><span class="p">(</span><span class="n">npa</span><span class="p">,</span> <span class="n">pixelsno</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Removes isolated clusters of pixels from numpy array npa having less than pixelsno pixels.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Removes isolated clusters of pixels from numpy array npa having less than pixelsno pixels.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        npa (np.array): (unwrapped) interferogram with NaNs</span>
@@ -1916,7 +1916,7 @@
 
 
 <div class="viewcode-block" id="main_unwrap"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap">[docs]</a><span class="k">def</span> <span class="nf">main_unwrap</span><span class="p">(</span><span class="n">cpxbin</span><span class="p">,</span> <span class="n">cohbin</span><span class="p">,</span> <span class="n">maskbin</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">outunwbin</span> <span class="o">=</span> <span class="s1">&#39;unwrapped.bin&#39;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">est</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">bin_pre_remove</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">conncomp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">printout</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Main function to perform unwrapping with snaphu.</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Main function to perform unwrapping with snaphu.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        cpxbin (string): path to cpxfloat32 binary interferogram to unwrap</span>
@@ -1970,7 +1970,7 @@
 
 
 <div class="viewcode-block" id="create_preview"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview">[docs]</a><span class="k">def</span> <span class="nf">create_preview</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">ftype</span> <span class="o">=</span> <span class="s1">&#39;unwrapped&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates preview of interferogram (wrapped or unwrapped) - works only with licsar_proc</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates preview of interferogram (wrapped or unwrapped) - works only with licsar_proc</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        infile (string): path to input tif to generate preview</span>
@@ -1989,7 +1989,7 @@
 
 
 <div class="viewcode-block" id="make_snaphu_conf"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_conf">[docs]</a><span class="k">def</span> <span class="nf">make_snaphu_conf</span><span class="p">(</span><span class="n">sdir</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">1.2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates snaphu configuration file</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates snaphu configuration file</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        sdir (string): directory where to generate snaphu.conf</span>
@@ -2013,7 +2013,7 @@
 
 
 <div class="viewcode-block" id="make_gacos_ifg"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_ifg">[docs]</a><span class="k">def</span> <span class="nf">make_gacos_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">outfile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates GACOS correction for the interferogram. works only at JASMIN</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates GACOS correction for the interferogram. works only at JASMIN</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        frame (string): frame ID</span>
@@ -2044,7 +2044,7 @@
 
 
 <div class="viewcode-block" id="remove_height_corr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_height_corr">[docs]</a><span class="k">def</span> <span class="nf">remove_height_corr</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">corr_thres</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">dounw</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">nonlinear</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Removes height-correlated signal</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Removes height-correlated signal</span>
 <span class="sd">    </span>
 <span class="sd">     first, correlate ```ifg_ml[&#39;pha&#39;]``` and ```ifg_ml[&#39;hgt&#39;]``` in blocks</span>
 <span class="sd">      - better to keep dounw=True that unwraps each block by snaphu. but it can be slow</span>
@@ -2150,7 +2150,7 @@
 
 
 <div class="viewcode-block" id="unwrap_xr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_xr">[docs]</a><span class="k">def</span> <span class="nf">unwrap_xr</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">tmpdir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()):</span>
-    <span class="sd">&quot;&quot;&quot;Quite direct unwrapping of the xarray Dataset of ifg</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Quite direct unwrapping of the xarray Dataset of ifg</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        ifg (xarray.Dataset): ifg dataset</span>
@@ -2172,7 +2172,7 @@
 
 
 <div class="viewcode-block" id="unwrap_np"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_np">[docs]</a><span class="k">def</span> <span class="nf">unwrap_np</span><span class="p">(</span><span class="n">cpx</span><span class="p">,</span> <span class="n">coh</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">tmpdir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span><span class="s1">&#39;tmpunwnp&#39;</span><span class="p">),</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">conncomp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">deltemp</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;unwraps given numpy array</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;unwraps given numpy array</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        cpx (numpy.ndarray): array of complex interferogram</span>
@@ -2276,7 +2276,7 @@
 
 
 <div class="viewcode-block" id="export_xr2tif"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.export_xr2tif">[docs]</a><span class="k">def</span> <span class="nf">export_xr2tif</span><span class="p">(</span><span class="n">xrda</span><span class="p">,</span> <span class="n">tif</span><span class="p">,</span> <span class="n">lonlat</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">dogdal</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Exports xarray dataarray to a geotiff</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exports xarray dataarray to a geotiff</span>
 <span class="sd">    </span>
 <span class="sd">     Args:</span>
 <span class="sd">        xrda (xarray.Dataarray): dataarray to export</span>
@@ -2332,7 +2332,7 @@
 
 
 <div class="viewcode-block" id="get_fft_std"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.get_fft_std">[docs]</a><span class="k">def</span> <span class="nf">get_fft_std</span><span class="p">(</span><span class="n">inarr</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    a is numpy array</span>
 <span class="sd">    improvised way, not reading much about it... pure intuition (knowing this is only first step to do it right)</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -2345,7 +2345,7 @@
 
 
 <div class="viewcode-block" id="load_tif2xr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.load_tif2xr">[docs]</a><span class="k">def</span> <span class="nf">load_tif2xr</span><span class="p">(</span><span class="n">tif</span><span class="p">,</span> <span class="n">cliparea_geo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tolonlat</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;loads geotiff to xarray.DataArray</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;loads geotiff to xarray.DataArray</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        tif (string): path to geotiff</span>
@@ -2368,7 +2368,7 @@
 
 
 <div class="viewcode-block" id="cliparea_geo2coords"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.cliparea_geo2coords">[docs]</a><span class="k">def</span> <span class="nf">cliparea_geo2coords</span><span class="p">(</span><span class="n">cliparea_geo</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Exports the string to min/max clip values</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exports the string to min/max clip values</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cliparea_geo (str): clip boundaries, e.g. &#39;lon1/lon2/lat1/lat2&#39;</span>
@@ -2422,7 +2422,7 @@
 <span class="sd">&#39;&#39;&#39;</span>
 
 <div class="viewcode-block" id="detrend_ifg_xr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.detrend_ifg_xr">[docs]</a><span class="k">def</span> <span class="nf">detrend_ifg_xr</span><span class="p">(</span><span class="n">xrda</span><span class="p">,</span> <span class="n">isphase</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_correction</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">maxfringes</span> <span class="o">=</span> <span class="mi">4</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Estimates ramp of (wrapped) interferogram and corrects it. Based on Doris InSARMatlab Toolbox</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimates ramp of (wrapped) interferogram and corrects it. Based on Doris InSARMatlab Toolbox</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        xrda (xarray.Dataarray): input data array (interferogram)</span>
@@ -2485,7 +2485,7 @@
 
     
 <div class="viewcode-block" id="filter_ifg_ml"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_ifg_ml">[docs]</a><span class="k">def</span> <span class="nf">filter_ifg_ml</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">calc_coh_from_delta</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="mi">4</span><span class="p">):</span> <span class="c1">#, sigma = 1, trunc = 2):  #, rotate = False):</span>
-    <span class="sd">&quot;&quot;&quot;Normalises interferogram and performs Gaussian filtering (expects proper structure of the ifg dataset).</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalises interferogram and performs Gaussian filtering (expects proper structure of the ifg dataset).</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        ifg_ml (xarray.Dataset): input xr dataset (interferogram) - must contain ``pha`` data_var</span>
@@ -2574,7 +2574,7 @@
         <span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span><span class="n">mask</span>
     <span class="c1"># phase ramps using masked H (i.e. low pass)</span>
     <span class="c1"># cpxm=np.fft.ifft2(cpx_fft*np.fft.fftshift(Hm))</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    if returnphadiff: </span>
 <span class="sd">        # this is based on phase difference after convolution within Nyquist freq range - needs improvement, but it works</span>
 <span class="sd">        phadiff = wrap2phase(np.angle(block) - np.angle(np.fft.ifft2(cpx_fft * np.fft.ifftshift(H))))  # C[0])</span>
@@ -2606,7 +2606,7 @@
     <span class="k">if</span> <span class="n">meanH</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">/</span> <span class="n">meanH</span>
     <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">**</span> <span class="n">alpha</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    # try maxx it</span>
 <span class="sd">    mask = nyquistmask(block)</span>
 <span class="sd">    Hm = np.fft.ifftshift(H)*mask  # but here i am masking from centre, not from freq that appears most (max H)...</span>
@@ -2662,7 +2662,7 @@
 
 <div class="viewcode-block" id="goldstein_filter_xr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.goldstein_filter_xr">[docs]</a><span class="k">def</span> <span class="nf">goldstein_filter_xr</span><span class="p">(</span><span class="n">inpha</span><span class="p">,</span> <span class="n">blocklen</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">ovlpx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nproc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">returncoh</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                         <span class="n">mask_nyquist</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  <span class="c1"># ovlwin=8, nproc=1):</span>
-    <span class="sd">&quot;&quot;&quot;Goldstein filtering of phase</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Goldstein filtering of phase</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        inpha (xr.DataArray): array of phase (for now, the script will create cpx from phase)</span>
@@ -2871,19 +2871,19 @@
 
 
 <div class="viewcode-block" id="pha2cpx"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.pha2cpx">[docs]</a><span class="k">def</span> <span class="nf">pha2cpx</span><span class="p">(</span><span class="n">pha</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates normalised cpx interferogram from phase</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates normalised cpx interferogram from phase</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">pha</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="wrap2phase"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.wrap2phase">[docs]</a><span class="k">def</span> <span class="nf">wrap2phase</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Wraps array to -pi,pi (or 0,2pi?)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wraps array to -pi,pi (or 0,2pi?)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">A</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="make_avg_amp"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_avg_amp">[docs]</a><span class="k">def</span> <span class="nf">make_avg_amp</span><span class="p">(</span><span class="n">mlitiflist</span><span class="p">,</span> <span class="n">hgtxr</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates average amplitude from list of MLI tiffs</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates average amplitude from list of MLI tiffs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">avgamp</span> <span class="o">=</span> <span class="n">hgtxr</span><span class="o">*</span><span class="mi">0</span>
     <span class="n">nopixels</span> <span class="o">=</span> <span class="n">avgamp</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -2901,7 +2901,7 @@
 
 
 <div class="viewcode-block" id="make_std_amp"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_std_amp">[docs]</a><span class="k">def</span> <span class="nf">make_std_amp</span><span class="p">(</span><span class="n">mlitiflist</span><span class="p">,</span> <span class="n">avgamp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates standard deviation of amplitude from list of MLI tiffs</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates standard deviation of amplitude from list of MLI tiffs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">avgvar</span> <span class="o">=</span> <span class="n">avgamp</span><span class="o">*</span><span class="mi">0</span>
@@ -2924,7 +2924,7 @@
 
 
 <div class="viewcode-block" id="make_avg_coh"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_avg_coh">[docs]</a><span class="k">def</span> <span class="nf">make_avg_coh</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">hgtxr</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates average coherence from &#39;group&#39;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates average coherence from &#39;group&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">avgcoh</span> <span class="o">=</span> <span class="n">hgtxr</span><span class="o">*</span><span class="mi">0</span>
     <span class="n">nopixels</span> <span class="o">=</span> <span class="n">avgcoh</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -2942,7 +2942,7 @@
 
 
 <div class="viewcode-block" id="make_std_coh"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_std_coh">[docs]</a><span class="k">def</span> <span class="nf">make_std_coh</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">avgcoh</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates standard deviation of coherence from &#39;group&#39;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates standard deviation of coherence from &#39;group&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">avgvar</span> <span class="o">=</span> <span class="n">avgcoh</span><span class="o">*</span><span class="mi">0</span>
@@ -2974,7 +2974,7 @@
 
 
 <div class="viewcode-block" id="build_amp_avg_std"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.build_amp_avg_std">[docs]</a><span class="k">def</span> <span class="nf">build_amp_avg_std</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">return_ampstab</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Builds amplitude stability map (or just avg/std amplitude) of a frame</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds amplitude stability map (or just avg/std amplitude) of a frame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">framecare</span> <span class="k">as</span> <span class="nn">fc</span>
@@ -3000,7 +3000,7 @@
 
 
 <div class="viewcode-block" id="build_coh_avg_std"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.build_coh_avg_std">[docs]</a><span class="k">def</span> <span class="nf">build_coh_avg_std</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">ifgdir</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">days</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">monthly</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">outnopx</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">do_std</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">do_tif</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Builds coherence stability map (or just avg/std coherence) of a frame</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds coherence stability map (or just avg/std coherence) of a frame</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        frame (str):  frame id to generate coherence map(s) from</span>
@@ -3201,7 +3201,7 @@
 <span class="c1">#### extra functions (not used in the workflow, but considered useful!)</span>
 
 <div class="viewcode-block" id="deramp_unw"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.deramp_unw">[docs]</a><span class="k">def</span> <span class="nf">deramp_unw</span><span class="p">(</span><span class="n">xrda</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span><span class="s1">&#39;lon&#39;</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;Deramps unwrapped interferogram</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deramps unwrapped interferogram</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">xrda</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
@@ -3231,7 +3231,7 @@
 
 
 <div class="viewcode-block" id="deramp_ifg_tif"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.deramp_ifg_tif">[docs]</a><span class="k">def</span> <span class="nf">deramp_ifg_tif</span><span class="p">(</span><span class="n">phatif</span><span class="p">,</span> <span class="n">unwrap_after</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Deramps wrapped interferogram geotiff</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deramps wrapped interferogram geotiff</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># works fine if the path is to some diff_pha.tif file inside $LiCSAR_public only!</span>
     <span class="n">phatif</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">phatif</span><span class="p">)</span>
@@ -3271,7 +3271,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, COMET and CEMAC teams.</p>
+    <p>&#169; Copyright 2023, COMET and CEMAC teams.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
