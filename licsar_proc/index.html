@@ -59,7 +59,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#reunwrapping-existing-interferograms">Reunwrapping existing interferograms</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar-to-licsbas-jasmin">LiCSAR to LiCSBAS (JASMIN)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#decomposition-to-e-u-n-vectors">Decomposition to E-U(+N) vectors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bringing-enu-model-values-to-line-of-sight">Bringing ENU model values to line-of-sight</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#tools-operating-with-licsar-data">Tools operating with LiCSAR data</a><ul>
@@ -220,46 +219,45 @@ Afterwards, you may just fine tune parameters of LiCSBAS step 15 (and 16) and re
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">licsar2licsbas</span><span class="o">.</span><span class="n">sh</span> <span class="n">frame</span> <span class="p">[</span><span class="n">startdate</span><span class="p">]</span> <span class="p">[</span><span class="n">enddate</span><span class="p">]</span>
 <span class="c1">#e.g. 155D_02611_050400 20141001 20200205</span>
 <span class="c1">#parameters:</span>
-<span class="c1">#-M 10 .... this will do extra multilooking (in this example, 10x multilooking)</span>
-<span class="c1">#-u ....... use the reunwrapping procedure (useful if multilooking or with dataset with too many unwrapping errors)</span>
-<span class="c1">#-l ....... if the reunwrapping is to be performed, support it by lowpass filter (recommended, unless in tricky areas as islands)</span>
-<span class="c1">#-c ....... if the reunwrapping is to be performed, use cascade (might be better, especially when with shores)</span>
-<span class="c1">#-s ....... if the reunwrapping is to be performed, use Gaussian smoothing (quite obsolete, changed for Goldstein-Werner filter)</span>
-<span class="c1">#-H ....... if the reunwrapping is to be performed, use DEM to support unwrapping</span>
-<span class="c1">#-T ....... use testing version of LiCSBAS (would nullify and use --fast, see/edit batch_LiCSBAS.py)</span>
-<span class="c1">#-t 0.5 ... change coherence threshold to 0.5 (default: 0.3) during reunwrapping (-u) - useful to control pixels coverage</span>
-<span class="c1">#-S ....... strict mode - e.g. in case of GACOS, use it only if available for ALL ifgs. rather for debugging</span>
-<span class="c1">#-G lon1/lon2/lat1/lat2  .... clip to this AOI</span>
-<span class="c1">##</span>
-<span class="c1">## following is an ongoing work, for testing only:</span>
-<span class="c1">##-C ....... use coherence stability index instead of orig coh per ifg (experimental - might help against loop closure errors, maybe)</span>
-<span class="c1">##-k ....... use cohratio everywhere (i.e. for unwrapping, rather than orig coh - this is experimental attempt)</span>
+<span class="c1">##-M 10 .... this will do extra multilooking (in this example, 10x multilooking)</span>
+<span class="c1">##-u ....... use the (extra Gaussian-improved multilooking and) reunwrapping procedure (useful if multilooking..)</span>
+<span class="c1">##-c ....... if the reunwrapping is to be performed, use cascade (might be better, especially when with shores)</span>
+<span class="c1">##-l ....... if the reunwrapping is to be performed, would do lowpass filter (should be safe unless in tricky areas as islands; good to use by default)</span>
+<span class="c1">##-P ....... prioritise, i.e. use comet queue instead of short-serial</span>
+<span class="c1">##-n 1 ..... number of processors (by default: 1, used also for reunwrapping, although not tested well yet)</span>
+<span class="c1">##-H ....... this will use hgt to support unwrapping (only if using reunwrapping)</span>
+<span class="c1">##-T ....... use testing version of LiCSBAS</span>
+<span class="c1">##-d ....... use the dev parameters for the testing version of LiCSBAS (currently: this will use --fast, --nopngs and --nullify)</span>
+<span class="c1">##-t 0.35 ... change coherence threshold to 0.35 (default) during reunwrapping (-u)</span>
+<span class="c1">##-g ....... use GACOS if available - NOTE THIS WAS ON BY DEFAULT TILL SEP 2022, BUT NOT ANYMORE</span>
+<span class="c1">##-G lon1/lon2/lat1/lat2  .... clip to this AOI</span>
+<span class="c1">##-W ....... use WLS for the inversion (coherence-based)</span>
+<span class="c1">##-s ....... if the reunwrapping is to be performed, use Gaussian smooth filtering (this will turn off Goldstein filter - better for higher gradients)</span>
+<span class="c1">##some older (not recommended anymore) parameters:</span>
+<span class="c1">##-S ....... strict mode - e.g. in case of GACOS, use it only if available for ALL ifgs</span>
 </pre></div>
 </div>
-<p>While parameters -C, -k are only related to a short-term experiment (should conclude in use of amplitude stability and/or general coherence for masking and weighting),
-the other parameters are practically used/recommended to understand.</p>
 <p>Explaining on example, use of</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">licsar2licsbas</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">c</span> <span class="o">-</span><span class="n">M</span> <span class="mi">5</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">T</span> <span class="o">-</span><span class="n">G</span> <span class="mf">5.1</span><span class="o">/</span><span class="mf">5.2</span><span class="o">/</span><span class="mf">3.3</span><span class="o">/</span><span class="mf">3.5</span> <span class="mi">100</span><span class="n">D_00000_010101</span> <span class="mi">20150101</span> <span class="mi">20160101</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">licsar2licsbas</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">c</span> <span class="o">-</span><span class="n">M</span> <span class="mi">5</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">T</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">W</span> <span class="o">-</span><span class="n">G</span> <span class="mf">5.1</span><span class="o">/</span><span class="mf">5.2</span><span class="o">/</span><span class="mf">3.3</span><span class="o">/</span><span class="mf">3.5</span> <span class="mi">100</span><span class="n">D_00000_010101</span> <span class="mi">20150101</span> <span class="mi">20160101</span>
 </pre></div>
 </div>
-<p>would grab <strong>wrapped</strong> interferograms of this (fictive) frame 100D that cover period of year 2015, then it will check for availability of GACOS corrections and use them if they exist for most of epochs
+<p>would grab <strong>wrapped</strong> interferograms of this (fictive) frame 100D that cover period of year 2015, then it will check for availability of GACOS corrections (-g) and use them if they exist for most of epochs
 (if you used -S, GACOS corrections would be applied only if they exist for ALL epochs). Then it would crop them to the coordinates given by -G, and then it will <strong>reunwrap</strong> them (-u) with 5x multilooking
 (so the resolution if using default LiCSAR data would become approx. 500 m), with support of cascade approach (-c) that means a longer wave signal is first estimated/unwrapped (using 10x the -M factor)
 and used to bind the final unwrapped result - therefore especially decorrelated areas would not induce unwrapping error.. hopefully. The cascade approach should give comparable results to use of the
-(simpler) lowpass filter (parameter -l) that we actually recommend to be used by default.</p>
+(simpler) lowpass filter (parameter -l) that we actually recommend to be used by default. Since the -s parameter was used, the interferograms are smoothed by Gaussian window instead of default Goldstein filter.
+No worries about spatial filtering - the residuals from the filtering are unwrapped and added to the result as well.</p>
 <p>The data here will be prepared to folder GEOCml5GACOSclip.
 Then, the -T would use up-to-date LiCSBAS codes with their experimental functionality ON (in this case, e.g. nullification of pixels in unwrapped pairs with loop closure errors over pi is ON).
-Thus basically parameter -T would equal to <code class="docutils literal notranslate"><span class="pre">LiCSBAS12</span> <span class="pre">--nullify;</span> <span class="pre">LiCSBAS13</span> <span class="pre">--fast</span> <span class="pre">--nopngs</span></code>, plus some fine-tuned parameters.</p>
+Thus basically parameter -T would equal to <code class="docutils literal notranslate"><span class="pre">LiCSBAS12</span> <span class="pre">--nullify;</span> <span class="pre">LiCSBAS13</span> <span class="pre">--nopngs</span></code>, plus some fine-tuned parameters. In near future, the -T would also add –singular to the step LiCSBAS13.
+With the -W parameter, LiCSBAS13 performs weighted least squares for inversion where weights are estimated from coherence in each temporal sample of each pixel - this is more reliable.</p>
 <p>The whole procedure will run in the background through JASMIN’s LOTUS server (see generated .sh files) and once finished, results will be in TS_GEOCml5GACOSclip, plus additional files will be generated
 (e.g. geotiffs of velocity estimate, or standard NetCDF file that can be loaded to e.g. QGIS or ncview to plot time series from ‘cum’ layer, etc.)</p>
 </section>
 <section id="decomposition-to-e-u-n-vectors">
 <h3>Decomposition to E-U(+N) vectors<a class="headerlink" href="#decomposition-to-e-u-n-vectors" title="Permalink to this heading"></a></h3>
-<p>This section should contain information on both decomposition from A+D - for now, you may go through <a class="reference external" href="https://github.com/andwatson/interseismic_practical">tutorial by Andrew Watson</a>.</p>
-</section>
-<section id="bringing-enu-model-values-to-line-of-sight">
-<h3>Bringing ENU model values to line-of-sight<a class="headerlink" href="#bringing-enu-model-values-to-line-of-sight" title="Permalink to this heading"></a></h3>
-<p>This section should contain inverse procedure (with example) using LiCSAR E,N,U tif files to convert ENU-&gt;LOS.</p>
+<p>This section should contain information on both decomposition from A+D - for now, you may go through <a class="reference external" href="https://github.com/andwatson/interseismic_practical">tutorial by Andrew Watson</a>.
+For LiCSAR, you may investigate script <code class="docutils literal notranslate"><span class="pre">decomposition.py</span></code> for a simple solution in python (Andrew adds weighting average etc in his open MATLAB scripts).</p>
 </section>
 </section>
 <section id="tools-operating-with-licsar-data">
