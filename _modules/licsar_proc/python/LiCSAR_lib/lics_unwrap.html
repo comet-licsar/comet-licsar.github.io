@@ -280,6 +280,7 @@
         <span class="n">coh2var</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">add_resid</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>  <span class="n">rampit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">subtract_gacos</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dolocal</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">extweights</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">keep_coh_px</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Main function to unwrap a geocoded LiCSAR interferogram. Works on JASMIN (but can be easily adapted for local use)</span>
+<span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        frame (string): LiCSAR frame ID</span>
 <span class="sd">        pair (string): identifier of interferometric pair, e.g. ``&#39;20200120_20200201&#39;``</span>
@@ -311,6 +312,7 @@
 <span class="sd">        extweights (xr.DataArray): external weights, e.g. amplitude stability or coherence ratio (or another array) to be used for weighting the phase instead of the original coherence</span>
 <span class="sd">        keep_coh_debug (boolean): only in combination with use_coh_stab or use_amp_stab - whether or not to keep original (downsampled) ifg coherence after using the amp/coh_stab to weight the phase during multilooking</span>
 <span class="sd">        keep_coh_px (float or None): threshold for coherence upon which pixels would be unmasked (default: 0.25, use None or False to not add back coherent pixels). Practically, we mask based on consistence and then unmask coherent pixels.</span>
+<span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        xarray.Dataset: unwrapped multilooked interferogram with additional layers</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2059,9 +2061,8 @@
 
 
 <div class="viewcode-block" id="remove_height_corr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_height_corr">[docs]</a><span class="k">def</span> <span class="nf">remove_height_corr</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">corr_thres</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">dounw</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">nonlinear</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;Removes height-correlated signal</span>
-<span class="sd">    </span>
-<span class="sd">     first, correlate ```ifg_ml[&#39;pha&#39;]``` and ```ifg_ml[&#39;hgt&#39;]``` in blocks</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Removes height-correlated signal.</span>
+<span class="sd">     First, correlate ```ifg_ml[&#39;pha&#39;]``` and ```ifg_ml[&#39;hgt&#39;]``` in blocks</span>
 <span class="sd">      - better to keep dounw=True that unwraps each block by snaphu. but it can be slow</span>
 <span class="sd">     get coefficient for correction of correlating areas</span>
 <span class="sd">     interpolate the coefficient throughout whole raster</span>
