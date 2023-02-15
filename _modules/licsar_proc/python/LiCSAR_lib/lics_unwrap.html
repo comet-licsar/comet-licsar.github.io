@@ -275,6 +275,71 @@
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">xrd</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">min</span><span class="p">()))</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">xrd</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">xrd</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">min</span><span class="p">()))</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">xrd</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span>
 
 
+<div class="viewcode-block" id="mm2rad_s1"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.mm2rad_s1">[docs]</a><span class="k">def</span> <span class="nf">mm2rad_s1</span><span class="p">(</span><span class="n">inmm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from mm to radians (for Sentinel-1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">speed_of_light</span> <span class="o">=</span> <span class="mi">299792458</span> <span class="c1">#m/s</span>
+    <span class="n">radar_freq</span> <span class="o">=</span> <span class="mf">5.405e9</span>  <span class="c1">#for S1</span>
+    <span class="n">wavelength</span> <span class="o">=</span> <span class="n">speed_of_light</span><span class="o">/</span><span class="n">radar_freq</span> <span class="c1">#meter</span>
+    <span class="n">coef_r2m</span> <span class="o">=</span> <span class="o">-</span><span class="n">wavelength</span><span class="o">/</span><span class="mi">4</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">1000</span> <span class="c1">#rad -&gt; mm, positive is -LOS</span>
+    <span class="n">outrad</span> <span class="o">=</span> <span class="n">inmm</span><span class="o">/</span><span class="n">coef_r2m</span>
+    <span class="k">return</span> <span class="n">outrad</span></div>
+
+
+<div class="viewcode-block" id="load_rngoffsets_as_prevest"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.load_rngoffsets_as_prevest">[docs]</a><span class="k">def</span> <span class="nf">load_rngoffsets_as_prevest</span><span class="p">(</span><span class="n">rngtif</span><span class="p">,</span> <span class="n">thres_m</span> <span class="o">=</span> <span class="mi">9</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loads the range offsets result in the form to be used as prevest</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        rngtif (str): path to the range offsets geotiff</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        prevest (xr.DataArray)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prevest</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">rngtif</span><span class="p">)</span>
+    <span class="c1">#prevest = prevest.fillna(0)</span>
+    <span class="c1">#themask = prevest.where(prevest == 0)</span>
+    <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prevest</span><span class="p">)</span><span class="o">&lt;</span><span class="n">thres_m</span><span class="p">)</span>
+    <span class="c1"># filter .. .somehow..... mmmmmmmm remove the noise... important!</span>
+    <span class="n">prevest</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">filter_nan_gaussian_conserving</span><span class="p">(</span><span class="n">prevest</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span> <span class="c1"># orig: sigma=2</span>
+    <span class="c1"># now fill the nans (NN?)</span>
+    <span class="c1">#prevest.values = interpolate_nans(prevest.values, method=&#39;nearest&#39;)</span>
+    <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">prevest</span> <span class="o">!=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># maybe helps?</span>
+    <span class="c1"># recalculate to radians</span>
+    <span class="n">prevest</span><span class="o">=</span><span class="n">mm2rad_s1</span><span class="p">(</span><span class="n">prevest</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prevest</span></div>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">import cv2</span>
+<span class="sd">d=100</span>
+<span class="sd">sig_c=0.1</span>
+<span class="sd">sig_s=20</span>
+<span class="sd">prevest.values = cv2.bilateralFilter(prevest.values,d,sig_c,sig_s)</span>
+
+<span class="sd">pair=&#39;20230129_20230210&#39;</span>
+<span class="sd">procdir = &#39;tmptmp&#39;</span>
+<span class="sd">frame=&#39;021D_05266_252525&#39;</span>
+<span class="sd">prevest = load_rngoffsets_as_prevest(rngtif)</span>
+<span class="sd">ddd= process_ifg(frame, pair, procdir = &#39;tmptmp&#39;, ml = 20, fillby = &#39;nearest&#39;,</span>
+<span class="sd">smooth = True, lowpass = False, goldstein = False,</span>
+<span class="sd">prevest = prevest, dolocal = True,</span>
+<span class="sd">thres = 0.3, specmag = True)</span>
+
+<span class="sd">ddd= process_ifg(frame, pair, procdir = &#39;tmptmp&#39;, ml = 20, fillby = &#39;nearest&#39;,</span>
+<span class="sd">smooth = True, lowpass = False, goldstein = False,</span>
+<span class="sd">prevest = prevest, dolocal = True,</span>
+<span class="sd">thres = 0.3, specmag = True)</span>
+
+
+<span class="sd">ifg_ml10 = process_ifg(frame, pair, procdir = &#39;tmptmp&#39;, ml = 10, fillby = &#39;nearest&#39;,</span>
+<span class="sd">smooth = True, lowpass = False, goldstein = False,</span>
+<span class="sd">prevest = prevest, dolocal = True, rampit=True,</span>
+<span class="sd">thres = 0.3, specmag = True)</span>
+<span class="sd">ifg_ml10[[&#39;unw&#39;,&#39;consistence&#39;,&#39;toremove&#39;]].to_netcdf(&#39;ifg_ml10.nc&#39;)</span>
+
+<span class="sd">ifg_ml = process_ifg(frame, pair, procdir = procdir, ml = 1, </span>
+<span class="sd">   fillby = &#39;nearest&#39;, smooth = smooth, prev_ramp = ifg_ml10[&#39;unw&#39;], </span>
+<span class="sd">   add_resid = True, hgtcorr = False, outtif=&#39;final_cascade.unw.tif&#39;, dolocal = True)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="process_ifg"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.process_ifg">[docs]</a><span class="k">def</span> <span class="nf">process_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">procdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> 
         <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">fillby</span> <span class="o">=</span> <span class="s1">&#39;gauss&#39;</span><span class="p">,</span> <span class="n">thres</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">lowpass</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">goldstein</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">specmag</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">pre_detrend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>

@@ -57,6 +57,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">LiCSAR proc</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#licsar-unwrapping-module">LiCSAR unwrapping module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.cascade_unwrap"><code class="docutils literal notranslate"><span class="pre">cascade_unwrap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.mm2rad_s1"><code class="docutils literal notranslate"><span class="pre">mm2rad_s1()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.load_rngoffsets_as_prevest"><code class="docutils literal notranslate"><span class="pre">load_rngoffsets_as_prevest()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.process_ifg"><code class="docutils literal notranslate"><span class="pre">process_ifg()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.process_frame"><code class="docutils literal notranslate"><span class="pre">process_frame()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.get_ml_hgt"><code class="docutils literal notranslate"><span class="pre">get_ml_hgt()</span></code></a></li>
@@ -165,6 +167,26 @@
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>xarray.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.mm2rad_s1">
+<span class="sig-name descname"><span class="pre">mm2rad_s1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inmm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#mm2rad_s1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.mm2rad_s1" title="Permalink to this definition"></a></dt>
+<dd><p>Converts from mm to radians (for Sentinel-1)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.load_rngoffsets_as_prevest">
+<span class="sig-name descname"><span class="pre">load_rngoffsets_as_prevest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rngtif</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thres_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#load_rngoffsets_as_prevest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.load_rngoffsets_as_prevest" title="Permalink to this definition"></a></dt>
+<dd><p>Loads the range offsets result in the form to be used as prevest</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rngtif</strong> (<em>str</em>) – path to the range offsets geotiff</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>prevest (xr.DataArray)</p>
 </dd>
 </dl>
 </dd></dl>
