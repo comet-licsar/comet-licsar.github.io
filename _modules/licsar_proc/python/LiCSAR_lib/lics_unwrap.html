@@ -286,6 +286,23 @@
     <span class="k">return</span> <span class="n">outrad</span></div>
 
 
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">intif = &#39;GEOC/20230129_20230210/20230129_20230210.geo.azi.tif&#39;</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="k">def</span> <span class="nf">filter_gold_float</span><span class="p">(</span><span class="n">intif</span><span class="p">,</span> <span class="n">thres_m</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+    <span class="n">redfac</span> <span class="o">=</span> <span class="n">thres_m</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+    <span class="n">ml</span><span class="o">=</span><span class="mi">10</span>
+    <span class="n">outif</span> <span class="o">=</span> <span class="n">intif</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span><span class="s1">&#39;.filtered.tif&#39;</span><span class="p">)</span>
+    <span class="n">azi</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">intif</span><span class="p">)</span>
+    <span class="n">azi</span><span class="o">=</span><span class="n">azi</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">azi</span><span class="p">)</span><span class="o">&lt;</span><span class="n">thres_m</span><span class="p">)</span>
+    <span class="n">azi</span> <span class="o">=</span> <span class="n">azi</span><span class="o">.</span><span class="n">coarsen</span><span class="p">({</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">ml</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">ml</span><span class="p">},</span> <span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;trim&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+    <span class="n">azi</span> <span class="o">=</span> <span class="n">goldstein_filter_xr</span><span class="p">(</span><span class="n">azi</span><span class="o">/</span><span class="n">redfac</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">azi</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">azi</span><span class="o">.</span><span class="n">values</span><span class="o">*</span><span class="n">redfac</span>
+    <span class="n">azi</span><span class="o">=</span><span class="n">azi</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+    <span class="n">export_xr2tif</span><span class="p">(</span><span class="n">azi</span><span class="p">,</span> <span class="n">outif</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">azi</span>
+
+
 <div class="viewcode-block" id="load_rngoffsets_as_prevest"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.load_rngoffsets_as_prevest">[docs]</a><span class="k">def</span> <span class="nf">load_rngoffsets_as_prevest</span><span class="p">(</span><span class="n">rngtif</span><span class="p">,</span> <span class="n">thres_m</span> <span class="o">=</span> <span class="mi">9</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Loads the range offsets result in the form to be used as prevest</span>
 <span class="sd">    </span>
@@ -297,16 +314,24 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">prevest</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">rngtif</span><span class="p">)</span>
     <span class="c1">#prevest = prevest.fillna(0)</span>
-    <span class="c1">#themask = prevest.where(prevest == 0)</span>
+    <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">prevest</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prevest</span><span class="p">)</span><span class="o">&lt;</span><span class="n">thres_m</span><span class="p">)</span>
     <span class="c1"># filter .. .somehow..... mmmmmmmm remove the noise... important!</span>
-    <span class="n">prevest</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">filter_nan_gaussian_conserving</span><span class="p">(</span><span class="n">prevest</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span> <span class="c1"># orig: sigma=2</span>
+    <span class="c1">#prevest.values = filter_nan_gaussian_conserving(prevest.values, sigma = 4, trunc = 4) # orig: sigma=2</span>
+    <span class="c1"># making it smaller (2023-02: anyway oversampling the estimates</span>
+    <span class="n">ml</span><span class="o">=</span><span class="mi">10</span>
+    <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">coarsen</span><span class="p">({</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">ml</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">ml</span><span class="p">},</span> <span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;trim&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+    <span class="c1"># mmmm... faking to do it through goldstein ))</span>
+    <span class="c1"># CAREFUL - will work only for values -3.14 to 3.14 [m], so need to scale it first!</span>
+    <span class="n">filtrd</span> <span class="o">=</span> <span class="n">goldstein_filter_xr</span><span class="p">(</span><span class="n">prevest</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">prevest</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">filtrd</span><span class="o">.</span><span class="n">values</span><span class="o">*</span><span class="mf">2.5</span>
     <span class="c1"># now fill the nans (NN?)</span>
     <span class="c1">#prevest.values = interpolate_nans(prevest.values, method=&#39;nearest&#39;)</span>
     <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">prevest</span> <span class="o">!=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># maybe helps?</span>
     <span class="c1"># recalculate to radians</span>
     <span class="n">prevest</span><span class="o">=</span><span class="n">mm2rad_s1</span><span class="p">(</span><span class="n">prevest</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">prevest</span></div>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">import cv2</span>
 <span class="sd">d=100</span>
