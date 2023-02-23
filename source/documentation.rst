@@ -75,6 +75,38 @@ Afterwards initialize the new frame with parameter -C, i.e.:
 
    licsar_initialize_frame.sh -C 15.7/16.5/51.1/51.8 022A_0142H_000203
 
+
+prepare hi res subframes
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+I know this sounds as duplicate - but it is not.
+While the above commands would create new hires frame (that will be normally processed through licsar_make_frame.sh etc.),
+it is often much better just to crop existing large frame, as this will ensure correct SD estimation, and generally decrease
+doubled processing needs.
+
+Note this is still in development, but let me note the current approach through real example..
+
+Due to earthquake near to SAREZ dam (!!!! a nightmare for middle East for the last 100 years), John Elliott requested hires frames.
+He defined the region as (lons/lats): 72.510/72.845/38.130/38.365.
+Thus, let's get frames using:
+
+::
+
+  import framecare as fc
+  frames=fc.lq.get_frames_in_lonlat(72.7,38.2)
+  
+  >> returns: (('005D_05199_131313',), ('100A_05236_141313',))
+
+and then, while they are being processed, run in their $BATCH_CACHE_DIR/$frame:
+
+::
+
+   clip_slc.sh SAREZ_005D 72.510 72.845 38.130 38.365 0 0.00027 1
+
+that's it - this script will do everything needed and store results to SAREZ_005D - that then can be stored and used later.
+now, we would store such subsets in $LiCSAR_procdir/subsets, and things should be more automatic in (near) future - so stay tuned
+
+
 test
 ----
 
