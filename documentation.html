@@ -54,6 +54,7 @@
 <p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="licsar_proc/apidoc.html">LiCSAR proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licsar_framebatch/apidoc.html">LiCSAR FrameBatch</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Further information</span></p>
 <ul>
@@ -66,6 +67,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#how-do-i">How do I..</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#clone-and-edit-the-docs">clone and edit the docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#prepare-hi-res-frames">prepare hi res frames</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-hi-res-subframes">prepare hi res subframes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#test">test</a><ul>
@@ -165,6 +167,29 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">licsar_initialize_frame</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">C</span> <span class="mf">15.7</span><span class="o">/</span><span class="mf">16.5</span><span class="o">/</span><span class="mf">51.1</span><span class="o">/</span><span class="mf">51.8</span> <span class="mi">022</span><span class="n">A_0142H_000203</span>
 </pre></div>
 </div>
+</section>
+<section id="prepare-hi-res-subframes">
+<h3>prepare hi res subframes<a class="headerlink" href="#prepare-hi-res-subframes" title="Permalink to this heading"></a></h3>
+<p>I know this sounds as duplicate - but it is not.
+While the above commands would create new hires frame (that will be normally processed through licsar_make_frame.sh etc.),
+it is often much better just to crop existing large frame, as this will ensure correct SD estimation, and generally decrease
+doubled processing needs.</p>
+<p>Note this is still in development, but let me note the current approach through real example..</p>
+<p>Due to earthquake near to SAREZ dam (!!!! a nightmare for middle East for the last 100 years), John Elliott requested hires frames.
+He defined the region as (lons/lats): 72.510/72.845/38.130/38.365.
+Thus, let’s get frames using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">framecare</span> <span class="k">as</span> <span class="nn">fc</span>
+<span class="n">frames</span><span class="o">=</span><span class="n">fc</span><span class="o">.</span><span class="n">lq</span><span class="o">.</span><span class="n">get_frames_in_lonlat</span><span class="p">(</span><span class="mf">72.7</span><span class="p">,</span><span class="mf">38.2</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;</span> <span class="n">returns</span><span class="p">:</span> <span class="p">((</span><span class="s1">&#39;005D_05199_131313&#39;</span><span class="p">,),</span> <span class="p">(</span><span class="s1">&#39;100A_05236_141313&#39;</span><span class="p">,))</span>
+</pre></div>
+</div>
+<p>and then, while they are being processed, run in their $BATCH_CACHE_DIR/$frame:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clip_slc</span><span class="o">.</span><span class="n">sh</span> <span class="n">SAREZ_005D</span> <span class="mf">72.510</span> <span class="mf">72.845</span> <span class="mf">38.130</span> <span class="mf">38.365</span> <span class="mi">0</span> <span class="mf">0.00027</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>that’s it - this script will do everything needed and store results to SAREZ_005D - that then can be stored and used later.
+now, we would store such subsets in $LiCSAR_procdir/subsets, and things should be more automatic in (near) future - so stay tuned</p>
 </section>
 </section>
 <section id="test">

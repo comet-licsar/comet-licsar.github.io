@@ -31,6 +31,7 @@ COMET LiCSAR
   :caption: API Documentation
   
   licsar_proc/apidoc
+  licsar_framebatch/apidoc
 
 
 .. toctree::

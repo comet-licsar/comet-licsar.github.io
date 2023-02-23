@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LiCSInfo db &mdash; COMET LiCSAR  documentation</title>
+  <title>LiCSAR FrameBatch &mdash; COMET LiCSAR  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,8 +18,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="LiCSAR proc" href="../licsar_proc/index.html" />
-    <link rel="prev" title="LiCSAR Wiki (from gitlab)" href="../wiki.html" /> 
+    <link rel="next" title="COMET InSAR Workshop Materials" href="../ciw.html" />
+    <link rel="prev" title="LiCSAR proc" href="../licsar_proc/apidoc.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,16 +46,16 @@
 <li class="toctree-l1"><a class="reference internal" href="../wiki.html">LiCSAR Wiki (from gitlab)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Main LiCSAR Tools</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">LiCSInfo db</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../licsar_db/index.html">LiCSInfo db</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../licsar_proc/index.html">LiCSAR proc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../licsar_framebatch/index.html">LiCSAR Framebatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">LiCSAR Framebatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../daz/index.html">daz</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../licsar_proc/apidoc.html">LiCSAR proc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../licsar_framebatch/apidoc.html">LiCSAR FrameBatch</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LiCSAR FrameBatch</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Further information</span></p>
 <ul>
@@ -81,9 +81,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">LiCSInfo db</li>
+      <li class="breadcrumb-item active">LiCSAR FrameBatch</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/licsar_db/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/licsar_framebatch/apidoc.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -91,24 +91,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="licsinfo-db">
-<h1>LiCSInfo db<a class="headerlink" href="#licsinfo-db" title="Permalink to this heading"></a></h1>
-<p>Here we describe the LiCSInfo database that plays a key role in LiCSAR processing chain, especially in the LiCSAR FrameBatch solutions.
-For overall description, you may visit <a class="reference external" href="https://doi.org/10.3390/rs12152430">article about LiCSAR system</a> - we build on top of the existing architecture.</p>
-<p>In brief, as our frames are defined based on unique Sentinel-1 burst identifiers (that were not existing in the first years of S1 existence), we built a MySQL/MariaDB database that would link Sentinel-1 SLC zip files with their bursts and the LiCSAR frame definitions (<code class="docutils literal notranslate"><span class="pre">polygs</span></code>) - a LiCSInfo database. We further extended the database to contain geometric information (<code class="docutils literal notranslate"><span class="pre">polygs2geom</span></code> and <code class="docutils literal notranslate"><span class="pre">bursts2geom</span></code> are geodatabase tables) and some other relevant information, for example the <code class="docutils literal notranslate"><span class="pre">esd</span></code> table contains frame-scale offsets to measure development of tectonic plates (through <a class="reference external" href="https://comet-licsar.github.io/daz/index.html">daz</a> tool). See the ‘base metadata’ block at figure below:</p>
-<a class="reference internal image-reference" href="../_images/licsinfo.png"><img alt="Basic flowchart of LiCSInfo database" src="../_images/licsinfo.png" style="width: 600px;" /></a>
-<p>Further on, the LiCSBatch processing database uses a view (a link) to the base metadata of LiCSInfo database and links requested files (through frames-bursts-files joins) with LiCSAR FrameBatch processing jobs that control frame-based processing from SLC files through coregistration to RSLCs to generation of (unwrapped) interferograms, in given configuration.</p>
-<p>Finally, we implemented additional tables related to the LiCSAR Earthquake InSAR Data Provider (for rapid generation of coseismic interferograms covering significant earthquakes) and LiCSVolc tables to map frame subsets with active volcanoes (currently under development).</p>
-<p>The LiCSInfo database solution is at the core of LiCSAR and was deployed in other systems as well, including <a class="reference external" href="https://www.mdpi.com/2072-4292/12/18/2960">Czech IT4S1</a> solution (combining LiCSInfo-ISCE-STAMPS for open-source nation-wide Sentinel-1 InSAR). We can provide the database codes upon request.</p>
-<p>For tools to directly access information in LiCSInfo, see API of LiCSAR_proc and LiCSAR_framebatch (e.g. <code class="docutils literal notranslate"><span class="pre">framecare</span></code> python library).</p>
+  <section id="licsar-framebatch">
+<h1>LiCSAR FrameBatch<a class="headerlink" href="#licsar-framebatch" title="Permalink to this heading"></a></h1>
+<p>under construction</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../wiki.html" class="btn btn-neutral float-left" title="LiCSAR Wiki (from gitlab)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../licsar_proc/index.html" class="btn btn-neutral float-right" title="LiCSAR proc" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../licsar_proc/apidoc.html" class="btn btn-neutral float-left" title="LiCSAR proc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../ciw.html" class="btn btn-neutral float-right" title="COMET InSAR Workshop Materials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
