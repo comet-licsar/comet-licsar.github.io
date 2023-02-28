@@ -303,8 +303,11 @@
     <span class="n">export_xr2tif</span><span class="p">(</span><span class="n">azi</span><span class="p">,</span> <span class="n">outif</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">azi</span>
 
+<span class="sd">&#39;&#39;&#39;</span>
 
-<div class="viewcode-block" id="load_rngoffsets_as_prevest"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.load_rngoffsets_as_prevest">[docs]</a><span class="k">def</span> <span class="nf">load_rngoffsets_as_prevest</span><span class="p">(</span><span class="n">rngtif</span><span class="p">,</span> <span class="n">thres_m</span> <span class="o">=</span> <span class="mi">9</span><span class="p">):</span>
+<span class="sd">ml10=process_ifg_core(ifg, tmpdir = &#39;bagrr&#39;, ml = 10, fillby = &#39;nearest&#39;,smooth = False, goldstein = True, lowpass =False, specmag = True); ml10.unw.plot(); plt.show()</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="load_rngoffsets_as_prevest"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.load_rngoffsets_as_prevest">[docs]</a><span class="k">def</span> <span class="nf">load_rngoffsets_as_prevest</span><span class="p">(</span><span class="n">rngtif</span><span class="p">,</span> <span class="n">thres_m</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">golditer</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Loads the range offsets result in the form to be used as prevest</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
@@ -315,7 +318,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">prevest</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">rngtif</span><span class="p">)</span>
     <span class="c1">#prevest = prevest.fillna(0)</span>
-    <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">prevest</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">prevest</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prevest</span><span class="p">)</span><span class="o">&lt;</span><span class="n">thres_m</span><span class="p">)</span>
     <span class="c1"># filter .. .somehow..... mmmmmmmm remove the noise... important!</span>
     <span class="c1">#prevest.values = filter_nan_gaussian_conserving(prevest.values, sigma = 4, trunc = 4) # orig: sigma=2</span>
@@ -324,8 +327,11 @@
     <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">coarsen</span><span class="p">({</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">ml</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">ml</span><span class="p">},</span> <span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;trim&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
     <span class="c1"># mmmm... faking to do it through goldstein ))</span>
     <span class="c1"># CAREFUL - will work only for values -3.14 to 3.14 [m], so need to scale it first!</span>
-    <span class="n">filtrd</span> <span class="o">=</span> <span class="n">goldstein_filter_xr</span><span class="p">(</span><span class="n">prevest</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">prevest</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">filtrd</span><span class="o">.</span><span class="n">values</span><span class="o">*</span><span class="mf">2.5</span>
+    <span class="c1">#redfac = 2.5</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">golditer</span><span class="p">):</span>
+        <span class="n">redfac</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prevest</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">filtrd</span> <span class="o">=</span> <span class="n">goldstein_filter_xr</span><span class="p">(</span><span class="n">prevest</span><span class="o">/</span><span class="n">redfac</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">prevest</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">filtrd</span><span class="o">.</span><span class="n">values</span><span class="o">*</span><span class="n">redfac</span>
     <span class="c1"># now fill the nans (NN?)</span>
     <span class="c1">#prevest.values = interpolate_nans(prevest.values, method=&#39;nearest&#39;)</span>
     <span class="n">prevest</span> <span class="o">=</span> <span class="n">prevest</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">prevest</span> <span class="o">!=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># maybe helps?</span>
@@ -1314,7 +1320,8 @@
     <span class="k">return</span> <span class="n">hgt</span></div>
 
 
-<div class="viewcode-block" id="multilook_normalised"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.multilook_normalised">[docs]</a><span class="k">def</span> <span class="nf">multilook_normalised</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">pre_detrend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">prev_ramp</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">thres_pxcount</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="multilook_normalised"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.multilook_normalised">[docs]</a><span class="k">def</span> <span class="nf">multilook_normalised</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">pre_detrend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">prev_ramp</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">thres_pxcount</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Multilooking function that does much more.</span>
 <span class="sd">    </span>
 <span class="sd">    This function is normally called by process_ifg. It would use coherence as weights to multilook interferometric phase, and downsample other layers if available to a final datacube.</span>
@@ -1580,6 +1587,9 @@
             <span class="n">maxclipx</span><span class="o">=</span><span class="n">tmpcl</span>
         <span class="c1"># now will clip it - lat is opposite-sorted, so need to slice from max to min in y</span>
         <span class="n">ifg</span> <span class="o">=</span> <span class="n">ifg</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">minclipx</span><span class="p">,</span> <span class="n">maxclipx</span><span class="p">),</span> <span class="n">lat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">maxclipy</span><span class="p">,</span> <span class="n">minclipy</span><span class="p">))</span>
+    <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;cpx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg</span><span class="o">.</span><span class="n">coh</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING, using coherence to form cpx&#39;</span><span class="p">)</span>
+    <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;cpx&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">magpha2RI_array</span><span class="p">(</span><span class="n">ifg</span><span class="o">.</span><span class="n">coh</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ifg</span><span class="o">.</span><span class="n">pha</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ifg</span>
 
 
