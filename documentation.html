@@ -174,22 +174,28 @@
 While the above commands would create new hires frame (that will be normally processed through licsar_make_frame.sh etc.),
 it is often much better just to crop existing large frame, as this will ensure correct SD estimation, and generally decrease
 doubled processing needs.</p>
-<p>Note this is still in development, but let me note the current approach through real example..</p>
+<p>Now, this is finally prepared in the way that once you initialise such subset (as shown below),
+the RSLCs will then automatically get updated/clipped once the frame is processed and you run <cite>store_to_curdir.sh</cite>.</p>
+<p>The frame subsets will reside in $LiCSAR_procdir/subsets</p>
+<p>Let me show the current approach through real example..</p>
 <p>Due to earthquake near to SAREZ dam (!!!! a nightmare for middle East for the last 100 years), John Elliott requested hires frames.
 He defined the region as (lons/lats): 72.510/72.845/38.130/38.365.
-Thus, let’s get frames using:</p>
+Thus, let’s get frames and initialise their subsets using:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">framecare</span> <span class="k">as</span> <span class="nn">fc</span>
 <span class="n">frames</span><span class="o">=</span><span class="n">fc</span><span class="o">.</span><span class="n">lq</span><span class="o">.</span><span class="n">get_frames_in_lonlat</span><span class="p">(</span><span class="mf">72.7</span><span class="p">,</span><span class="mf">38.2</span><span class="p">)</span>
-
-<span class="o">&gt;&gt;</span> <span class="n">returns</span><span class="p">:</span> <span class="p">((</span><span class="s1">&#39;005D_05199_131313&#39;</span><span class="p">,),</span> <span class="p">(</span><span class="s1">&#39;100A_05236_141313&#39;</span><span class="p">,))</span>
+<span class="c1"># returns: ((&#39;005D_05199_131313&#39;,), (&#39;100A_05236_141313&#39;,))</span>
+<span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+    <span class="n">fc</span><span class="o">.</span><span class="n">subset_initialise_corners</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="mf">72.510</span><span class="p">,</span> <span class="mf">72.845</span><span class="p">,</span> <span class="mf">38.130</span><span class="p">,</span> <span class="mf">38.365</span><span class="p">,</span> <span class="s1">&#39;SAREZ&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>and then, while they are being processed, run in their $BATCH_CACHE_DIR/$frame:</p>
+<p>and that’s it. Now you may proceed just to process the frames as usual.
+Note that this will not generate interferograms. But this can be done simply by running <cite>framebatch_gapfill.sh</cite>
+(more instructions later, or ask Lin Shen for advice).</p>
+<p>If this is only one-off procedure (no need to store in <cite>subsets</cite> folder), you may also just
+run in their <cite>$BATCH_CACHE_DIR/$frame</cite> following command that will also generate interferograms:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clip_slc</span><span class="o">.</span><span class="n">sh</span> <span class="n">SAREZ_005D</span> <span class="mf">72.510</span> <span class="mf">72.845</span> <span class="mf">38.130</span> <span class="mf">38.365</span> <span class="mi">0</span> <span class="mf">0.00027</span> <span class="mi">1</span>
 </pre></div>
 </div>
-<p>that’s it - this script will do everything needed and store results to SAREZ_005D - that then can be stored and used later.
-now, we would store such subsets in $LiCSAR_procdir/subsets, and things should be more automatic in (near) future - so stay tuned</p>
 </section>
 </section>
 <section id="test">
