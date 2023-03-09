@@ -84,27 +84,35 @@ While the above commands would create new hires frame (that will be normally pro
 it is often much better just to crop existing large frame, as this will ensure correct SD estimation, and generally decrease
 doubled processing needs.
 
-Note this is still in development, but let me note the current approach through real example..
+Now, this is finally prepared in the way that once you initialise such subset (as shown below),
+the RSLCs will then automatically get updated/clipped once the frame is processed and you run `store_to_curdir.sh`.
+
+The frame subsets will reside in $LiCSAR_procdir/subsets
+
+Let me show the current approach through real example..
 
 Due to earthquake near to SAREZ dam (!!!! a nightmare for middle East for the last 100 years), John Elliott requested hires frames.
 He defined the region as (lons/lats): 72.510/72.845/38.130/38.365.
-Thus, let's get frames using:
+Thus, let's get frames and initialise their subsets using:
 
 ::
 
   import framecare as fc
   frames=fc.lq.get_frames_in_lonlat(72.7,38.2)
-  
-  >> returns: (('005D_05199_131313',), ('100A_05236_141313',))
+  # returns: (('005D_05199_131313',), ('100A_05236_141313',))
+  for frame in frames:
+      fc.subset_initialise_corners(frame, 72.510, 72.845, 38.130, 38.365, 'SAREZ')
 
-and then, while they are being processed, run in their $BATCH_CACHE_DIR/$frame:
+and that's it. Now you may proceed just to process the frames as usual.
+Note that this will not generate interferograms. But this can be done simply by running `framebatch_gapfill.sh`
+(more instructions later, or ask Lin Shen for advice).
+
+If this is only one-off procedure (no need to store in `subsets` folder), you may also just 
+run in their `$BATCH_CACHE_DIR/$frame` following command that will also generate interferograms:
 
 ::
 
    clip_slc.sh SAREZ_005D 72.510 72.845 38.130 38.365 0 0.00027 1
-
-that's it - this script will do everything needed and store results to SAREZ_005D - that then can be stored and used later.
-now, we would store such subsets in $LiCSAR_procdir/subsets, and things should be more automatic in (near) future - so stay tuned
 
 
 test
