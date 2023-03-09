@@ -615,6 +615,13 @@
             <span class="n">prev_ramp</span> <span class="o">=</span> <span class="n">prev_ramp</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">minclipx</span><span class="o">-</span><span class="mi">10</span><span class="o">*</span><span class="n">resdeg</span><span class="p">,</span> <span class="n">maxclipx</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="n">resdeg</span><span class="p">),</span> <span class="n">lat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">maxclipy</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="n">resdeg</span><span class="p">,</span> <span class="n">minclipy</span><span class="o">-</span><span class="mi">10</span><span class="o">*</span><span class="n">resdeg</span><span class="p">))</span>
     <span class="c1">#WARNING - ONLY THIS FUNCTION HAS GACOS INCLUDED NOW! (and heights fix!!!)</span>
     <span class="c1"># resultant &#39;pha&#39; is after the removal of the &#39;toremove&#39; (unw) phase</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">prevest</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">goldstein</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;experimental - prevest will be first removed, not directly sent to snaphu - results might differ&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">prev_ramp</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: prev_ramp is also set. will NOT use prevest at all&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">prev_ramp</span> <span class="o">=</span> <span class="n">prevest</span>
     <span class="n">ifg_ml</span> <span class="o">=</span> <span class="n">multilook_normalised</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">ml</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">tmpdir</span><span class="p">,</span> <span class="n">hgtcorr</span> <span class="o">=</span> <span class="n">hgtcorr</span><span class="p">,</span> <span class="n">pre_detrend</span> <span class="o">=</span> <span class="n">pre_detrend</span><span class="p">,</span> <span class="n">prev_ramp</span> <span class="o">=</span> <span class="n">prev_ramp</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="n">keep_coh_debug</span><span class="p">)</span>
     <span class="n">width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
     <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
@@ -695,10 +702,10 @@
             <span class="n">coh</span> <span class="o">=</span> <span class="n">sp</span>
         <span class="n">mask</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;mask_full&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;unwrapping filtered phase&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;debug:&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">cpx</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">coh</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">mask</span><span class="p">))</span>
+        <span class="c1">#print(&#39;debug:&#39;)</span>
+        <span class="c1">#print(type(cpx))</span>
+        <span class="c1">#print(type(coh))</span>
+        <span class="c1">#print(type(mask))</span>
         <span class="n">unw</span><span class="p">,</span><span class="n">conncomp</span> <span class="o">=</span><span class="n">unwrap_np</span><span class="p">(</span><span class="n">cpx</span><span class="p">,</span><span class="n">coh</span><span class="p">,</span><span class="n">defomax</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span><span class="n">tmpdir</span><span class="o">=</span><span class="n">tmpunwdir</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span><span class="n">conncomp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">deltemp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;unw&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;conncomp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span>
@@ -833,10 +840,9 @@
         <span class="c1">#ifg_ml = filter_ifg_ml(ifg_ml, radius = 1500)</span>
         <span class="n">ifg_ml</span> <span class="o">=</span> <span class="n">filter_ifg_ml</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span><span class="p">)</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;gauss_pha&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">goldstein</span><span class="p">:</span>
-        <span class="c1"># i did unw before...</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;goldstein is in use - need to update it to have prevest possible..&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="c1">#</span>
+    <span class="c1"># i did unw before...</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">goldstein</span><span class="p">:</span>
         <span class="c1">#exporting for snaphu</span>
         <span class="c1">#normalise mag from the final pha</span>
         <span class="n">tempar_mag1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">ifg_ml</span><span class="o">.</span><span class="n">pha</span><span class="p">)</span>
