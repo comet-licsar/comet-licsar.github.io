@@ -39,6 +39,7 @@ COMET LiCSAR
   :caption: Further information
   
   ciw
+  cometmembers
 
 
 .. toctree::
