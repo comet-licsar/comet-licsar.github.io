@@ -84,7 +84,9 @@ latex_elements = {
 # Mock imports for autodoc building:
 autodoc_mock_imports = [
     'astropy', 'cv2', 'matplotlib', 'numpy', 'osgeo', 'pandas', 'rioxarray',
-    'scipy', 'sklearn', 'xarray'
+    'dask', 'fiona', 'geopandas', 'LiCSAR_lib', 'mk_imag_lib',
+    'LiCSAR_misc', 'LiCSBAS_inv_lib', 'LiCSquery', 'lics_unwrap',
+    's1data', 'scipy', 'shapely', 'sklearn', 'xarray'
 ]
 
 # Order autodoc functions as they are in source:

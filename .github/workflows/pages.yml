@@ -6,6 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      LiCSAR_public: /gws/etc/to/licspublic
+      LiCSAR_procdir: /gws/etc/to/licsprocdir
     steps:
     - name: Setup locale
       run: |
