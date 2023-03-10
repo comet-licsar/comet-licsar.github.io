@@ -56,7 +56,25 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../licsar_proc/apidoc.html">LiCSAR proc</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">LiCSAR FrameBatch</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#licsar-framecare">LiCSAR FrameCare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#licsar-framecare">LiCSAR FrameCare</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.procdir"><code class="docutils literal notranslate"><span class="pre">procdir</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.subset_initialise_corners"><code class="docutils literal notranslate"><span class="pre">subset_initialise_corners()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.subset_initialise_centre_coords"><code class="docutils literal notranslate"><span class="pre">subset_initialise_centre_coords()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.vis_file"><code class="docutils literal notranslate"><span class="pre">vis_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.ingest_file_to_licsinfo"><code class="docutils literal notranslate"><span class="pre">ingest_file_to_licsinfo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.get_bidtanxs_from_xy"><code class="docutils literal notranslate"><span class="pre">get_bidtanxs_from_xy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.get_bidtanxs_from_xy_file"><code class="docutils literal notranslate"><span class="pre">get_bidtanxs_from_xy_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.make_bperp_file"><code class="docutils literal notranslate"><span class="pre">make_bperp_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.get_frame_master_s1ab"><code class="docutils literal notranslate"><span class="pre">get_frame_master_s1ab()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.vis_aoi"><code class="docutils literal notranslate"><span class="pre">vis_aoi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.vis_bidtanxs"><code class="docutils literal notranslate"><span class="pre">vis_bidtanxs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.vis_frame"><code class="docutils literal notranslate"><span class="pre">vis_frame()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.rename_frame_main"><code class="docutils literal notranslate"><span class="pre">rename_frame_main()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.generate_new_frame"><code class="docutils literal notranslate"><span class="pre">generate_new_frame()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.export_frame_to_kml"><code class="docutils literal notranslate"><span class="pre">export_frame_to_kml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.epoch_has_all_frame_bursts"><code class="docutils literal notranslate"><span class="pre">epoch_has_all_frame_bursts()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -100,6 +118,180 @@
 <section id="licsar-framecare">
 <h2>LiCSAR FrameCare<a class="headerlink" href="#licsar-framecare" title="Permalink to this heading"></a></h2>
 <p>Library dealing with frames, bursts, their definition, init, visualisation, fixes, administration.</p>
+<span class="target" id="module-licsar_framebatch.python.framecare"></span><dl class="py data">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.procdir">
+<span class="sig-name descname"><span class="pre">procdir</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/gws/etc/to/licsprocdir'</span></em><a class="headerlink" href="#licsar_framebatch.python.framecare.procdir" title="Permalink to this definition"></a></dt>
+<dd><p># notes:
+# this is how i imported burst db - first i converted them from sqlite3 to geojson
+# then i did, in /gws/nopw/j04/nceo_geohazards_vol1/projects/LiCS/proc/current/burst_database/IW/sqlite:</p>
+<p>import geopandas as gpd
+import shapely
+import time
+import LiCSquery as lq</p>
+<p>aa=gpd.read_file(‘burst_map.geojson’)
+aa=aa[aa.burst_id&gt;56099]</p>
+<p>aa[‘geometry’]=aa[‘geometry’].convex_hull</p>
+<dl class="simple">
+<dt>def _to_2d(x, y, z):</dt><dd><p>return tuple(filter(None, [x, y]))</p>
+</dd>
+</dl>
+<p>aa[‘geometry’] = aa[‘geometry’].apply(lambda x: shapely.ops.transform(_to_2d, x))</p>
+<p># now it is ready to import to database:
+for i,j in aa.iterrows():</p>
+<blockquote>
+<div><p>print(i)
+res = store_burst_geom(j[0], int(j[1][-1]), j[2], j[3], j[4][0], j[5].wkt)
+#time.sleep(0.25)</p>
+</div></blockquote>
+<p>lon1=72.510
+lon2=72.845
+lat1=38.130
+lat2=38.365
+resol_m=30
+frame=’100A_05236_141313’
+sid=’SAREZ’
+fc.subset_initialise_corners(frame, lon1, lon2, lat1, lat2, sid)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.subset_initialise_corners">
+<span class="sig-name descname"><span class="pre">subset_initialise_corners</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_volc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resol_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#subset_initialise_corners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.subset_initialise_corners" title="Permalink to this definition"></a></dt>
+<dd><p>This will initialise a subset given by corner lon/lat-s.
+The results will be stored in $LiCSAR_procdir/subsets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>str</em>) – frame ID,</p></li>
+<li><p><strong>lon1</strong> (<em>float</em><em>, </em><em>float</em>) – corner longitudes,</p></li>
+<li><p><strong>lon2</strong> (<em>float</em><em>, </em><em>float</em>) – corner longitudes,</p></li>
+<li><p><strong>lat1</strong> (<em>float</em><em>, </em><em>float</em>) – corner latitudes,</p></li>
+<li><p><strong>lat2</strong> (<em>float</em><em>, </em><em>float</em>) – corner latitudes,</p></li>
+<li><p><strong>sid</strong> (<em>str</em>) – string ID (for volcano, use its volcano ID number)</p></li>
+<li><p><strong>is_volc</strong> (<em>bool</em>) – if true, it will set the output folder $LiCSAR_procdir/subsets/volc</p></li>
+<li><p><strong>resol_m</strong> (<em>float</em>) – output resolution in metres to have geocoding table ready in (note, RSLCs are anyway in full res)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.subset_initialise_centre_coords">
+<span class="sig-name descname"><span class="pre">subset_initialise_centre_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_volc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resol_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#subset_initialise_centre_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.subset_initialise_centre_coords" title="Permalink to this definition"></a></dt>
+<dd><p>This will initialise a subset given by centre lon/lat and radius in km.
+The results will be stored in $LiCSAR_procdir/subsets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>str</em>) – frame ID,</p></li>
+<li><p><strong>clon</strong> (<em>float</em>) – centre longitude,</p></li>
+<li><p><strong>clat</strong> (<em>float</em>) – centre latitude,</p></li>
+<li><p><strong>sid</strong> (<em>str</em>) – string ID (for volcano, use its volcano ID number)</p></li>
+<li><p><strong>is_volc</strong> (<em>bool</em>) – if true, it will set the output folder $LiCSAR_procdir/subsets/volc</p></li>
+<li><p><strong>radius</strong> (<em>float</em>) – radius (half of the diameter) of the subset scene, in km</p></li>
+<li><p><strong>resol_m</strong> (<em>float</em>) – output resolution in metres to have geocoding table ready in (note, RSLCs are anyway in full res)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.vis_file">
+<span class="sig-name descname"><span class="pre">vis_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#vis_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.vis_file" title="Permalink to this definition"></a></dt>
+<dd><p>Visualize bursts of given file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.ingest_file_to_licsinfo">
+<span class="sig-name descname"><span class="pre">ingest_file_to_licsinfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isfullpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#ingest_file_to_licsinfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.ingest_file_to_licsinfo" title="Permalink to this definition"></a></dt>
+<dd><p>Will ingest a S1 SLC zip file to the LiCSInfo database.
+If filepath is only filename, it will try find this file in neodc or LiCSAR_SLC</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.get_bidtanxs_from_xy">
+<span class="sig-name descname"><span class="pre">get_bidtanxs_from_xy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relorb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#get_bidtanxs_from_xy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.get_bidtanxs_from_xy" title="Permalink to this definition"></a></dt>
+<dd><p>Gets bursts in given coordinates (and optionally in given track or swath)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.get_bidtanxs_from_xy_file">
+<span class="sig-name descname"><span class="pre">get_bidtanxs_from_xy_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intxt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relorb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#get_bidtanxs_from_xy_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.get_bidtanxs_from_xy_file" title="Permalink to this definition"></a></dt>
+<dd><p>Gets bursts in polygon given by the xy text file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.make_bperp_file">
+<span class="sig-name descname"><span class="pre">make_bperp_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bperp_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#make_bperp_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.make_bperp_file" title="Permalink to this definition"></a></dt>
+<dd><p>Creates baselines file for given frame, by requesting info from ASF</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.get_frame_master_s1ab">
+<span class="sig-name descname"><span class="pre">get_frame_master_s1ab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metafile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#get_frame_master_s1ab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.get_frame_master_s1ab" title="Permalink to this definition"></a></dt>
+<dd><p>Gets information if the reference epoch of given frame is S1 ‘A’ or ‘B’.
+:param frame:
+:type frame: str
+:param metafile: if None, it will identify it on LiCSAR_public
+:type metafile: str</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.vis_aoi">
+<span class="sig-name descname"><span class="pre">vis_aoi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aoi</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#vis_aoi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.vis_aoi" title="Permalink to this definition"></a></dt>
+<dd><p>to visualize a polygon element (‘aoi’)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.vis_bidtanxs">
+<span class="sig-name descname"><span class="pre">vis_bidtanxs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bidtanxs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#vis_bidtanxs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.vis_bidtanxs" title="Permalink to this definition"></a></dt>
+<dd><p>Visualize list of bursts (use bidtanx id, i.e. e.g. ‘73_IW1_1234’)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.vis_frame">
+<span class="sig-name descname"><span class="pre">vis_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#vis_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.vis_frame" title="Permalink to this definition"></a></dt>
+<dd><p>Visualize frame ID</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.rename_frame_main">
+<span class="sig-name descname"><span class="pre">rename_frame_main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reportcsv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/gws/nopw/j04/nceo_geohazards_vol1/public/LiCSAR_products/frameid_changes.txt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#rename_frame_main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.rename_frame_main" title="Permalink to this definition"></a></dt>
+<dd><p>this function will physically rename a frame (and move folders etc.) - oh, but it doesn’t touch the frame def in database! for this, use lq.rename_frame</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.generate_new_frame">
+<span class="sig-name descname"><span class="pre">generate_new_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bidtanxs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testonly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hicode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#generate_new_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.generate_new_frame" title="Permalink to this definition"></a></dt>
+<dd><p>hicode… use ‘H’ for high resolution (1/5 multilook), or ‘M’ for medium, i.e. 56 m</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.export_frame_to_kml">
+<span class="sig-name descname"><span class="pre">export_frame_to_kml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/gws/nopw/j04/nceo_geohazards_vol2/LiCS/temp/insar_temp/frames_redef/kmls'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#export_frame_to_kml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.export_frame_to_kml" title="Permalink to this definition"></a></dt>
+<dd><p>Exports the frame polygon to kml. Currently only the uglier version (coarse burst polygons)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.epoch_has_all_frame_bursts">
+<span class="sig-name descname"><span class="pre">epoch_has_all_frame_bursts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#epoch_has_all_frame_bursts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.epoch_has_all_frame_bursts" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if epoch contains all necessary bursts in frame definition.
+Needs to have the epoch already ingested in LiCSInfo database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epoch</strong> (<em>dt.datetime.date</em><em>, </em><em>dt.datetime</em><em> or </em><em>str</em>) – epoch date (if str, should be as 20191120)</p></li>
+<li><p><strong>frame</strong> (<em>str</em>) – frame ID</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True means Yes, it has all bursts. False means it has missing bursts”</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 

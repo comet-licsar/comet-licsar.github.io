@@ -99,7 +99,16 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.deramp_ifg_tif"><code class="docutils literal notranslate"><span class="pre">deramp_ifg_tif()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#licsar-decompose">LiCSAR Decompose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#licsar-decompose">LiCSAR Decompose</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_framencs"><code class="docutils literal notranslate"><span class="pre">decompose_framencs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.calculate_annual_vels"><code class="docutils literal notranslate"><span class="pre">calculate_annual_vels()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.get_frame_inc_heading"><code class="docutils literal notranslate"><span class="pre">get_frame_inc_heading()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_dask"><code class="docutils literal notranslate"><span class="pre">decompose_dask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_xr"><code class="docutils literal notranslate"><span class="pre">decompose_xr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_np"><code class="docutils literal notranslate"><span class="pre">decompose_np()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_np_multi"><code class="docutils literal notranslate"><span class="pre">decompose_np_multi()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../licsar_framebatch/apidoc.html">LiCSAR FrameBatch</a></li>
@@ -862,6 +871,86 @@ improvised way, not reading much about it… pure intuition (knowing this is onl
 <section id="licsar-decompose">
 <h2>LiCSAR Decompose<a class="headerlink" href="#licsar-decompose" title="Permalink to this heading"></a></h2>
 <p>Module with some useful InSAR decomposition functions, not as great as <a class="reference external" href="https://github.com/andwatson/decompose_insar_velocities">approach of Andrew Watson</a>.</p>
+<span class="target" id="module-licsar_proc.python.decompose"></span><dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_framencs">
+<span class="sig-name descname"><span class="pre">decompose_framencs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framencs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_cum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medianfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_framencs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_framencs" title="Permalink to this definition"></a></dt>
+<dd><p>will decompose frame licsbas results
+the basenames in framencs should contain frame id, followed by ‘.’, e.g.:
+framencs = [‘062D_07629_131313.nc’, ‘172A_07686_131012.nc’]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>framencs</strong> (<em>list</em>) – licsbas nc result files, named by their frame id</p></li>
+<li><p><strong>extract_cum</strong> (<em>bool</em>) – if True, will use the first frame and convert to pseudo vertical</p></li>
+<li><p><strong>annual</strong> (<em>bool</em>) – if True, will decompose annual increments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>xr.Dataset with U, E, [cum_vert] arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.calculate_annual_vels">
+<span class="sig-name descname"><span class="pre">calculate_annual_vels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#calculate_annual_vels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.calculate_annual_vels" title="Permalink to this definition"></a></dt>
+<dd><p>Will calculate annual velocities from LiCSBAS results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cube</strong> (<em>xr.Dataset</em>) – loaded netcdf file, extracted using e.g. LiCSBAS_out2nc.py</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>vel_annual</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.Dataset with new dataarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.get_frame_inc_heading">
+<span class="sig-name descname"><span class="pre">get_frame_inc_heading</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#get_frame_inc_heading"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.get_frame_inc_heading" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts inc and heading from E, U for given frame</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_dask">
+<span class="sig-name descname"><span class="pre">decompose_dask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocklen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_dask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_dask" title="Permalink to this definition"></a></dt>
+<dd><p>Simple parallel decomposition of dec. datacube (must have asc,desc,asc_inc,desc_inc, asc_heading, desc_heading arrays)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_xr">
+<span class="sig-name descname"><span class="pre">decompose_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heading_asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heading_desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_xr" title="Permalink to this definition"></a></dt>
+<dd><p>Perform simple decomposition for two frames in asc and desc.
+inputs are xr.dataarrays - this will also check/interpolate them to fit</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_np">
+<span class="sig-name descname"><span class="pre">decompose_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel_asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aschead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deschead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascinc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descinc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_np"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_np" title="Permalink to this definition"></a></dt>
+<dd><p>Decomposes values from ascending and descending np (or xr) arrays, using heading and inc. angle
+(these might be arrays of same size of just float values)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>beta</strong> (<em>float</em>) – angle of expected horizontal motion direction, clockwise from the E, in degrees</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_np_multi">
+<span class="sig-name descname"><span class="pre">decompose_np_multi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_np_multi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_np_multi" title="Permalink to this definition"></a></dt>
+<dd><p>Decompose 2 or more frames</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>input</em>) – </p>
+</dd>
+</dl>
+<p>Note: velX is np.array and headingX/incX is in degrees, either a number or np.array</p>
+</dd></dl>
+
 </section>
 </section>
 

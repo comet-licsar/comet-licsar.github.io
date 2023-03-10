@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>licsar_proc.python.decompose &mdash; COMET LiCSAR  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            COMET LiCSAR
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../wiki.html">LiCSAR Wiki (from gitlab)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Main LiCSAR Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../licsar_db/index.html">LiCSInfo db</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../licsar_proc/index.html">LiCSAR proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../licsar_framebatch/index.html">LiCSAR Framebatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../daz/index.html">daz</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../licsar_proc/apidoc.html">LiCSAR proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../licsar_framebatch/apidoc.html">LiCSAR FrameBatch</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Further information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ciw.html">COMET InSAR Workshop Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cometmembers.html">COMET Members Information</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer comments and advices</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Notes about documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html#admin-or-dev-comments">Admin or dev comments</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">COMET LiCSAR</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">licsar_proc.python.decompose</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for licsar_proc.python.decompose</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># these are functions for decomposition into E,U vectors from 2 or more tracks</span>
+
+<span class="kn">import</span> <span class="nn">subprocess</span> <span class="k">as</span> <span class="nn">subp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">interpolate</span>
+<span class="kn">from</span> <span class="nn">lics_unwrap</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd"># 2022-10-18 starts here</span>
+
+<span class="sd">frame_desc = &#39;082D_05128_030500&#39;</span>
+<span class="sd">frame_asc = &#39;002A_05136_020502&#39;</span>
+<span class="sd">asctif=&#39;saojorge_offset_A.tif&#39;</span>
+<span class="sd">desctif=&#39;saojorge_offset_D.tif&#39;</span>
+<span class="sd">beta=25.83</span>
+
+<span class="sd">inc_asc, heading_asc = get_frame_inc_heading(frame_asc)</span>
+<span class="sd">inc_desc, heading_desc = get_frame_inc_heading(frame_desc)</span>
+<span class="sd">asc = load_tif2xr(asctif)</span>
+<span class="sd">desc = load_tif2xr(desctif)</span>
+
+<span class="sd"># now transform it towards asc:</span>
+<span class="sd">cube=xr.Dataset()</span>
+<span class="sd">cube[&#39;asc&#39;] = asc</span>
+<span class="sd">cube[&#39;desc&#39;] = desc.interp_like(asc, method=&#39;linear&#39;); desc=None</span>
+<span class="sd">cube[&#39;asc_inc&#39;] = inc_asc.interp_like(asc, method=&#39;linear&#39;); inc_asc=None</span>
+<span class="sd">cube[&#39;desc_inc&#39;] = inc_desc.interp_like(asc, method=&#39;linear&#39;); inc_desc=None</span>
+<span class="sd">cube[&#39;asc_heading&#39;] = heading_asc.interp_like(asc, method=&#39;linear&#39;); heading_asc=None</span>
+<span class="sd">cube[&#39;desc_heading&#39;] = heading_desc.interp_like(asc, method=&#39;linear&#39;); heading_desc=None</span>
+
+<span class="sd"># and decompose:</span>
+<span class="sd">cube[&#39;U&#39;]=cube.asc.copy()</span>
+<span class="sd">cube[&#39;E&#39;]=cube.asc.copy()</span>
+<span class="sd">cube[&#39;U&#39;].values, cube[&#39;E&#39;].values = decompose_np(cube.asc, cube.desc, cube.asc_heading, cube.desc_heading, cube.asc_inc, cube.desc_inc)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="decompose_framencs"><a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.decompose_framencs">[docs]</a><span class="k">def</span> <span class="nf">decompose_framencs</span><span class="p">(</span><span class="n">framencs</span><span class="p">,</span> <span class="n">extract_cum</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">medianfix</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">annual</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; will decompose frame licsbas results</span>
+<span class="sd">    the basenames in framencs should contain frame id, followed by &#39;.&#39;, e.g.:</span>
+<span class="sd">    framencs = [&#39;062D_07629_131313.nc&#39;, &#39;172A_07686_131012.nc&#39;]</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        framencs (list):  licsbas nc result files, named by their frame id</span>
+<span class="sd">        extract_cum (bool): if True, will use the first frame and convert to pseudo vertical</span>
+<span class="sd">        annual (bool):   if True, will decompose annual increments</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        xr.Dataset with U, E, [cum_vert] arrays</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">framesetvel</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">frameset</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">firstrun</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="n">framencs</span><span class="p">:</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">nc</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;extracting frame &#39;</span><span class="o">+</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">inc</span><span class="p">,</span> <span class="n">heading</span> <span class="o">=</span> <span class="n">get_frame_inc_heading</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">framenc</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">nc</span><span class="p">)</span>
+        <span class="n">framevel</span> <span class="o">=</span> <span class="n">framenc</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">medianfix</span><span class="p">:</span>
+            <span class="n">framevel</span> <span class="o">=</span> <span class="n">framevel</span> <span class="o">-</span> <span class="n">framevel</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">firstrun</span><span class="p">:</span>
+            <span class="n">template</span> <span class="o">=</span> <span class="n">framevel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">firstrun</span> <span class="o">=</span> <span class="kc">False</span> 
+            <span class="k">if</span> <span class="n">extract_cum</span><span class="p">:</span>
+                <span class="n">cum_vert</span> <span class="o">=</span> <span class="n">framenc</span><span class="p">[</span><span class="s1">&#39;cum&#39;</span><span class="p">]</span>
+                <span class="n">inc</span> <span class="o">=</span> <span class="n">inc</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">framevel</span><span class="p">)</span>
+                <span class="n">cum_vert</span> <span class="o">=</span> <span class="n">cum_vert</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">inc</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">framevel</span> <span class="o">=</span> <span class="n">framevel</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">annual</span><span class="p">:</span>
+                <span class="n">framenc</span> <span class="o">=</span> <span class="n">framenc</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+        <span class="n">inc</span> <span class="o">=</span> <span class="n">inc</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">framevel</span><span class="p">)</span>
+        <span class="n">heading</span> <span class="o">=</span> <span class="n">heading</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">framevel</span><span class="p">)</span>
+        <span class="n">framesetvel</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">framevel</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">heading</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">inc</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">annual</span><span class="p">:</span>
+            <span class="c1"># doing the annuals!</span>
+            <span class="n">nc1</span> <span class="o">=</span> <span class="n">calculate_annual_vels</span><span class="p">(</span><span class="n">framenc</span><span class="p">)</span>
+            <span class="n">frameset</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">nc1</span><span class="p">[</span><span class="s1">&#39;vel_annual&#39;</span><span class="p">],</span> <span class="n">heading</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">inc</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+    <span class="n">dec</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">U</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">decompose_np_multi</span><span class="p">(</span><span class="n">framesetvel</span><span class="p">)</span>
+    <span class="n">dec</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span>
+    <span class="n">dec</span><span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">E</span>
+    <span class="k">if</span> <span class="n">annual</span><span class="p">:</span>
+        <span class="c1"># if annual, then frameset is from nc.vel_annual, heading.values, inc.values</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">framedata</span> <span class="ow">in</span> <span class="n">frameset</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">years</span><span class="p">:</span>
+                <span class="n">years</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">framedata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">yearst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">framedata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">year</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">yearst</span><span class="p">:</span>
+                        <span class="n">years</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+        <span class="c1"># ok, now then decompose the annuals per year</span>
+        <span class="n">vUxr</span> <span class="o">=</span> <span class="n">frameset</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span> <span class="o">=</span> <span class="n">years</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;vU&#39;</span><span class="p">)</span>
+        <span class="n">vExr</span> <span class="o">=</span> <span class="n">frameset</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span> <span class="o">=</span> <span class="n">years</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;vE&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+            <span class="n">annualset</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">framedata</span> <span class="ow">in</span> <span class="n">frameset</span><span class="p">:</span>
+                <span class="n">vel</span> <span class="o">=</span> <span class="n">framedata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span> <span class="o">=</span> <span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+                <span class="n">annualset</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">vel</span><span class="p">,</span> <span class="n">framedata</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">framedata</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;decomposing year &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">))</span>
+            <span class="n">vU</span><span class="p">,</span> <span class="n">vE</span> <span class="o">=</span> <span class="n">decompose_np_multi</span><span class="p">(</span><span class="n">annualset</span><span class="p">)</span> <span class="c1">#, beta = 0)</span>
+            <span class="n">vUxr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">year</span><span class="p">,:,:]</span> <span class="o">=</span> <span class="n">vU</span>
+            <span class="n">vExr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">year</span><span class="p">,:,:]</span> <span class="o">=</span> <span class="n">vE</span>
+        <span class="n">dec</span><span class="p">[</span><span class="s1">&#39;vU&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vUxr</span>
+        <span class="n">dec</span><span class="p">[</span><span class="s1">&#39;vE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vExr</span>
+    <span class="k">if</span> <span class="n">extract_cum</span><span class="p">:</span>
+        <span class="n">dec</span><span class="p">[</span><span class="s1">&#39;cum&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cum_vert</span>
+    <span class="k">return</span> <span class="n">dec</span></div>
+
+
+
+<span class="kn">import</span> <span class="nn">LiCSBAS_inv_lib</span> <span class="k">as</span> <span class="nn">inv_lib</span>
+<div class="viewcode-block" id="calculate_annual_vels"><a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.calculate_annual_vels">[docs]</a><span class="k">def</span> <span class="nf">calculate_annual_vels</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Will calculate annual velocities from LiCSBAS results</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        cube (xr.Dataset): loaded netcdf file, extracted using e.g. LiCSBAS_out2nc.py</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        xr.Dataset with new dataarray: vel_annual</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">annualset</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">cum</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;AS&#39;</span><span class="p">)</span>
+    <span class="n">firstrun</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">yeardt</span><span class="p">,</span> <span class="n">yearcum</span> <span class="ow">in</span> <span class="n">annualset</span><span class="p">:</span>
+        <span class="n">year</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">yeardt</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;processing year &#39;</span><span class="o">+</span><span class="n">year</span><span class="p">)</span>
+        <span class="n">dt_cum</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">tdate</span><span class="o">.</span><span class="n">toordinal</span><span class="p">()</span> <span class="k">for</span> <span class="n">tdate</span> <span class="ow">in</span> <span class="n">yearcum</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">values</span><span class="p">])</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">yeardt</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="o">.</span><span class="n">toordinal</span><span class="p">())</span><span class="o">/</span><span class="mf">365.25</span> <span class="c1"># in fraction of a year</span>
+        <span class="c1"># see LiCSBAS_cum2vel.py:</span>
+        <span class="n">cum_tmp</span> <span class="o">=</span> <span class="n">yearcum</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">n_im</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">cum_tmp</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">bool_allnan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">cum_tmp</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">vconst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">length</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">length</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="c1">#</span>
+        <span class="n">cum_tmp</span> <span class="o">=</span> <span class="n">cum_tmp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n_im</span><span class="p">,</span> <span class="n">length</span><span class="o">*</span><span class="n">width</span><span class="p">)[:,</span> <span class="o">~</span><span class="n">bool_allnan</span><span class="o">.</span><span class="n">ravel</span><span class="p">()]</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="n">vel</span><span class="p">[</span><span class="o">~</span><span class="n">bool_allnan</span><span class="p">],</span> <span class="n">vconst</span><span class="p">[</span><span class="o">~</span><span class="n">bool_allnan</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv_lib</span><span class="o">.</span><span class="n">calc_vel</span><span class="p">(</span><span class="n">cum_tmp</span><span class="p">,</span> <span class="n">dt_cum</span><span class="p">)</span>
+        <span class="c1">#vel[~bool_allnan], vconst[~bool_allnan] = calc_vel(cum_tmp, dt_cum)</span>
+        <span class="n">vel_annual</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">vel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">vel_annual</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">vel</span>
+        <span class="n">vel_annual</span> <span class="o">=</span> <span class="n">vel_annual</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;year&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">)})</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;vel_annual&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">firstrun</span><span class="p">:</span>
+            <span class="n">vel_annual_cube</span> <span class="o">=</span> <span class="n">vel_annual</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">firstrun</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1">#dv = vel</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vel_annual_cube</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">vel_annual_cube</span><span class="p">,</span><span class="n">vel_annual</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">)</span>
+            <span class="c1">#dv = np.vstack(dv,vel)</span>
+    <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;vel_annual&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vel_annual_cube</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cube</span></div>
+
+
+
+
+<div class="viewcode-block" id="get_frame_inc_heading"><a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.get_frame_inc_heading">[docs]</a><span class="k">def</span> <span class="nf">get_frame_inc_heading</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extracts inc and heading from E, U for given frame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">geoframedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span> <span class="n">frame</span><span class="p">)</span>
+    <span class="c1"># look angle (inc) / heading - probably ok, but needs check:</span>
+    <span class="n">e</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span><span class="n">frame</span><span class="o">+</span><span class="s1">&#39;.geo.E.tif&#39;</span><span class="p">)</span>
+    <span class="c1">#n=os.path.join(geoframedir,&#39;metadata&#39;,frame+&#39;.geo.N.tif&#39;) #no need for N</span>
+    <span class="n">u</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span><span class="n">frame</span><span class="o">+</span><span class="s1">&#39;.geo.U.tif&#39;</span><span class="p">)</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">e</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="c1">#n = load_tif2xr(n, cliparea_geo=cliparea)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">u</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="n">theta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">phi</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">e</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
+    <span class="n">heading</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">-</span><span class="mi">180</span>
+    <span class="n">inc</span> <span class="o">=</span> <span class="mi">90</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>   <span class="c1">#correct</span>
+    <span class="c1">#inc.values.tofile(outinc)</span>
+    <span class="k">return</span> <span class="n">inc</span><span class="p">,</span> <span class="n">heading</span></div>
+
+
+
+<div class="viewcode-block" id="decompose_dask"><a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.decompose_dask">[docs]</a><span class="k">def</span> <span class="nf">decompose_dask</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">blocklen</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple parallel decomposition of dec. datacube (must have asc,desc,asc_inc,desc_inc, asc_heading, desc_heading arrays)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">winsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">blocklen</span><span class="p">,</span> <span class="n">blocklen</span><span class="p">)</span>
+    <span class="n">asc</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">cube</span><span class="p">[</span><span class="s1">&#39;asc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">cube</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="n">ascinc</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">cube</span><span class="p">[</span><span class="s1">&#39;asc_inc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="n">descinc</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">cube</span><span class="p">[</span><span class="s1">&#39;desc_inc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="n">aschead</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">cube</span><span class="p">[</span><span class="s1">&#39;asc_heading&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="n">deschead</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">cube</span><span class="p">[</span><span class="s1">&#39;desc_heading&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="c1">#f = da.map_blocks(decompose_np, asc, desc, aschead, deschead, ascinc, descinc, beta=0, meta=np.array((),())) #, chunks = (1,1))</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span><span class="n">decompose_np</span><span class="p">,</span> <span class="n">asc</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">aschead</span><span class="p">,</span> <span class="n">deschead</span><span class="p">,</span> <span class="n">ascinc</span><span class="p">,</span> <span class="n">descinc</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="decompose_xr"><a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.decompose_xr">[docs]</a><span class="k">def</span> <span class="nf">decompose_xr</span><span class="p">(</span><span class="n">asc</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">heading_asc</span><span class="p">,</span> <span class="n">heading_desc</span><span class="p">,</span> <span class="n">inc_asc</span><span class="p">,</span> <span class="n">inc_desc</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform simple decomposition for two frames in asc and desc.</span>
+<span class="sd">    inputs are xr.dataarrays - this will also check/interpolate them to fit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cube</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;asc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">asc</span>
+    <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">desc</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">asc</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">);</span> <span class="n">desc</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">cube</span><span class="o">.</span><span class="n">asc</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">cube</span><span class="o">.</span><span class="n">asc</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">heading_asc</span><span class="p">):</span>
+        <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;asc_heading&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">heading_asc</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">asc</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">);</span> <span class="n">heading_asc</span><span class="o">=</span><span class="n">cube</span><span class="o">.</span><span class="n">asc_heading</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;desc_heading&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">heading_desc</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">asc</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">);</span> <span class="n">heading_desc</span><span class="o">=</span><span class="n">cube</span><span class="o">.</span><span class="n">desc_heading</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">inc_asc</span><span class="p">):</span>
+        <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;asc_inc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inc_asc</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">asc</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">);</span> <span class="n">inc_asc</span><span class="o">=</span><span class="n">cube</span><span class="o">.</span><span class="n">asc_inc</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;desc_inc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inc_desc</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">asc</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">);</span> <span class="n">inc_desc</span><span class="o">=</span><span class="n">cube</span><span class="o">.</span><span class="n">desc_inc</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">decompose_np</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">asc</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">cube</span><span class="o">.</span><span class="n">desc</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">heading_asc</span><span class="p">,</span> <span class="n">heading_desc</span><span class="p">,</span> <span class="n">inc_asc</span> <span class="p">,</span> <span class="n">inc_desc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cube</span><span class="p">[[</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">]]</span></div>
+
+
+<span class="c1"># 2022-10-18 - this should be pretty good one (next only use weights or something)</span>
+<div class="viewcode-block" id="decompose_np"><a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.decompose_np">[docs]</a><span class="k">def</span> <span class="nf">decompose_np</span><span class="p">(</span><span class="n">vel_asc</span><span class="p">,</span> <span class="n">vel_desc</span><span class="p">,</span> <span class="n">aschead</span><span class="p">,</span> <span class="n">deschead</span><span class="p">,</span> <span class="n">ascinc</span><span class="p">,</span> <span class="n">descinc</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decomposes values from ascending and descending np (or xr) arrays, using heading and inc. angle</span>
+<span class="sd">    (these might be arrays of same size of just float values)</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        beta (float): angle of expected horizontal motion direction, clockwise from the E, in degrees</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vel_E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">vel_desc</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">vel_U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">vel_desc</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="n">U_asc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">ascinc</span><span class="p">))</span>
+    <span class="n">E_asc</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">ascinc</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aschead</span><span class="o">+</span><span class="n">beta</span><span class="p">))</span>
+    <span class="n">U_desc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">descinc</span><span class="p">))</span>
+    <span class="n">E_desc</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">descinc</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">deschead</span><span class="o">+</span><span class="n">beta</span><span class="p">))</span>
+    <span class="c1">#</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">vel_E</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">vel_E</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="c1"># velocities</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">vel_asc</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">],</span> <span class="n">vel_desc</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]]])</span><span class="o">.</span><span class="n">T</span>
+            <span class="c1"># if the velocities contain nan, will return nan:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">d</span><span class="p">)):</span>
+                <span class="n">vel_U</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="n">vel_E</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># create the design matrix</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">U_asc</span><span class="p">):</span>  <span class="c1"># in case of only values (i.e. one inc and heading per each frame)</span>
+                    <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">U_asc</span><span class="p">,</span> <span class="n">E_asc</span><span class="p">],</span> <span class="p">[</span><span class="n">U_desc</span><span class="p">,</span> <span class="n">E_desc</span><span class="p">]])</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># in case this is array</span>
+                    <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">U_asc</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">],</span> <span class="n">E_asc</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]],</span> <span class="p">[</span><span class="n">U_desc</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">],</span> <span class="n">E_desc</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]]])</span>
+                <span class="c1"># solve the linear system for the Up and East velocities</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+                <span class="c1"># save to arrays</span>
+                <span class="n">vel_U</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">vel_E</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">vel_U</span><span class="p">,</span> <span class="n">vel_E</span></div>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">this is to load 3 datasets and decompose them:</span>
+<span class="sd">dirpath=&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/shared/temp/earmla&#39;</span>
+<span class="sd">#for frame in []</span>
+<span class="sd">nc1 = os.path.join(dirpath, &#39;051D_03973_131313.nc&#39;)</span>
+<span class="sd">nc1=xr.open_dataset(nc1)</span>
+<span class="sd">vel1 = nc1.vel.values</span>
+<span class="sd">heading1 = -169.87</span>
+<span class="sd">inc1 = 43.64</span>
+
+<span class="sd">nc2 = os.path.join(dirpath, &#39;124D_04017_131313.nc&#39;)</span>
+<span class="sd">nc2=xr.open_dataset(nc2)</span>
+<span class="sd">vel2 = nc2.vel.interp_like(nc1.vel).values</span>
+<span class="sd">heading2 = -169.88</span>
+<span class="sd">inc2 = 34.98</span>
+
+<span class="sd">nc3 = os.path.join(dirpath, &#39;175A_03997_131313.nc&#39;)</span>
+<span class="sd">nc3=xr.open_dataset(nc3)</span>
+<span class="sd">vel3 = nc3.vel.interp_like(nc1.vel).values</span>
+<span class="sd">heading3 = -10.16</span>
+<span class="sd">inc3 = 38.42</span>
+
+<span class="sd">years = np.array([2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022])</span>
+<span class="sd">vUxr = nc1.vel_annual.sel(year = years).copy().rename(&#39;vU&#39;)</span>
+<span class="sd">vExr = nc1.vel_annual.sel(year = years).copy().rename(&#39;vE&#39;)</span>
+<span class="sd">for year in years:</span>
+<span class="sd">    vel1 = nc1.vel_annual.sel(year = year).values</span>
+<span class="sd">    vel2 = nc2.vel_annual.sel(year = year).values</span>
+<span class="sd">    vel3 = nc3.vel_annual.sel(year = year).values</span>
+<span class="sd">    input_data = [(vel1, heading1, inc1), (vel2, heading2, inc2), (vel3, heading3, inc3)]</span>
+<span class="sd">    print(&#39;decomposing year &#39;+str(year))</span>
+<span class="sd">    vU, vE = decompose_np_multi(input_data, beta = 0)</span>
+<span class="sd">    vUxr.loc[year,:,:] = vU</span>
+<span class="sd">    vExr.loc[year,:,:] = vE</span>
+
+
+<span class="sd">decomposedxr = xr.Dataset()</span>
+<span class="sd">decomposedxr[&#39;vU&#39;] = vUxr</span>
+<span class="sd">decomposedxr[&#39;vE&#39;] = vExr</span>
+<span class="sd">decomposedxr.to_netcdf(&#39;decomposed_s1.nc&#39;)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="decompose_np_multi"><a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.decompose_np_multi">[docs]</a><span class="k">def</span> <span class="nf">decompose_np_multi</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decompose 2 or more frames</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        input data (list of tuples) e.g. input_data = [(vel1, heading1, inc1), (vel2, heading2, inc2), (vel3, heading3, inc3)]</span>
+<span class="sd">    </span>
+<span class="sd">    Note: velX is np.array and headingX/incX is in degrees, either a number or np.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">vel_E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">vel_U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="n">Us</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
+    <span class="n">Es</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
+    <span class="n">vels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">input_data</span><span class="p">:</span>
+        <span class="n">vel</span> <span class="o">=</span> <span class="n">frame</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">heading</span> <span class="o">=</span> <span class="n">frame</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">incangle</span> <span class="o">=</span> <span class="n">frame</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="c1">#Us = np.append(Us, np.cos(np.radians(incangle)))</span>
+        <span class="n">Us</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">incangle</span><span class="p">)))</span>
+        <span class="c1">#Es = np.append(Es, -np.sin(np.radians(incangle))*np.cos(np.radians(heading+beta)))</span>
+        <span class="n">Es</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">incangle</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">heading</span><span class="o">+</span><span class="n">beta</span><span class="p">)))</span>
+        <span class="n">vels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span>
+        <span class="c1"># run for each pixel</span>
+    <span class="n">numframes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vels</span><span class="p">)</span>
+    <span class="n">Us</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Us</span><span class="p">)</span>
+    <span class="n">Es</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Es</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">vel_E</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">vel_E</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="c1"># prepare template for d = G m</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(())</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numframes</span><span class="p">):</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">vels</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]]))</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="c1"># if at least one is nan, skip it:  # can improve it but &#39;all&#39; is not an option</span>
+                <span class="c1">#if np.isnan(np.max(d)):</span>
+                <span class="n">vel_U</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="n">vel_E</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># create the design matrix</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">Us</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>  <span class="c1"># in case of only values (i.e. one inc and heading per each frame)</span>
+                    <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">Us</span><span class="p">,</span> <span class="n">Es</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>              
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># in case this is array  # not tested!</span>
+                    <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">Us</span><span class="p">[:,</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">],</span> <span class="n">Es</span><span class="p">[:,</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span>
+                <span class="c1"># solve the linear system for the Up and East velocities</span>
+                <span class="c1">#m = np.linalg.solve(G, d)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">d</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c1"># save to arrays</span>
+                <span class="n">vel_U</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">vel_E</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">vel_U</span><span class="p">,</span> <span class="n">vel_E</span></div>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">aschead=-9.918319</span>
+<span class="sd">deschead=-169.61931</span>
+<span class="sd">ascinc=39.4824</span>
+<span class="sd">descinc=33.7491</span>
+<span class="sd">desc=xr.open_dataset(&#39;082D_05128_030500ok.nc&#39;)</span>
+<span class="sd">asc=xr.open_dataset(&#39;002A_05136_020502.nc&#39;)</span>
+
+
+
+<span class="sd">D=desc.cum[-2]-desc.cum[-3]</span>
+<span class="sd">A=asc.cum[-1]-asc.cum[-4]</span>
+
+<span class="sd">from unwrp_multiscale import *</span>
+<span class="sd">export_xr2tif(A,&#39;A.tif&#39;, dogdal=False)</span>
+<span class="sd">export_xr2tif(D,&#39;D.tif&#39;, dogdal=False)</span>
+<span class="sd">os.system(&#39;gdalwarp2match.py A.tif D.tif Aok.tif&#39;)</span>
+<span class="sd">os.system(&#39;gdalwarp2match.py D.tif Aok.tif Dok.tif&#39;)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<span class="sd">&#39;&#39;&#39; (old) usage example:</span>
+<span class="sd">#def decompose_xr(asc, desc, aschead, deschead, ascinc, descinc):</span>
+<span class="sd">#    </span>
+<span class="sd">U,E = decompose(&#39;Aok.tif&#39;, &#39;Dok.tif&#39;, aschead, deschead, ascinc, descinc)</span>
+<span class="sd">aa = rioxarray.open_rasterio(&#39;Aok.tif&#39;)</span>
+<span class="sd">aa.values[0]=U</span>
+<span class="sd">export_xr2tif(aa,&#39;U.tif&#39;, lonlat=False,dogdal=False)</span>
+
+<span class="sd">import LiCSBAS_io_lib as io</span>
+<span class="sd"># to load to np</span>
+<span class="sd">asctif=...</span>
+<span class="sd">desctif=...</span>
+<span class="sd">vel_asc = io.read_geotiff(asctif)</span>
+<span class="sd">vel_desc = io.read_geotiff(desctif)</span>
+
+
+
+<span class="sd">aschead=349.613</span>
+<span class="sd">deschead=190.3898</span>
+<span class="sd">ascinc=34.403</span>
+<span class="sd">descinc=34.240</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">orig AW approach:</span>
+<span class="sd">import matplotlib.pyplot as plt</span>
+
+
+<span class="sd"># these packages are only needed for the final multivariate plot</span>
+<span class="sd">import seaborn as sns</span>
+<span class="sd">import pandas as pd</span>
+<span class="sd">import interseis_lib as lib</span>
+
+
+
+<span class="sd"># setup file names</span>
+<span class="sd">vel_file_asc = &#39;data/087A_04904_121313_vel&#39;</span>
+<span class="sd">par_file_asc = &#39;data/087A_04904_121313.par&#39;</span>
+<span class="sd">E_file_asc = &#39;data/087A_04904_121313_E.geo&#39;</span>
+<span class="sd">N_file_asc = &#39;data/087A_04904_121313_N.geo&#39;</span>
+<span class="sd">U_file_asc = &#39;data/087A_04904_121313_U.geo&#39;</span>
+
+<span class="sd">vel_file_desc = &#39;data/167D_04884_131212_vel&#39;</span>
+<span class="sd">par_file_desc = &#39;data/167D_04884_131212.par&#39;</span>
+<span class="sd">E_file_desc = &#39;data/167D_04884_131212_E.geo&#39;</span>
+<span class="sd">N_file_desc = &#39;data/167D_04884_131212_N.geo&#39;</span>
+<span class="sd">U_file_desc = &#39;data/167D_04884_131212_U.geo&#39;</span>
+
+<span class="sd"># read array dimensions from par file</span>
+<span class="sd">width_asc = int(lib.get_par(par_file_asc,&#39;width&#39;))</span>
+<span class="sd">length_asc = int(lib.get_par(par_file_asc,&#39;nlines&#39;))</span>
+
+<span class="sd">width_desc = int(lib.get_par(par_file_desc,&#39;width&#39;))</span>
+<span class="sd">length_desc = int(lib.get_par(par_file_desc,&#39;nlines&#39;))</span>
+
+<span class="sd"># get corner positions</span>
+<span class="sd">corner_lat_asc = float(lib.get_par(par_file_asc,&#39;corner_lat&#39;))</span>
+<span class="sd">corner_lon_asc = float(lib.get_par(par_file_asc,&#39;corner_lon&#39;))</span>
+
+<span class="sd">corner_lat_desc = float(lib.get_par(par_file_desc,&#39;corner_lat&#39;))</span>
+<span class="sd">corner_lon_desc = float(lib.get_par(par_file_desc,&#39;corner_lon&#39;))</span>
+
+<span class="sd"># get post spacing (distance between velocity measurements)</span>
+<span class="sd">post_lat_asc = float(lib.get_par(par_file_asc,&#39;post_lat&#39;))</span>
+<span class="sd">post_lon_asc = float(lib.get_par(par_file_asc,&#39;post_lon&#39;))</span>
+
+<span class="sd">post_lat_desc = float(lib.get_par(par_file_desc,&#39;post_lat&#39;))</span>
+<span class="sd">post_lon_desc = float(lib.get_par(par_file_desc,&#39;post_lon&#39;))</span>
+
+<span class="sd"># calculate grid spacings</span>
+<span class="sd">lat_asc = corner_lat_asc + post_lat_asc*np.arange(1,length_asc+1) - post_lat_asc/2</span>
+<span class="sd">lon_asc = corner_lon_asc + post_lon_asc*np.arange(1,width_asc+1) - post_lon_asc/2</span>
+
+<span class="sd">lat_desc = corner_lat_desc + post_lat_desc*np.arange(1,length_desc+1) - post_lat_desc/2</span>
+<span class="sd">lon_desc = corner_lon_desc + post_lon_desc*np.arange(1,width_desc+1) - post_lon_desc/2</span>
+
+<span class="sd"># load in velocities</span>
+<span class="sd">vel_asc = np.fromfile(vel_file_asc, dtype=&#39;float32&#39;).reshape((length_asc, width_asc))</span>
+<span class="sd">vel_desc = np.fromfile(vel_file_desc, dtype=&#39;float32&#39;).reshape((length_desc, width_desc))</span>
+
+<span class="sd"># load in unit vectors</span>
+<span class="sd">E_asc = np.fromfile(E_file_asc, dtype=&#39;float32&#39;).reshape((length_asc, width_asc))</span>
+<span class="sd">N_asc = np.fromfile(N_file_asc, dtype=&#39;float32&#39;).reshape((length_asc, width_asc))</span>
+<span class="sd">U_asc = np.fromfile(U_file_asc, dtype=&#39;float32&#39;).reshape((length_asc, width_asc))</span>
+
+<span class="sd">E_desc = np.fromfile(E_file_desc, dtype=&#39;float32&#39;).reshape((length_desc, width_desc))</span>
+<span class="sd">N_desc = np.fromfile(N_file_desc, dtype=&#39;float32&#39;).reshape((length_desc, width_desc))</span>
+<span class="sd">U_desc = np.fromfile(U_file_desc, dtype=&#39;float32&#39;).reshape((length_desc, width_desc))</span>
+
+<span class="sd"># load the naf fault trace</span>
+<span class="sd">fault_trace = np.loadtxt(&#39;data/naf_trace.xy&#39;)</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="sd"># pre-allocate</span>
+<span class="sd">vel_E = np.zeros((len(lat_regrid), len(lon_regrid)))</span>
+<span class="sd">vel_U = np.zeros((len(lat_regrid), len(lon_regrid)))</span>
+
+<span class="sd"># loop through every pixel</span>
+<span class="sd">for ii in np.arange(0,len(lat_regrid)):</span>
+<span class="sd">    for jj in np.arange(0,len(lon_regrid)):</span>
+<span class="sd">        </span>
+<span class="sd">        # create the design matrix</span>
+<span class="sd">        G = np.array([[U_asc_regrid[ii,jj], E_asc_regrid[ii,jj]], [U_desc_regrid[ii,jj], E_desc_regrid[ii,jj]]])</span>
+<span class="sd">        </span>
+<span class="sd">        # get the two velocities for this pixel</span>
+<span class="sd">        d = np.array([[vel_asc_regrid[ii,jj], vel_desc_regrid[ii,jj]]]).T</span>
+<span class="sd">        </span>
+<span class="sd">        # solve the linear system for the Up and East velocities</span>
+<span class="sd">        m = np.linalg.solve(G, d)</span>
+<span class="sd">        </span>
+<span class="sd">        # save to arrays</span>
+<span class="sd">        vel_U[ii,jj] = m[0]</span>
+<span class="sd">        vel_E[ii,jj] = m[1]</span>
+<span class="sd">        </span>
+<span class="sd">&#39;&#39;&#39;</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, COMET and CEMAC teams.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
