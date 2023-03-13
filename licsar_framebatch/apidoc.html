@@ -57,7 +57,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../licsar_proc/apidoc.html">LiCSAR proc</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">LiCSAR FrameBatch</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#licsar-framecare">LiCSAR FrameCare</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.procdir"><code class="docutils literal notranslate"><span class="pre">procdir</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.subset_initialise_corners"><code class="docutils literal notranslate"><span class="pre">subset_initialise_corners()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.subset_initialise_centre_coords"><code class="docutils literal notranslate"><span class="pre">subset_initialise_centre_coords()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.vis_file"><code class="docutils literal notranslate"><span class="pre">vis_file()</span></code></a></li>
@@ -118,42 +117,7 @@
 <section id="licsar-framecare">
 <h2>LiCSAR FrameCare<a class="headerlink" href="#licsar-framecare" title="Permalink to this heading"></a></h2>
 <p>Library dealing with frames, bursts, their definition, init, visualisation, fixes, administration.</p>
-<span class="target" id="module-licsar_framebatch.python.framecare"></span><dl class="py data">
-<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.procdir">
-<span class="sig-name descname"><span class="pre">procdir</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/gws/etc/to/licsprocdir'</span></em><a class="headerlink" href="#licsar_framebatch.python.framecare.procdir" title="Permalink to this definition"></a></dt>
-<dd><p># notes:
-# this is how i imported burst db - first i converted them from sqlite3 to geojson
-# then i did, in /gws/nopw/j04/nceo_geohazards_vol1/projects/LiCS/proc/current/burst_database/IW/sqlite:</p>
-<p>import geopandas as gpd
-import shapely
-import time
-import LiCSquery as lq</p>
-<p>aa=gpd.read_file(‘burst_map.geojson’)
-aa=aa[aa.burst_id&gt;56099]</p>
-<p>aa[‘geometry’]=aa[‘geometry’].convex_hull</p>
-<dl class="simple">
-<dt>def _to_2d(x, y, z):</dt><dd><p>return tuple(filter(None, [x, y]))</p>
-</dd>
-</dl>
-<p>aa[‘geometry’] = aa[‘geometry’].apply(lambda x: shapely.ops.transform(_to_2d, x))</p>
-<p># now it is ready to import to database:
-for i,j in aa.iterrows():</p>
-<blockquote>
-<div><p>print(i)
-res = store_burst_geom(j[0], int(j[1][-1]), j[2], j[3], j[4][0], j[5].wkt)
-#time.sleep(0.25)</p>
-</div></blockquote>
-<p>lon1=72.510
-lon2=72.845
-lat1=38.130
-lat2=38.365
-resol_m=30
-frame=’100A_05236_141313’
-sid=’SAREZ’
-fc.subset_initialise_corners(frame, lon1, lon2, lat1, lat2, sid)</p>
-</dd></dl>
-
-<dl class="py function">
+<span class="target" id="module-licsar_framebatch.python.framecare"></span><dl class="py function">
 <dt class="sig sig-object py" id="licsar_framebatch.python.framecare.subset_initialise_corners">
 <span class="sig-name descname"><span class="pre">subset_initialise_corners</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_volc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resol_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#subset_initialise_corners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.subset_initialise_corners" title="Permalink to this definition"></a></dt>
 <dd><p>This will initialise a subset given by corner lon/lat-s.
