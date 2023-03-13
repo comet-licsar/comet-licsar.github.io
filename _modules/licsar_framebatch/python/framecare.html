@@ -135,22 +135,22 @@
 <span class="c1">#    return tuple(filter(None, [x, y]))</span>
 
 <span class="c1">#aa[&#39;geometry&#39;] = aa[&#39;geometry&#39;].apply(lambda x: shapely.ops.transform(_to_2d, x))</span>
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd"># now it is ready to import to database:</span>
-<span class="sd">#for i,j in aa.iterrows():</span>
-<span class="sd">#    print(i)</span>
-<span class="sd">#    res = store_burst_geom(j[0], int(j[1][-1]), j[2], j[3], j[4][0], j[5].wkt)</span>
-<span class="sd">#    #time.sleep(0.25)</span>
 
-<span class="sd">#lon1=72.510</span>
-<span class="sd">#lon2=72.845</span>
-<span class="sd">#lat1=38.130</span>
-<span class="sd">#lat2=38.365</span>
-<span class="sd">#resol_m=30</span>
-<span class="sd">#frame=&#39;100A_05236_141313&#39;</span>
-<span class="sd">#sid=&#39;SAREZ&#39;</span>
-<span class="sd">#fc.subset_initialise_corners(frame, lon1, lon2, lat1, lat2, sid)</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="c1"># now it is ready to import to database:</span>
+<span class="c1">#for i,j in aa.iterrows():</span>
+<span class="c1">#    print(i)</span>
+<span class="c1">#    res = store_burst_geom(j[0], int(j[1][-1]), j[2], j[3], j[4][0], j[5].wkt)</span>
+<span class="c1">#    #time.sleep(0.25)</span>
+
+<span class="c1">#lon1=72.510</span>
+<span class="c1">#lon2=72.845</span>
+<span class="c1">#lat1=38.130</span>
+<span class="c1">#lat2=38.365</span>
+<span class="c1">#resol_m=30</span>
+<span class="c1">#frame=&#39;100A_05236_141313&#39;</span>
+<span class="c1">#sid=&#39;SAREZ&#39;</span>
+<span class="c1">#fc.subset_initialise_corners(frame, lon1, lon2, lat1, lat2, sid)</span>
+
 
 <div class="viewcode-block" id="subset_initialise_corners"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.subset_initialise_corners">[docs]</a><span class="k">def</span> <span class="nf">subset_initialise_corners</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This will initialise a subset given by corner lon/lat-s.</span>
