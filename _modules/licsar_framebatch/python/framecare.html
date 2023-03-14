@@ -10,7 +10,6 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/sphinx_highlight.js"></script>
@@ -705,7 +704,16 @@
     <span class="n">bpd</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">bperp_file</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">get_master</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">asfilenames</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">asdate</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">asdatetime</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">metafile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="get_master"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_master">[docs]</a><span class="k">def</span> <span class="nf">get_master</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">asfilenames</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">asdate</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">asdatetime</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">metafile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets reference epoch of given frame, returns in several ways</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        frame (str): frame ID</span>
+<span class="sd">        asfilenames (bool): returns as filenames that were used to create this ref. epoch during init</span>
+<span class="sd">        asdate (bool): returns as dt.datetime.date</span>
+<span class="sd">        asdatetime (bool): will include also the acquisition centre time (returns as dt.datetime)</span>
+<span class="sd">        metafile (str): path to metadata file of the frame. if None, it will search in LiCSAR_public</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">metafile</span><span class="p">:</span>
         <span class="n">track</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]))</span>
         <span class="n">metafile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span><span class="n">track</span><span class="p">,</span><span class="n">frame</span><span class="p">,</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span><span class="s1">&#39;metadata.txt&#39;</span><span class="p">)</span>
@@ -741,7 +749,7 @@
                         <span class="nb">int</span><span class="p">(</span><span class="n">centime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
                         <span class="nb">int</span><span class="p">(</span><span class="n">centime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]),</span>
                         <span class="nb">int</span><span class="p">(</span><span class="n">centime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]))</span>
-    <span class="k">return</span> <span class="n">masterdate</span>
+    <span class="k">return</span> <span class="n">masterdate</span></div>
 
 
 <div class="viewcode-block" id="get_frame_master_s1ab"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_frame_master_s1ab">[docs]</a><span class="k">def</span> <span class="nf">get_frame_master_s1ab</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">metafile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -807,7 +815,14 @@
     <span class="k">return</span> <span class="n">newbids</span>
 
 
-<span class="k">def</span> <span class="nf">bursts2geopandas</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_s1burst</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="bursts2geopandas"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.bursts2geopandas">[docs]</a><span class="k">def</span> <span class="nf">bursts2geopandas</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_s1burst</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets geopandas layer for a list of burst IDs (in the form of bidtanx, i.e. e.g. 73_IW1_1234</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        bidtanxs (list): list of burst ids, e.g. [&#39;73_IW1_1234&#39;]</span>
+<span class="sd">        merge (bool): whether to merge the output into one polygon</span>
+<span class="sd">        use_s1burst (bool): use the official S-1 burst polygons (more accurate, including burst overlaps)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># in order to export to KML:</span>
     <span class="c1"># frame_gpd.to_file(&#39;~/kmls/&#39;+frame+&#39;.kml&#39;, driver=&#39;KML&#39;)</span>
     <span class="c1"># or to SHP:</span>
@@ -836,10 +851,18 @@
         <span class="n">framename</span> <span class="o">=</span> <span class="n">generate_frame_name</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">)</span>
         <span class="c1">#aoi_gpd = gpd.GeoDataFrame(index=[0], crs=crs, geometry=[polygon])</span>
         <span class="n">aoi_gpd</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">({</span><span class="s1">&#39;frameID&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">framename</span><span class="p">]},</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="p">[</span><span class="n">polygon</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">aoi_gpd</span>
+    <span class="k">return</span> <span class="n">aoi_gpd</span></div>
 
 
-<span class="k">def</span> <span class="nf">frame2geopandas</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">brute</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_s1burst</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="frame2geopandas"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.frame2geopandas">[docs]</a><span class="k">def</span> <span class="nf">frame2geopandas</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">brute</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_s1burst</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets geopandas layer for a frame</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        frame (str): frame ID</span>
+<span class="sd">        brute (bool): do not use polygons in LiCSInfo, but regenerate them instead (by quite brute/slow approach)</span>
+<span class="sd">        merge (bool): whether to merge the bursts into one (frame) polygon</span>
+<span class="sd">        use_s1burst (bool): use the official S-1 burst polygons (more accurate, including burst overlaps)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">use_s1burst</span><span class="p">:</span>
         <span class="n">bidtanxs</span><span class="o">=</span><span class="n">lq</span><span class="o">.</span><span class="n">get_bidtanxs_in_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
         <span class="n">bidtanxs</span><span class="o">=</span><span class="n">lq</span><span class="o">.</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">)</span>
@@ -857,7 +880,7 @@
             <span class="n">geom</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="n">wkt</span><span class="p">)</span>
             <span class="c1">#gpan[&#39;frameID&#39;] = frame</span>
             <span class="n">gpan</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">({</span><span class="s1">&#39;frameID&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">frame</span><span class="p">]},</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="p">[</span><span class="n">geom</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">gpan</span>
+    <span class="k">return</span> <span class="n">gpan</span></div>
 
 
 <span class="k">def</span> <span class="nf">frame2geopandas_brute</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
@@ -1167,8 +1190,11 @@
     <span class="k">return</span> <span class="n">polyid_name</span>
 
 <div class="viewcode-block" id="generate_new_frame"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.generate_new_frame">[docs]</a><span class="k">def</span> <span class="nf">generate_new_frame</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span><span class="n">testonly</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">hicode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    hicode... use &#39;H&#39; for high resolution (1/5 multilook), or &#39;M&#39; for medium, i.e. 56 m</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Main function to generate new frame definition based on selected bursts</span>
+<span class="sd">    Args:</span>
+<span class="sd">        bidtanxs (list): list of burst IDs in the bidtanx form, e.g. [&#39;73_IW1_1234&#39;,&#39;73_IW1_2345&#39;,..]</span>
+<span class="sd">        testonly (bool): if True, only perform dry run for debugging</span>
+<span class="sd">        hicode (str or None): special code for non-standard frame resolution; use &#39;H&#39; for high resolution (1/5 multilook), or &#39;M&#39; for medium, i.e. 56 m - not much used but should work ok</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#and now i can generate the new frame:</span>
     <span class="n">track</span> <span class="o">=</span> <span class="n">bidtanxs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1267,9 +1293,11 @@
     <span class="k">return</span> <span class="n">polyid_name</span></div>
 
 
-<span class="k">def</span> <span class="nf">generate_frame_from_bursts_kml</span><span class="p">(</span><span class="n">inputkml</span><span class="p">):</span>
+<div class="viewcode-block" id="generate_frame_from_bursts_kml"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.generate_frame_from_bursts_kml">[docs]</a><span class="k">def</span> <span class="nf">generate_frame_from_bursts_kml</span><span class="p">(</span><span class="n">inputkml</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Directly generates a frame definition from burst ids stored in a KML file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">bursts</span> <span class="o">=</span> <span class="n">load_bursts_from_kml</span><span class="p">(</span><span class="n">inputkml</span><span class="p">)</span>
-    <span class="n">generate_new_frame</span><span class="p">(</span><span class="n">bursts</span><span class="p">,</span> <span class="n">testonly</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">generate_new_frame</span><span class="p">(</span><span class="n">bursts</span><span class="p">,</span> <span class="n">testonly</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">load_bursts_from_txt</span><span class="p">(</span><span class="n">intxt</span><span class="p">):</span>
@@ -1306,7 +1334,8 @@
 
 
 
-<span class="k">def</span> <span class="nf">export_bidtanxs_to_kml</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span> <span class="n">outpath</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/shared/test&#39;</span><span class="p">,</span> <span class="n">projname</span> <span class="o">=</span> <span class="s1">&#39;track&#39;</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="export_bidtanxs_to_kml"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.export_bidtanxs_to_kml">[docs]</a><span class="k">def</span> <span class="nf">export_bidtanxs_to_kml</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span> <span class="n">outpath</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/shared/test&#39;</span><span class="p">,</span> <span class="n">projname</span> <span class="o">=</span> <span class="s1">&#39;track&#39;</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exports list of burst IDs (bidtanxs) to an outpath/projname_TRACK.kml file. If merge=True, the bursts will be merged to one polygon&quot;&quot;&quot;</span>
     <span class="c1">#kmlout name will be auto_completed</span>
     <span class="n">bidtanxs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
     <span class="n">tracks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -1329,7 +1358,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exporting to &#39;</span><span class="o">+</span><span class="n">kmlout</span><span class="p">)</span>
         <span class="n">frame_gpd</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">kmlout</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;KML&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">merge</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done. please edit the kmls - delete not wanted bursts, save and return&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done. please edit the kmls - delete not wanted bursts, save and return&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="export_frame_to_kml"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.export_frame_to_kml">[docs]</a><span class="k">def</span> <span class="nf">export_frame_to_kml</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">outpath</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol2/LiCS/temp/insar_temp/frames_redef/kmls&#39;</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Exports the frame polygon to kml. Currently only the uglier version (coarse burst polygons)</span>
@@ -1526,7 +1555,8 @@
     <span class="c1">#delete_frame_commands(frame)</span>
 
 
-<span class="k">def</span> <span class="nf">add_more_bursts</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">extrabursts</span><span class="p">,</span> <span class="n">testonly</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="add_more_bursts"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.add_more_bursts">[docs]</a><span class="k">def</span> <span class="nf">add_more_bursts</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">extrabursts</span><span class="p">,</span> <span class="n">testonly</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds some more bursts to the frame definition. Please follow the printed comments to delete the old frame definition, as this operation will basically create new frame definition.&quot;&quot;&quot;</span>
     <span class="c1">#extrabursts should be a list of bursts not existing in the frame, to be added there</span>
     <span class="c1">#in testonly - it will only give text output, rather than really do something..</span>
     <span class="n">bursts</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_bidtanxs_in_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
@@ -1537,7 +1567,7 @@
     <span class="n">newbursts</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
     <span class="n">generate_new_frame</span><span class="p">(</span><span class="n">newbursts</span><span class="p">,</span> <span class="n">testonly</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;to remove the old frame, you should do:&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;fc.delete_frame(&#39;</span><span class="si">{}</span><span class="s2">&#39;)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;fc.delete_frame(&#39;</span><span class="si">{}</span><span class="s2">&#39;)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span></div>
 
 
 </pre></div>
