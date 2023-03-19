@@ -62,6 +62,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">COMET Members Information</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#publishing-your-data-on-ceda-archive">Publishing your data on CEDA Archive</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#steps">steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata-yaml">metadata.yaml</a></li>
 </ul>
 </li>
 </ul>
@@ -106,6 +107,76 @@ get DOI and direct link, and what to do further
 (basically, we encourage you to have COMET results shared through EPOS system, just let us know)</p>
 <section id="steps">
 <h3>steps<a class="headerlink" href="#steps" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Organise your data under a <code class="docutils literal notranslate"><span class="pre">Jasmin</span></code> folder e.g.,
+<code class="docutils literal notranslate"><span class="pre">/gws/nopw/j04/nceo_geohazards_vol1/public/LiCSAR_products/derived_products/Turkey_earthquake/v1.0</span></code></p></li>
+<li><p>Add a <code class="docutils literal notranslate"><span class="pre">readme.txt</span></code> to introduce your file structure - this will be in your data archive.</p></li>
+<li><p>Add a completed <code class="docutils literal notranslate"><span class="pre">metadata.yaml</span></code> under the same directory - this will populate your data webpage.</p></li>
+<li><p>Open up permission of your folder by typing <a href="#id1"><span class="problematic" id="id2">``</span></a>chmod -R 777 * ``</p></li>
+<li><p>Contact CEDA for the DOI. The current point of contact is <code class="docutils literal notranslate"><span class="pre">Edward</span> <span class="pre">Williamson</span> <span class="pre">-</span> <span class="pre">STFC</span> <span class="pre">UKRI</span> <span class="pre">&lt;edward.williamson&#64;stfc.ac.uk&gt;</span></code>.</p></li>
+<li><p>Ed would prepare the online archive and send you a preview, e.g.,
+<code class="docutils literal notranslate"><span class="pre">https://data.ceda.ac.uk/neodc/comet/publications_data/Turkey_earthquake/v1.0</span></code>
+<code class="docutils literal notranslate"><span class="pre">https://catalogue.ceda.ac.uk/uuid/df93e92a3adc46b9a5c4bd3a547cd242</span></code></p></li>
+<li><p>After you’ve proofread the content, Ed will issue a DOI.</p></li>
+</ol>
+</section>
+<section id="metadata-yaml">
+<h3>metadata.yaml<a class="headerlink" href="#metadata-yaml" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;equivalent to data abstract&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;authors&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;firstname&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;surname&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;firstname&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;surname&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">},</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;bbox&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;north&quot;</span><span class="p">:</span> <span class="s2">&quot;geographical coverage of your data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;south&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;east&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;west&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;time_range&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;yyyy-mm-dd&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="s2">&quot;yyyy-mm-dd&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;lineage&quot;</span><span class="p">:</span> <span class="s2">&quot;equivalent to method section&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;quality&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;docs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;you can include references or links (such as the comet portal) to particular data set&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">},</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;project&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;catalogue_url&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PI&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;firstname&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;surname&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;funder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;grant_number&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;instrument&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;catalogue_url&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;computation&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;catalogue_url&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </section>
 </section>
 </section>
