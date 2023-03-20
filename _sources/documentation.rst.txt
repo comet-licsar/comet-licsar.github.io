@@ -20,6 +20,17 @@ links are automatically converted, e.g. as:
 Admin or dev comments
 =====================
 
+Earthquake Responder
+--------------------
+
+This section will be moved to a better place. Now, only few comments:
+1. the table for limits in selection of an EQ to process is:
+::python
+  from earthquake_responder import eq_limits; eq_limits
+
+2. if the eq is below the thresholds, you can force-ingest it by adding its USGS ID to ``$LiCSAR_public/EQ/exceptions.txt``
+
+
 How do I..
 ----------
 

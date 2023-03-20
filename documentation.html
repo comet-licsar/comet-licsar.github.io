@@ -64,6 +64,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Notes about documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#admin-or-dev-comments">Admin or dev comments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#earthquake-responder">Earthquake Responder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-do-i">How do I..</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#clone-and-edit-the-docs">clone and edit the docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#prepare-hi-res-frames">prepare hi res frames</a></li>
@@ -122,6 +123,18 @@
 </section>
 <section id="admin-or-dev-comments">
 <h1>Admin or dev comments<a class="headerlink" href="#admin-or-dev-comments" title="Permalink to this heading"></a></h1>
+<section id="earthquake-responder">
+<h2>Earthquake Responder<a class="headerlink" href="#earthquake-responder" title="Permalink to this heading"></a></h2>
+<p>This section will be moved to a better place. Now, only few comments:
+1. the table for limits in selection of an EQ to process is:
+::python</p>
+<blockquote>
+<div><p>from earthquake_responder import eq_limits; eq_limits</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>if the eq is below the thresholds, you can force-ingest it by adding its USGS ID to <code class="docutils literal notranslate"><span class="pre">$LiCSAR_public/EQ/exceptions.txt</span></code></p></li>
+</ol>
+</section>
 <section id="how-do-i">
 <h2>How do I..<a class="headerlink" href="#how-do-i" title="Permalink to this heading"></a></h2>
 <section id="clone-and-edit-the-docs">
