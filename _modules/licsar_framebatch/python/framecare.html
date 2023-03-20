@@ -210,7 +210,7 @@
     <span class="k">return</span></div>
 
 
-<div class="viewcode-block" id="subset_initialise_centre_coords"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.subset_initialise_centre_coords">[docs]</a><span class="k">def</span> <span class="nf">subset_initialise_centre_coords</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">clon</span><span class="p">,</span> <span class="n">clat</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="mi">25</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+<div class="viewcode-block" id="subset_initialise_centre_coords"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.subset_initialise_centre_coords">[docs]</a><span class="k">def</span> <span class="nf">subset_initialise_centre_coords</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">clon</span><span class="p">,</span> <span class="n">clat</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">radius_km</span> <span class="o">=</span> <span class="mi">25</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This will initialise a subset given by centre lon/lat and radius in km.</span>
 <span class="sd">    The results will be stored in \$LiCSAR_procdir/subsets</span>
 <span class="sd">    </span>
@@ -220,7 +220,7 @@
 <span class="sd">        clat (float): centre latitude,</span>
 <span class="sd">        sid (str):  string ID (for volcano, use its volcano ID number)</span>
 <span class="sd">        is_volc (bool): if true, it will set the output folder \$LiCSAR_procdir/subsets/volc</span>
-<span class="sd">        radius (float): radius (half of the diameter) of the subset scene, in km</span>
+<span class="sd">        radius_km (float): radius (half of the diameter) of the subset scene, in km</span>
 <span class="sd">        resol_m (float): output resolution in metres to have geocoding table ready in (note, RSLCs are anyway in full res)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
@@ -230,7 +230,7 @@
     <span class="n">lon2</span><span class="o">=</span><span class="n">lon</span><span class="o">+</span><span class="n">radius_deg</span>
     <span class="n">lat1</span><span class="o">=</span><span class="n">lat</span><span class="o">-</span><span class="n">radius_deg</span>
     <span class="n">lat2</span><span class="o">=</span><span class="n">lat</span><span class="o">+</span><span class="n">radius_deg</span>
-    <span class="n">subset_initialise_corners</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">subset_initialise_corners</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="n">is_volc</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="n">resol_m</span><span class="p">)</span>
     <span class="k">return</span></div>
 
 
