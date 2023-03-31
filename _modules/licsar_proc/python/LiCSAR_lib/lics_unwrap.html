@@ -467,12 +467,19 @@
     <span class="k">if</span> <span class="n">gacoscorrfile</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;GACOS data found, using to improve unwrapping&#39;</span><span class="p">)</span>
         <span class="c1">#ingacos = xr.open_dataset(gacoscorrfile)</span>
-        <span class="n">ingacos</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">gacoscorrfile</span><span class="p">)</span>
-        <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg</span><span class="o">.</span><span class="n">pha</span>
-        <span class="k">if</span> <span class="n">dolocal</span><span class="p">:</span>
-            <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ingacos</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span> <span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">ingacos</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ingacos</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">gacoscorrfile</span><span class="p">)</span>
+            <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg</span><span class="o">.</span><span class="n">pha</span>
+            <span class="k">if</span> <span class="n">dolocal</span><span class="p">:</span>
+                <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ingacos</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span> <span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">ingacos</span><span class="o">.</span><span class="n">values</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ingacos</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;gacos&#39;</span><span class="p">]</span> <span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error reading gacos correction, continuing without it&#39;</span><span class="p">)</span>
+            <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">False</span>
     
@@ -2217,22 +2224,30 @@
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;preparing GACOS correction&#39;</span><span class="p">)</span>
     <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
     <span class="n">geoframedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span><span class="n">frame</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">pair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">):</span>
-        <span class="n">epochgacos</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;epochs&#39;</span><span class="p">,</span><span class="n">epoch</span><span class="p">,</span><span class="n">epoch</span><span class="o">+</span><span class="s1">&#39;.sltd.geo.tif&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">epochgacos</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
+    <span class="c1">#for epoch in pair.split(&#39;_&#39;):</span>
+    <span class="c1">#    epochgacos = os.path.join(geoframedir,&#39;epochs&#39;,epoch,epoch+&#39;.sltd.geo.tif&#39;)</span>
+    <span class="c1">#    if not os.path.exists(epochgacos):</span>
+    <span class="c1">#        return False</span>
     <span class="n">epoch1</span> <span class="o">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">epoch2</span> <span class="o">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">gacos1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;epochs&#39;</span><span class="p">,</span><span class="n">epoch1</span><span class="p">,</span><span class="n">epoch1</span><span class="o">+</span><span class="s1">&#39;.sltd.geo.tif&#39;</span><span class="p">)</span>
     <span class="n">gacos2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;epochs&#39;</span><span class="p">,</span><span class="n">epoch2</span><span class="p">,</span><span class="n">epoch2</span><span class="o">+</span><span class="s1">&#39;.sltd.geo.tif&#39;</span><span class="p">)</span>
-    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;gmt grdmath </span><span class="si">{0}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1"> SUB = </span><span class="si">{2}</span><span class="s1">=gd:GTiff&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gacos2</span><span class="p">,</span> <span class="n">gacos1</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
-    <span class="c1">#print(cmd)</span>
-    <span class="n">rc</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outfile</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">outfile</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gacos1</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gacos1</span><span class="p">):</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;gmt grdmath </span><span class="si">{0}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1"> SUB = </span><span class="si">{2}</span><span class="s1">=gd:GTiff&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gacos2</span><span class="p">,</span> <span class="n">gacos1</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outfile</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">outfile</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error in GACOS processing of pair &#39;</span><span class="o">+</span><span class="n">pair</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gacos1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">gacos1</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gacos2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">gacos2</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error in GACOS processing of pair &#39;</span><span class="o">+</span><span class="n">pair</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span></div>
+    <span class="c1">#print(cmd)</span>
+    
 
 
 <div class="viewcode-block" id="remove_height_corr"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_height_corr">[docs]</a><span class="k">def</span> <span class="nf">remove_height_corr</span><span class="p">(</span><span class="n">ifg_ml</span><span class="p">,</span> <span class="n">corr_thres</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">dounw</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">nonlinear</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
