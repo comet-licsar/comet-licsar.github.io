@@ -48,4 +48,8 @@ Processing at JASMIN
 LiCSAR at JASMIN notebooks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Instructions on setting LiCSAR mamba environment at JASMIN notebooks:
+Although we use primarily JASMIN as in materials above (i.e. ssh in terminal), one can also access `JASMIN Jupyter Notebook service <https://notebooks.jasmin.ac.uk>`_ .
+And if you run a simple script in sci server terminal: `install_mamba_jupy.sh`, you will then be able to connect to mambalics environment that includes LiCSAR testing codes.
+Consider this message a LiCSAR Easter Egg..
+
+Note: while you will have access to /gws folders for reading, you will NOT have access to /scratch disks and you will have write rights only to your home directory.
