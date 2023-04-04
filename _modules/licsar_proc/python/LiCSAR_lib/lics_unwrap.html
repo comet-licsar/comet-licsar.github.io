@@ -2240,18 +2240,19 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error in GACOS processing of pair &#39;</span><span class="o">+</span><span class="n">pair</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gacos1</span><span class="p">):</span>
-        <span class="c1"># if only one exists, need to multiply by -1</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;gmt grdmath </span><span class="si">{0}</span><span class="s1"> NEG = </span><span class="si">{1}</span><span class="s1">=gd:GTiff&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gacos1</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
-        <span class="n">rc</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outfile</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">outfile</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error in GACOS processing of pair &#39;</span><span class="o">+</span><span class="n">pair</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gacos2</span><span class="p">):</span>
-        <span class="c1"># if only S correction exists, we just use M=0, so:</span>
-        <span class="k">return</span> <span class="n">gacos2</span>
+    <span class="c1"># this below is a good attempt to avoid loop closure errors, but troposphere can cause STRONG ramps</span>
+    <span class="c1">#elif os.path.exists(gacos1):</span>
+    <span class="c1">#    # if only one exists, need to multiply by -1</span>
+    <span class="c1">#    cmd = &#39;gmt grdmath {0} NEG = {1}=gd:GTiff&#39;.format(gacos1, outfile)</span>
+    <span class="c1">#    rc = os.system(cmd)</span>
+    <span class="c1">#    if os.path.exists(outfile):</span>
+    <span class="c1">#        return outfile</span>
+    <span class="c1">#    else:</span>
+    <span class="c1">#        print(&#39;error in GACOS processing of pair &#39;+pair)</span>
+    <span class="c1">#        return False</span>
+    <span class="c1">#elif os.path.exists(gacos2):</span>
+    <span class="c1">#    # if only S correction exists, we just use M=0, so:</span>
+    <span class="c1">#    return gacos2</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>
     <span class="c1">#print(cmd)</span>
