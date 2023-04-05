@@ -79,6 +79,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_height_corr"><code class="docutils literal notranslate"><span class="pre">remove_height_corr()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_xr"><code class="docutils literal notranslate"><span class="pre">unwrap_xr()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_np"><code class="docutils literal notranslate"><span class="pre">unwrap_np()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.calculate_gradient"><code class="docutils literal notranslate"><span class="pre">calculate_gradient()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.export_xr2tif"><code class="docutils literal notranslate"><span class="pre">export_xr2tif()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.get_fft_std"><code class="docutils literal notranslate"><span class="pre">get_fft_std()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.load_tif2xr"><code class="docutils literal notranslate"><span class="pre">load_tif2xr()</span></code></a></li>
@@ -656,6 +657,23 @@ or + numpy.ndarray: connected components (if requested)</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.calculate_gradient">
+<span class="sig-name descname"><span class="pre">calculate_gradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deramp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#calculate_gradient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.calculate_gradient" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates gradient of continuous data (not tested for phase)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xar</strong> (<em>xr.DataArray</em>) – e.g. ifg[‘unw’]</p></li>
+<li><p><strong>deramp</strong> (<em>bool</em>) – if True, it will remove overall ramp</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>xr.DataArray</p>
 </dd>
 </dl>
 </dd></dl>

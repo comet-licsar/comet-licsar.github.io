@@ -2443,6 +2443,24 @@
         <span class="k">return</span> <span class="n">unw1</span></div>
 
 
+<div class="viewcode-block" id="calculate_gradient"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.calculate_gradient">[docs]</a><span class="k">def</span> <span class="nf">calculate_gradient</span><span class="p">(</span><span class="n">xar</span><span class="p">,</span> <span class="n">deramp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates gradient of continuous data (not tested for phase)</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        xar (xr.DataArray): e.g. ifg[&#39;unw&#39;]</span>
+<span class="sd">        deramp (bool): if True, it will remove overall ramp</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        xr.DataArray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gradis</span><span class="o">=</span><span class="n">xar</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">vgrad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">gradis</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">gradis</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">vgrad</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">vgrad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">deramp</span><span class="p">:</span>
+        <span class="n">gradis</span><span class="o">=</span><span class="n">deramp_unw</span><span class="p">(</span><span class="n">gradis</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gradis</span></div>
+
+
 <span class="k">def</span> <span class="nf">correct_hgt</span><span class="p">(</span><span class="n">ifg_mlc</span><span class="p">,</span> <span class="n">blocklen</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">dounw</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nonlinear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">minheight</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">mingausscoh</span><span class="o">=</span><span class="mf">0.4</span><span class="p">):</span>
     <span class="c1">#ifg_ml[&#39;hgtcorr&#39;] = ifg_ml[&#39;pha&#39;]</span>
     <span class="n">winsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">blocklen</span><span class="p">,</span> <span class="n">blocklen</span><span class="p">)</span>
