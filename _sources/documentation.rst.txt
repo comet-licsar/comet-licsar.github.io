@@ -26,7 +26,7 @@ Earthquake Responder
 This section will be moved to a better place. Now, only few comments:
 1. the table for limits in selection of an EQ to process is:
 ::python
-  from earthquake_responder import eq_limits; eq_limits
+    from earthquake_responder import eq_limits; eq_limits
 
 2. if the eq is below the thresholds, you can force-ingest it by adding its USGS ID to ``$LiCSAR_public/EQ/exceptions.txt``
 
@@ -41,19 +41,19 @@ few steps are needed to clone and set the docs on your computer. first of all, y
 
 you may do e.g.
 ::
-  ssh-keygen -t ed25519 -f ~/.ssh/id_ed -C "YOURUSERNAME@leeds.ac.uk"
+    ssh-keygen -t ed25519 -f ~/.ssh/id_ed -C "YOURUSERNAME@leeds.ac.uk"
 
 then edit your ~/.ssh/config to contain:
 ::
-  Host github.com
-    IdentityFile ~/.ssh/id_ed
-    IdentitiesOnly yes
+    Host github.com
+      IdentityFile ~/.ssh/id_ed
+      IdentitiesOnly yes
 
 Afterwards, you can just enter some directory and clone (and set) the repo there using:
 ::
-  git clone git@github.com:comet-licsar/comet-licsar.github.io.git
-  cd comet-licsar.github.io
-  git remote set-url origin git@github.com:comet-licsar/comet-licsar.github.io.git
+    git clone git@github.com:comet-licsar/comet-licsar.github.io.git
+    cd comet-licsar.github.io
+    git remote set-url origin git@github.com:comet-licsar/comet-licsar.github.io.git
 
 ok, then you're set and you can edit and push changes (if you are maintainer) as usual.
 
@@ -64,27 +64,25 @@ prepare hi res frames
 say we have an AOI as e.g.
 
 ::
-
-  import framecare as fc
-  lat1,lon1 = 51.1, 15.7
-  lat2,lon2 = 51.8, 16.5
-  
-  # first get bursts over that AOI, e.g. as:
-  bursts = fc.lq.get_bursts_in_polygon(lon1,lon2,lat1,lat2)
-  bursts = fc.lq.sql2outlist(bursts)
-  
-  # now manually check the bursts and select only 1 relorb related..
-  bursts = ....
-  
-  # then generate high res frame with the AOI
-  fc.generate_new_frame(bursts, testonly=False, hicode='H')
+    import framecare as fc
+    lat1,lon1 = 51.1, 15.7
+    lat2,lon2 = 51.8, 16.5
+    
+    # first get bursts over that AOI, e.g. as:
+    bursts = fc.lq.get_bursts_in_polygon(lon1,lon2,lat1,lat2)
+    bursts = fc.lq.sql2outlist(bursts)
+    
+    # now manually check the bursts and select only 1 relorb related..
+    bursts = ....
+    
+    # then generate high res frame with the AOI
+    fc.generate_new_frame(bursts, testonly=False, hicode='H')
   
 
 Afterwards initialize the new frame with parameter -C, i.e.:
 
 ::
-
-   licsar_initialize_frame.sh -C 15.7/16.5/51.1/51.8 022A_0142H_000203
+    licsar_initialize_frame.sh -C 15.7/16.5/51.1/51.8 022A_0142H_000203
 
 
 prepare hi res subframes
@@ -107,12 +105,11 @@ He defined the region as (lons/lats): 72.510/72.845/38.130/38.365.
 Thus, let's get frames and initialise their subsets using:
 
 ::
-
-  import framecare as fc
-  frames=fc.lq.get_frames_in_lonlat(72.7,38.2)
-  # returns: (('005D_05199_131313',), ('100A_05236_141313',))
-  for frame in frames:
-      fc.subset_initialise_corners(frame, 72.510, 72.845, 38.130, 38.365, 'SAREZ')
+    import framecare as fc
+    frames=fc.lq.get_frames_in_lonlat(72.7,38.2)
+    # returns: (('005D_05199_131313',), ('100A_05236_141313',))
+    for frame in frames:
+        fc.subset_initialise_corners(frame, 72.510, 72.845, 38.130, 38.365, 'SAREZ')
 
 and that's it. Now you may proceed just to process the frames as usual.
 Note that this will not generate interferograms. But this can be done simply by running `framebatch_gapfill.sh`
@@ -122,8 +119,7 @@ If this is only one-off procedure (no need to store in `subsets` folder), you ma
 run in their `$BATCH_CACHE_DIR/$frame` following command that will also generate interferograms:
 
 ::
-
-   clip_slc.sh SAREZ_005D 72.510 72.845 38.130 38.365 0 0.00027 1
+    clip_slc.sh SAREZ_005D 72.510 72.845 38.130 38.365 0 0.00027 1
 
 
 test
@@ -161,9 +157,6 @@ h4
 
 h5
 ^^
-
-h6
-""
 
 **bold**
 *italic*
