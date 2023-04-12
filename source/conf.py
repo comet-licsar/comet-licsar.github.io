@@ -86,7 +86,8 @@ autodoc_mock_imports = [
     'astropy', 'cv2', 'matplotlib', 'numpy', 'osgeo', 'pandas', 'rioxarray',
     'dask', 'fiona', 'geopandas', 'LiCSAR_lib', 'mk_imag_lib',
     'LiCSAR_misc', 'LiCSBAS_inv_lib', 'LiCSquery', 'lics_unwrap',
-    's1data', 'scipy', 'shapely', 'sklearn', 'xarray', 'volcdb'
+    's1data', 'scipy', 'shapely', 'sklearn', 'xarray', 'volcdb',
+    'pymysql', 'dbfunctions'
 ]
 
 # Order autodoc functions as they are in source:
