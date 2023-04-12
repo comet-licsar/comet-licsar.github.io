@@ -95,6 +95,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_std_coh"><code class="docutils literal notranslate"><span class="pre">make_std_coh()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.build_amp_avg_std"><code class="docutils literal notranslate"><span class="pre">build_amp_avg_std()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.build_coh_avg_std"><code class="docutils literal notranslate"><span class="pre">build_coh_avg_std()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_costs"><code class="docutils literal notranslate"><span class="pre">make_snaphu_costs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.deramp_unw"><code class="docutils literal notranslate"><span class="pre">deramp_unw()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.deramp_ifg_tif"><code class="docutils literal notranslate"><span class="pre">deramp_ifg_tif()</span></code></a></li>
 </ul>
@@ -870,6 +871,16 @@ improvised way, not reading much about it… pure intuition (knowing this is onl
 <dd class="field-even"><p>xr.DataArray [, xr.DataArray, xr.DataArray]</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_costs">
+<span class="sig-name descname"><span class="pre">make_snaphu_costs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">costsfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_snaphu_costs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_costs" title="Permalink to this definition"></a></dt>
+<dd><p>Creates proper costs file from mask to be used by snaphu.
+:param mask: expected is: 0 for what is to be masked, 1 for what should remain (hi coh)
+:type mask: np.ndarray
+:param costsfile: where to store the costs file
+:type costsfile: str</p>
 </dd></dl>
 
 <dl class="py function">

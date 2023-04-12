@@ -2114,7 +2114,8 @@
     <span class="k">return</span> <span class="n">npa</span></div>
 
 <span class="c1"># main_unwrap(binCPX, bincoh, binmask, outunwbin, width, bin_est</span>
-<div class="viewcode-block" id="main_unwrap"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap">[docs]</a><span class="k">def</span> <span class="nf">main_unwrap</span><span class="p">(</span><span class="n">cpxbin</span><span class="p">,</span> <span class="n">cohbin</span><span class="p">,</span> <span class="n">maskbin</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">outunwbin</span> <span class="o">=</span> <span class="s1">&#39;unwrapped.bin&#39;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">est</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">bin_pre_remove</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">conncomp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">printout</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="main_unwrap"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap">[docs]</a><span class="k">def</span> <span class="nf">main_unwrap</span><span class="p">(</span><span class="n">cpxbin</span><span class="p">,</span> <span class="n">cohbin</span><span class="p">,</span> <span class="n">maskbin</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">outunwbin</span> <span class="o">=</span> <span class="s1">&#39;unwrapped.bin&#39;</span><span class="p">,</span>
+                <span class="n">width</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">est</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">bin_pre_remove</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">conncomp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">printout</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Main function to perform unwrapping with snaphu.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
@@ -2131,6 +2132,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1">#print(&#39;WARNING - we skip using mask here, as snaphu -M really does not do good job. need to change for AH+KS solution soon&#39;)</span>
     <span class="c1">#maskbin = None</span>
+    <span class="c1"># TODO: make_snaphu_costs(mask, costsfile = &#39;&#39;</span>
     <span class="k">if</span> <span class="n">width</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error - width is zero&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -3335,10 +3337,35 @@
 
 <span class="c1"># Solution by Andy and Karsten to recalculate costs for masked (NN-filled) areas - not used here yet</span>
 
+<div class="viewcode-block" id="make_snaphu_costs"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_costs">[docs]</a><span class="k">def</span> <span class="nf">make_snaphu_costs</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">costsfile</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates proper costs file from mask to be used by snaphu.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        mask (np.ndarray): expected is: 0 for what is to be masked, 1 for what should remain (hi coh)</span>
+<span class="sd">        costsfile (str): where to store the costs file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#parts of the interferogram with low coherence</span>
+    <span class="c1">#zeroix = coh &lt; gc.coh_unwrap_threshold  #orig value was 0.5</span>
+    <span class="c1">#mask = .. #must be boolean?</span>
+    <span class="c1">#zeroix = mask.astype(np.int8)</span>
+    <span class="n">zeroix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mask</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># reversing 0/1 for get_edges</span>
+    <span class="c1">#get edges</span>
+    <span class="n">edges</span><span class="p">,</span> <span class="n">n_edge</span><span class="p">,</span> <span class="n">rowix</span><span class="p">,</span> <span class="n">colix</span><span class="p">,</span> <span class="n">gridix</span> <span class="o">=</span> <span class="n">get_edges</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">zeroix</span><span class="p">)</span>
+    <span class="c1">#create costs</span>
+    <span class="n">rowcost</span><span class="p">,</span> <span class="n">colcost</span> <span class="o">=</span> <span class="n">get_costs</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">n_edge</span><span class="p">,</span> <span class="n">rowix</span><span class="p">,</span> <span class="n">colix</span><span class="p">,</span> <span class="n">zeroix</span><span class="p">)</span>
+    <span class="c1">#find spots which are not below coherence threshold</span>
+    <span class="n">ithis</span><span class="p">,</span> <span class="n">jthis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">zeroix</span><span class="p">)</span>
+    <span class="c1"># now export to outcostsfile</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">costsfile</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">rowcost</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">colcost</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">costsfile</span></div>
+
 <span class="c1">################################################################################</span>
 <span class="c1"># Get edges function</span>
 <span class="c1">################################################################################</span>
+<span class="c1">#</span>
 <span class="k">def</span> <span class="nf">get_edges</span><span class="p">(</span><span class="n">ph</span><span class="p">,</span><span class="n">zeroix</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">scipy.spatial</span> <span class="k">as</span> <span class="nn">spat</span>
     <span class="n">length</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">ph</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">zeroix</span><span class="p">)</span>
     <span class="n">datapoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
