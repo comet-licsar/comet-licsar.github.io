@@ -240,7 +240,41 @@
     <span class="n">lat1</span><span class="p">,</span><span class="n">lat2</span><span class="o">=</span><span class="nb">sorted</span><span class="p">([</span><span class="n">lat1</span><span class="p">,</span><span class="n">lat2</span><span class="p">])</span>
     <span class="c1">#</span>
     <span class="n">track</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]))</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        track=str(int(frame[0:3]))</span>
+<span class="sd">    framedir = os.path.join(os.environ[&#39;LiCSAR_procdir&#39;],track,frame)</span>
+<span class="sd">    </span>
+<span class="sd">    subsetdir = os.path.join(os.environ[&#39;LiCSAR_procdir&#39;],&#39;subsets&#39;,sidpath,frame[:4])</span>
+<span class="sd">    if os.path.exists(subsetdir):</span>
+<span class="sd">        print(&#39;the subset directory exists. continuing anyway..&#39;)</span>
+<span class="sd">    if not os.path.exists(os.path.join(framedir, &#39;subsets&#39;)):</span>
+<span class="sd">        os.mkdir(os.path.join(framedir, &#39;subsets&#39;))</span>
+<span class="sd">    #</span>
+<span class="sd">    # get median height</span>
+<span class="sd">    print(&#39;getting median height&#39;)</span>
+<span class="sd">    hgt=os.path.join(os.environ[&#39;LiCSAR_public&#39;], str(int(frame[:3])), frame, &#39;metadata&#39;, frame+&#39;.geo.hgt.tif&#39;)</span>
+<span class="sd">    a=rioxarray.open_rasterio(hgt)</span>
+<span class="sd">    a=a.sortby([&#39;x&#39;,&#39;y&#39;])</span>
+<span class="sd">    medhgt=round(float(a.sel(x=slice(lon1,lon2), y=slice(lat1, lat2)).median()))</span>
+<span class="sd">    #medhgt=round(float(a.sel(x=(lon1,lon2), y=(lat1, lat2), method=&#39;nearest&#39;).median()))</span>
+<span class="sd">    print(&#39;... as {} m&#39;.format(str(medhgt)))</span>
+<span class="sd">    #</span>
+<span class="sd">    # running the clipping in init-only mode</span>
+<span class="sd">    clipcmd = &quot;cd &quot;+framedir+&quot;; &quot;</span>
+<span class="sd">    clipcmd = clipcmd + &quot;clip_slc.sh &quot;+subsetdir+&quot; &quot;+str(lon1)+&quot; &quot;+str(lon2)+&quot; &quot;</span>
+<span class="sd">    clipcmd = clipcmd +str(lat1)+&quot; &quot;+str(lat2)+&quot; &quot;</span>
+<span class="sd">    clipcmd = clipcmd +str(medhgt)+&quot; &quot;+str(resol)+&quot; 0 1&quot;</span>
+<span class="sd">    #</span>
+<span class="sd">    if os.path.exists(subsetdir):</span>
+<span class="sd">        print(&#39;this subset already exists in:&#39;)</span>
+<span class="sd">        print(subsetdir)</span>
+<span class="sd">        print(&#39;cancelling for now - you may do this manually adapting:&#39;)</span>
+<span class="sd">        print(clipcmd)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">framedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_procdir&#39;</span><span class="p">],</span><span class="n">track</span><span class="p">,</span><span class="n">frame</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">framedir</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error, seems the frame was not initialised, cancelling&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
     <span class="n">subsetdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_procdir&#39;</span><span class="p">],</span><span class="s1">&#39;subsets&#39;</span><span class="p">,</span><span class="n">sidpath</span><span class="p">,</span><span class="n">frame</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">subsetdir</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;the subset directory exists. continuing anyway..&#39;</span><span class="p">)</span>
@@ -261,6 +295,13 @@
     <span class="n">clipcmd</span> <span class="o">=</span> <span class="n">clipcmd</span> <span class="o">+</span> <span class="s2">&quot;clip_slc.sh &quot;</span><span class="o">+</span><span class="n">subsetdir</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">lon1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">lon2</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; &quot;</span>
     <span class="n">clipcmd</span> <span class="o">=</span> <span class="n">clipcmd</span> <span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; &quot;</span>
     <span class="n">clipcmd</span> <span class="o">=</span> <span class="n">clipcmd</span> <span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">medhgt</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">resol</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; 0 1&quot;</span>
+    <span class="c1">#</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">subsetdir</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;this subset already exists in:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">subsetdir</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cancelling for now - you may do this manually adapting:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">clipcmd</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
     <span class="c1">#</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;initializing the subset&#39;</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">framedir</span><span class="p">)</span>
