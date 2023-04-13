@@ -75,6 +75,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap"><code class="docutils literal notranslate"><span class="pre">main_unwrap()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview"><code class="docutils literal notranslate"><span class="pre">create_preview()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_conf"><code class="docutils literal notranslate"><span class="pre">make_snaphu_conf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_correction"><code class="docutils literal notranslate"><span class="pre">make_gacos_correction()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_ifg"><code class="docutils literal notranslate"><span class="pre">make_gacos_ifg()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_height_corr"><code class="docutils literal notranslate"><span class="pre">remove_height_corr()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.unwrap_xr"><code class="docutils literal notranslate"><span class="pre">unwrap_xr()</span></code></a></li>
@@ -567,6 +568,23 @@ All nans in arr, stay nans in gauss.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_correction">
+<span class="sig-name descname"><span class="pre">make_gacos_correction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_gacos_correction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_correction" title="Permalink to this definition"></a></dt>
+<dd><p>Creates GACOS correction for the interferogram. works only at JASMIN</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>string</em>) – frame ID</p></li>
+<li><p><strong>pair</strong> (<em>string</em>) – pair ID (e.g. ‘20201001_20201201’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>xr.DataArray (GACOS correction), or False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_ifg">
 <span class="sig-name descname"><span class="pre">make_gacos_ifg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_gacos_ifg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_gacos_ifg" title="Permalink to this definition"></a></dt>
 <dd><p>Creates GACOS correction for the interferogram. works only at JASMIN</p>
@@ -575,6 +593,7 @@ All nans in arr, stay nans in gauss.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>frame</strong> (<em>string</em>) – frame ID</p></li>
 <li><p><strong>pair</strong> (<em>string</em>) – pair ID (e.g. ‘20201001_20201201’)</p></li>
+<li><p><strong>outfile</strong> (<em>string</em>) – where to save the correction</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
