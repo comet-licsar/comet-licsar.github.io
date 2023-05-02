@@ -72,6 +72,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview_bin"><code class="docutils literal notranslate"><span class="pre">create_preview_bin()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.RI2cpx"><code class="docutils literal notranslate"><span class="pre">RI2cpx()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.remove_islands"><code class="docutils literal notranslate"><span class="pre">remove_islands()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.filterhistmed"><code class="docutils literal notranslate"><span class="pre">filterhistmed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_histmed_ndarray"><code class="docutils literal notranslate"><span class="pre">filter_histmed_ndarray()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.main_unwrap"><code class="docutils literal notranslate"><span class="pre">main_unwrap()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.create_preview"><code class="docutils literal notranslate"><span class="pre">create_preview()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_snaphu_conf"><code class="docutils literal notranslate"><span class="pre">make_snaphu_conf()</span></code></a></li>
@@ -509,6 +511,18 @@ All nans in arr, stay nans in gauss.</p>
 <dd class="field-odd"><p>np.array</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.filterhistmed">
+<span class="sig-name descname"><span class="pre">filterhistmed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#filterhistmed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.filterhistmed" title="Permalink to this definition"></a></dt>
+<dd><p>Support function to be used with generic_filter (where only 1D array is passed, expecting one output-&gt;using median here only)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_histmed_ndarray">
+<span class="sig-name descname"><span class="pre">filter_histmed_ndarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ndarr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#filter_histmed_ndarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_histmed_ndarray" title="Permalink to this definition"></a></dt>
+<dd><p>Main filtering function, works with both numpy.ndarray and xr.DataArray</p>
 </dd></dl>
 
 <dl class="py function">
