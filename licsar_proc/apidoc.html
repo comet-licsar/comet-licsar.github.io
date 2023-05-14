@@ -116,8 +116,35 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#licsinfo-functions">LiCSInfo functions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#licsquery">LiCSquery</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#lics-volc-db">LiCS Volc DB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#licsquery">LiCSquery</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.delete_burst_from_db"><code class="docutils literal notranslate"><span class="pre">delete_burst_from_db()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.delete_file_from_db"><code class="docutils literal notranslate"><span class="pre">delete_file_from_db()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.clone_frame"><code class="docutils literal notranslate"><span class="pre">clone_frame()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.update_bids2S1_missing"><code class="docutils literal notranslate"><span class="pre">update_bids2S1_missing()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_s1burst_from_bidtanx"><code class="docutils literal notranslate"><span class="pre">get_s1burst_from_bidtanx()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_orbdir_from_bidtanx"><code class="docutils literal notranslate"><span class="pre">get_orbdir_from_bidtanx()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_daz"><code class="docutils literal notranslate"><span class="pre">get_daz()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.delete_esds_for_frame"><code class="docutils literal notranslate"><span class="pre">delete_esds_for_frame()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.ingest_esd"><code class="docutils literal notranslate"><span class="pre">ingest_esd()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#lics-volc-db">LiCS Volc DB</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.export_all_volclips_to_kml"><code class="docutils literal notranslate"><span class="pre">export_all_volclips_to_kml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volc_info"><code class="docutils literal notranslate"><span class="pre">get_volc_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volcanoes_in_polygon"><code class="docutils literal notranslate"><span class="pre">get_volcanoes_in_polygon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.vis_gpd"><code class="docutils literal notranslate"><span class="pre">vis_gpd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.find_volcano_by_name"><code class="docutils literal notranslate"><span class="pre">find_volcano_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.is_in_volclips"><code class="docutils literal notranslate"><span class="pre">is_in_volclips()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.create_volclip_for_volcano"><code class="docutils literal notranslate"><span class="pre">create_volclip_for_volcano()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.add_volcano_to_volclip"><code class="docutils literal notranslate"><span class="pre">add_volcano_to_volclip()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.delete_volclip"><code class="docutils literal notranslate"><span class="pre">delete_volclip()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets"><code class="docutils literal notranslate"><span class="pre">init_all_subsets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volcano_frames"><code class="docutils literal notranslate"><span class="pre">get_volcano_frames()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volclip_vids"><code class="docutils literal notranslate"><span class="pre">get_volclip_vids()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volclips_gpd"><code class="docutils literal notranslate"><span class="pre">get_volclips_gpd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.initialise_subset_volclip"><code class="docutils literal notranslate"><span class="pre">initialise_subset_volclip()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../licsar_framebatch/apidoc.html">LiCSAR FrameBatch</a></li>
@@ -936,7 +963,7 @@ improvised way, not reading much about it… pure intuition (knowing this is onl
 </section>
 <section id="licsar-decompose">
 <h2>LiCSAR Decompose<a class="headerlink" href="#licsar-decompose" title="Permalink to this heading"></a></h2>
-<p>Module with some useful InSAR decomposition functions, not as great as <a class="reference external" href="https://github.com/andwatson/decompose_insar_velocities">approach of Andrew Watson</a>.</p>
+<p>Module with some useful InSAR decomposition functions, not as great as <a class="reference external" href="https://github.com/andwatson/decompose_insar_velocities">approach of Dr. Andrew Watson</a>.</p>
 <span class="target" id="module-licsar_proc.python.decompose"></span><dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_framencs">
 <span class="sig-name descname"><span class="pre">decompose_framencs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framencs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_cum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medianfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_framencs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_framencs" title="Permalink to this definition"></a></dt>
@@ -1024,10 +1051,247 @@ inputs are xr.dataarrays - this will also check/interpolate them to fit</p>
 <section id="licsquery">
 <h2>LiCSquery<a class="headerlink" href="#licsquery" title="Permalink to this heading"></a></h2>
 <p>Various functions to query the LiCSInfo database</p>
+<span class="target" id="module-licsar_proc.python.LiCSAR_db.LiCSquery"></span><p>MySQL database query wrappers for LiCSAR processor</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.delete_burst_from_db">
+<span class="sig-name descname"><span class="pre">delete_burst_from_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bidtanx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlyprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#delete_burst_from_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.delete_burst_from_db" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes the burst from database if it does not appear in a frame definition.
+Also cleans burst occurences in other tables, and removes all files related to the burst ID.
+For admins only!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bidtanx</strong> (<em>str</em>) – LiCSAR Burst ID (e.g. ‘101_IW3_1360’)</p></li>
+<li><p><strong>onlyprint</strong> (<em>bool</em>) – if True, it will only print the parts to be run with SET FOREIGN_KEY_CHECKS=0/1 - not solved</p></li>
+</ul>
+</dd>
+</dl>
+<p>Note: if onlyprint is needed, you may also want to import sys; backout=sys.stdout; sys.stdout = open(‘output.txt’,’wt’); …; sys.stdout=backout;
+Note for me: this way i created sql file, and then see cat lics_mysql.sh, to do mysql … licsar_live &lt; sqlfile</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.delete_file_from_db">
+<span class="sig-name descname"><span class="pre">delete_file_from_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'abs_path'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#delete_file_from_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.delete_file_from_db" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes all occurences of given file from the DB
+(including links to jobs and bursts).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ff</strong> (<em>str</em>) – file identifier (specified by ‘col’)</p></li>
+<li><p><strong>col</strong> (<em>str</em>) – specifies the identifier - options: fid, name, abs_path</p></li>
+</ul>
+</dd>
+</dl>
+<p>Note: col name is the filename without the tailing .zip</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.clone_frame">
+<span class="sig-name descname"><span class="pre">clone_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frameold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framenew</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oldpolyid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newpolyid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#clone_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.clone_frame" title="Permalink to this definition"></a></dt>
+<dd><p>copies frame definition to a new name (‘cloning’ of frame). not tested without admin rights…</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.update_bids2S1_missing">
+<span class="sig-name descname"><span class="pre">update_bids2S1_missing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onlyprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#update_bids2S1_missing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.update_bids2S1_missing" title="Permalink to this definition"></a></dt>
+<dd><p>Will try linking LiCSAR bursts to S1 burst definitions which are not linked yet</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.get_s1burst_from_bidtanx">
+<span class="sig-name descname"><span class="pre">get_s1burst_from_bidtanx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bidtanx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_geom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#get_s1burst_from_bidtanx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_s1burst_from_bidtanx" title="Permalink to this definition"></a></dt>
+<dd><p>Function to match official S1 burst with the LiCSAR burst ID.
+It includes few checks: rel.orb. can be +-1, while keeping orbit direction,
+timing tolerance 1.5 s to find most probable matching burst,
+which centre is within 1 degree from the centre by the LiCSAR burst definition.
+The tolerance values can be stricter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bidtanx</strong> (<em>str</em>) – LiCSAR burst ID</p></li>
+<li><p><strong>opass</strong> (<em>str</em>) – orbit direction (‘A’/’D’ for ascending/descending pass)</p></li>
+<li><p><strong>only_geom</strong> (<em>bool</em>) – if True, function will return only polygon (shapely.geometry)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.get_orbdir_from_bidtanx">
+<span class="sig-name descname"><span class="pre">get_orbdir_from_bidtanx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bidtanx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#get_orbdir_from_bidtanx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_orbdir_from_bidtanx" title="Permalink to this definition"></a></dt>
+<dd><p>Get string ‘A’ or ‘D’ for ascending/descending</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bidtanx</strong> (<em>str</em>) – LiCSAR S1 Burst ID (e.g. ‘127_IW1_20509’)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.get_daz">
+<span class="sig-name descname"><span class="pre">get_daz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polyid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">getall</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#get_daz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_daz" title="Permalink to this definition"></a></dt>
+<dd><p>Gets values from the ESD database table for given frame and epoch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>polyid</strong> (<em>int</em>) – frame polyid</p></li>
+<li><p><strong>epoch</strong> (<em>str</em>) – epoch, e.g. ‘20211022’</p></li>
+<li><p><strong>getall</strong> (<em>bool</em>) – if True, will return all values, not only azimuth offset</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.delete_esds_for_frame">
+<span class="sig-name descname"><span class="pre">delete_esds_for_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#delete_esds_for_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.delete_esds_for_frame" title="Permalink to this definition"></a></dt>
+<dd><p>In case of removing a frame, ensure the esd values are also purged.
+(by default, if epoch already exists in esd database, it would not be overwritten)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>str</em>) – frame ID</p></li>
+<li><p><strong>epoch</strong> (<em>str</em>) – epoch, e.g. ‘20210122’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.ingest_esd">
+<span class="sig-name descname"><span class="pre">ingest_esd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rslc3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ccazi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ccrg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#ingest_esd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.ingest_esd" title="Permalink to this definition"></a></dt>
+<dd><p>Function to import ESD (etc.) values to the database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>str</em>) – frame ID</p></li>
+<li><p><strong>epoch</strong> (<em>str</em>) – epoch, e.g. ‘20210122’</p></li>
+<li><p><strong>rslc3</strong> (<em>str</em>) – epoch that was used as RSLC3, e.g. ‘20210110’</p></li>
+<li><p><strong>daz</strong> (<em>float</em>) – $Delta a$ [px] offset w.r.t. orbits (i.e. total azimuth offset, sd_daz+icc_daz)</p></li>
+<li><p><strong>ccazi</strong> (<em>float</em>) – $Delta a_{ICC}$ [px] offset from intensity/incoherent cross-correlation (ICC) in azimuth</p></li>
+<li><p><strong>ccrg</strong> (<em>float</em>) – $Delta r_{ICC}$ [px] offset from intensity/incoherent cross-correlation (ICC) in range</p></li>
+<li><p><strong>orb</strong> (<em>str</em>) – orbit file used here (e.g. <a href="#id1"><span class="problematic" id="id2">S1A_POE_</span></a>…..zip) - special value ‘fixed_as_in_GRL’ means imported from older data and fixed</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="lics-volc-db">
 <h2>LiCS Volc DB<a class="headerlink" href="#lics-volc-db" title="Permalink to this heading"></a></h2>
 <p>Functions to work with volcanoes-related records/tables in the LiCSInfo database</p>
+<span class="target" id="module-licsar_proc.python.LiCSAR_db.volcdb"></span><p>MySQL database query wrappers for volcanoes
+ML 2023</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.export_all_volclips_to_kml">
+<span class="sig-name descname"><span class="pre">export_all_volclips_to_kml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outkml</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#export_all_volclips_to_kml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.export_all_volclips_to_kml" title="Permalink to this definition"></a></dt>
+<dd><p>e.g. outkml=’/gws/nopw/j04/nceo_geohazards_vol1/public/shared/temp/earmla/volclips.kml’</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.get_volc_info">
+<span class="sig-name descname"><span class="pre">get_volc_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volcid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#get_volc_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volc_info" title="Permalink to this definition"></a></dt>
+<dd><p>“This will get info on all volcanoes from the db.
+If volcid is provided, it will show info only for that volcano.</p>
+<p>try e.g. volcid=357070</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.get_volcanoes_in_polygon">
+<span class="sig-name descname"><span class="pre">get_volcanoes_in_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volcs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#get_volcanoes_in_polygon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volcanoes_in_polygon" title="Permalink to this definition"></a></dt>
+<dd><p>Will get volcanoes in the gpd (e.g., volcs=get_volc_info() ) that are within given polygon (shapely.geometry.Polygon).
+You may create the polygon from lon/lat borders, e.g. using fc.lonlat_to_poly(lon1, lon2, lat1, lat2)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.vis_gpd">
+<span class="sig-name descname"><span class="pre">vis_gpd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vgpd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#vis_gpd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.vis_gpd" title="Permalink to this definition"></a></dt>
+<dd><p>Simple example to plot volcanoes or volclips in gpd.DataFrame</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.find_volcano_by_name">
+<span class="sig-name descname"><span class="pre">find_volcano_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volcstable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#find_volcano_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.find_volcano_by_name" title="Permalink to this definition"></a></dt>
+<dd><p>This will try to find the volcano in volcs table extracted using get_volc_info(). If the table is not given, it will extract it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – e.g. ‘Askja’</p></li>
+<li><p><strong>volcstable</strong> (<em>pd.DataFrame</em>) – must contain column ‘name’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>record of found volc</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.is_in_volclips">
+<span class="sig-name descname"><span class="pre">is_in_volclips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volcid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#is_in_volclips"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.is_in_volclips" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if the volcano (volcid) has its volclip.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.create_volclip_for_volcano">
+<span class="sig-name descname"><span class="pre">create_volclip_for_volcano</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volcid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cliparea_geo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#create_volclip_for_volcano"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.create_volclip_for_volcano" title="Permalink to this definition"></a></dt>
+<dd><p>Will create a volclip definition for given volcano (volcid).
+If cliparea is not set, it will auto-generate area using diameter 25 km centered on the volc lon/lat.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>volcid</strong> (<em>int</em>) – the volcano ID</p></li>
+<li><p><strong>cliparea_geo</strong> (<em>str</em>) – OPTIONAL: clip boundaries, e.g. ‘lon1/lon2/lat1/lat2’, but will accept also shapely.geometry.Polygon (!!)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.add_volcano_to_volclip">
+<span class="sig-name descname"><span class="pre">add_volcano_to_volclip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volcid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#add_volcano_to_volclip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.add_volcano_to_volclip" title="Permalink to this definition"></a></dt>
+<dd><p>This will add a ‘volcid’ volcano to a ‘vid’ volclip</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.delete_volclip">
+<span class="sig-name descname"><span class="pre">delete_volclip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#delete_volclip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.delete_volclip" title="Permalink to this definition"></a></dt>
+<dd><p>This will delete volcano clip definition - careful, not many checks in place</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets">
+<span class="sig-name descname"><span class="pre">init_all_subsets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#init_all_subsets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets" title="Permalink to this definition"></a></dt>
+<dd><p>This will auto-init all volclips (assuming only one vid per volcano…)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.get_volcano_frames">
+<span class="sig-name descname"><span class="pre">get_volcano_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volcid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#get_volcano_frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volcano_frames" title="Permalink to this definition"></a></dt>
+<dd><p>Gets frames covering the given volcano.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.get_volclip_vids">
+<span class="sig-name descname"><span class="pre">get_volclip_vids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volcid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#get_volclip_vids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volclip_vids" title="Permalink to this definition"></a></dt>
+<dd><p>Gets all volclip vids for given volcano.
+volcid is the volcano ID</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.get_volclips_gpd">
+<span class="sig-name descname"><span class="pre">get_volclips_gpd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#get_volclips_gpd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volclips_gpd" title="Permalink to this definition"></a></dt>
+<dd><p>Gets volclips as geodatabase - either one if given vid, or all</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.initialise_subset_volclip">
+<span class="sig-name descname"><span class="pre">initialise_subset_volclip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resol_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#initialise_subset_volclip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.initialise_subset_volclip" title="Permalink to this definition"></a></dt>
+<dd><p>This will initialise the volclip subset for given frame and volclip.
+If frame is ‘None’, it will do this for all relevant (fully overlapping) frames.</p>
+</dd></dl>
+
 </section>
 </section>
 

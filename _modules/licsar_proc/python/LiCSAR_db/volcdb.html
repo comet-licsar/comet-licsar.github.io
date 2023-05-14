@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>licsar_proc.python.LiCSAR_db.volcdb &mdash; COMET LiCSAR  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            COMET LiCSAR
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../wiki.html">LiCSAR Wiki (from gitlab)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Main LiCSAR Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../licsar_db/index.html">LiCSInfo db</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../licsar_proc/index.html">LiCSAR proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../licsar_framebatch/index.html">LiCSAR Framebatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../daz/index.html">daz</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../licsar_proc/apidoc.html">LiCSAR proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../licsar_proc/apidoc.html#licsinfo-functions">LiCSInfo functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../licsar_framebatch/apidoc.html">LiCSAR FrameBatch</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Further information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ciw.html">COMET InSAR Workshop Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cometmembers.html">COMET Members Information</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer comments and advices</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html">Notes about documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html#admin-or-dev-comments">Admin or dev comments</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">COMET LiCSAR</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">licsar_proc.python.LiCSAR_db.volcdb</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for licsar_proc.python.LiCSAR_db.volcdb</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">MySQL database query wrappers for volcanoes</span>
+<span class="sd">ML 2023</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">LiCSquery</span> <span class="kn">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">dbfunctions</span> <span class="kn">import</span> <span class="n">Conn_sqlalchemy</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error loading LicsInfo tools - volcdb is quite useless then&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Polygon</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">framecare</span> <span class="k">as</span> <span class="nn">fc</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">gpd</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">fiona</span><span class="o">.</span><span class="n">drvsupport</span><span class="o">.</span><span class="n">supported_drivers</span><span class="p">[</span><span class="s1">&#39;KML&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;rw&#39;</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error, export to kml not working (update geopandas)&#39;</span><span class="p">)</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">CREATE TABLE volclips (vid INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, geometry POLYGON NOT NULL);</span>
+<span class="sd">describe volclips;</span>
+<span class="sd">+--------------+---------------------+------+-----+---------+-------+</span>
+<span class="sd">| Field        | Type                | Null | Key | Default | Extra |</span>
+<span class="sd">+--------------+---------------------+------+-----+---------+-------+</span>
+<span class="sd">| vid          | int(11) unsigned    | NO   | PRI | NULL    | auto_increment |</span>
+<span class="sd">| geometry     | polygon             | NO   |     | NULL    |       |</span>
+<span class="sd">+--------------+---------------------+------+-----+---------+-------+</span>
+
+<span class="sd">describe volcanoes;</span>
+<span class="sd">+----------+-----------------+------+-----+---------+-------+</span>
+<span class="sd">| Field    | Type            | Null | Key | Default | Extra |</span>
+<span class="sd">+----------+-----------------+------+-----+---------+-------+</span>
+<span class="sd">| volc_id  | int(8) unsigned | NO   | PRI | NULL    |       |</span>
+<span class="sd">| name     | varchar(40)     | NO   |     | NULL    |       |</span>
+<span class="sd">| lat      | float(7,5)      | NO   |     | NULL    |       |</span>
+<span class="sd">| lon      | float(8,5)      | NO   |     | NULL    |       |</span>
+<span class="sd">| alt      | float(5,1)      | YES  |     | NULL    |       |</span>
+<span class="sd">| priority | char(2)         | YES  |     | NULL    |       |</span>
+<span class="sd">| geometry | point           | YES  |     | NULL    |       |</span>
+<span class="sd">+----------+-----------------+------+-----+---------+-------+</span>
+
+<span class="sd">CREATE TABLE volclip2volcs (vid INT(11) UNSIGNED NOT NULL, volc_id INT(8) UNSIGNED NOT NULL);</span>
+<span class="sd"># the &#39;REFERENCES&#39; does nothing anymore:</span>
+<span class="sd"># CREATE TABLE volclip2volcs (vid INT(11) UNSIGNED NOT NULL REFERENCES volclips(vid), volc_id INT(8) UNSIGNED NOT NULL REFERENCES volcanoes(volc_id));</span>
+<span class="sd">describe volclip2volcs;</span>
+<span class="sd">+----------------+---------+------+-----+---------+-------+</span>
+<span class="sd">| Field          | Type    | Null | Key | Default | Extra |</span>
+<span class="sd">+----------------+---------+------+-----+---------+-------+</span>
+<span class="sd">| vid            | int(11) | NO   |     | NULL    |       |</span>
+<span class="sd">| volc_id        | int(11) | NO   |     | NULL    |       |</span>
+<span class="sd">+----------------+---------+------+-----+---------+-------+</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">&quot;&quot;&quot;use example:</span>
+<span class="sd">import volcdb as vdb</span>
+<span class="sd">res = vdb.get_volc_info()</span>
+<span class="sd">res</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="export_all_volclips_to_kml"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.export_all_volclips_to_kml">[docs]</a><span class="k">def</span> <span class="nf">export_all_volclips_to_kml</span><span class="p">(</span><span class="n">outkml</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;e.g. outkml=&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/shared/temp/earmla/volclips.kml&#39;&quot;&quot;&quot;</span>
+    <span class="n">volclips</span><span class="o">=</span><span class="n">get_volclips_gpd</span><span class="p">()</span>
+    <span class="n">volclips</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">outkml</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;KML&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_volc_info"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_volc_info">[docs]</a><span class="k">def</span> <span class="nf">get_volc_info</span><span class="p">(</span><span class="n">volcid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;&quot;This will get info on all volcanoes from the db.</span>
+<span class="sd">    If volcid is provided, it will show info only for that volcano.</span>
+<span class="sd">    </span>
+<span class="sd">    try e.g. volcid=357070</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">volcid</span><span class="p">:</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="s2">&quot; where volc_id=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">volcid</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;select volc_id,name,lat,lon,alt,priority, ST_AsBinary(geometry) as geom from volcanoes&quot;</span><span class="o">+</span><span class="n">cond</span><span class="o">+</span><span class="s2">&quot;;&quot;</span>
+    <span class="n">engine</span><span class="o">=</span><span class="n">Conn_sqlalchemy</span><span class="p">()</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_postgis</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">geom_col</span><span class="o">=</span><span class="s1">&#39;geom&#39;</span> <span class="p">)</span>
+    <span class="c1">#a = do_pd_query(sql)</span>
+    <span class="c1">#a[&#39;geometry&#39;] = a.geometry.apply(wkt.loads)</span>
+    <span class="k">return</span> <span class="n">a</span></div>
+
+
+<div class="viewcode-block" id="get_volcanoes_in_polygon"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_volcanoes_in_polygon">[docs]</a><span class="k">def</span> <span class="nf">get_volcanoes_in_polygon</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">volcs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Will get volcanoes in the gpd (e.g., volcs=get_volc_info() ) that are within given polygon (shapely.geometry.Polygon).</span>
+<span class="sd">    You may create the polygon from lon/lat borders, e.g. using fc.lonlat_to_poly(lon1, lon2, lat1, lat2)&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">volcs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">volcs</span> <span class="o">=</span> <span class="n">get_volc_info</span><span class="p">()</span>
+    <span class="n">isin</span> <span class="o">=</span> <span class="n">volcs</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">polygon</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">volcs</span><span class="p">[</span><span class="n">isin</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="vis_gpd"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.vis_gpd">[docs]</a><span class="k">def</span> <span class="nf">vis_gpd</span><span class="p">(</span><span class="n">vgpd</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple example to plot volcanoes or volclips in gpd.DataFrame&quot;&quot;&quot;</span>
+    <span class="n">fc</span><span class="o">.</span><span class="n">vis_aoi</span><span class="p">(</span><span class="n">vgpd</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="find_volcano_by_name"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.find_volcano_by_name">[docs]</a><span class="k">def</span> <span class="nf">find_volcano_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">volcstable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This will try to find the volcano in volcs table extracted using get_volc_info(). If the table is not given, it will extract it.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): e.g. &#39;Askja&#39;</span>
+<span class="sd">        volcstable (pd.DataFrame): must contain column &#39;name&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        record of found volc</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">volcstable</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">volcstable</span> <span class="o">=</span> <span class="n">get_volc_info</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">volcstable</span><span class="p">[</span><span class="n">volcstable</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="is_in_volclips"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.is_in_volclips">[docs]</a><span class="k">def</span> <span class="nf">is_in_volclips</span><span class="p">(</span><span class="n">volcid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if the volcano (volcid) has its volclip.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">is_in_table</span><span class="p">(</span><span class="n">volcid</span><span class="p">,</span> <span class="s1">&#39;volc_id&#39;</span><span class="p">,</span> <span class="s1">&#39;volclip2volcs&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_volclip_for_volcano"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.create_volclip_for_volcano">[docs]</a><span class="k">def</span> <span class="nf">create_volclip_for_volcano</span><span class="p">(</span><span class="n">volcid</span><span class="p">,</span> <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Will create a volclip definition for given volcano (volcid).</span>
+<span class="sd">    If cliparea is not set, it will auto-generate area using diameter 25 km centered on the volc lon/lat.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        volcid (int): the volcano ID</span>
+<span class="sd">        cliparea_geo (str): OPTIONAL: clip boundaries, e.g. &#39;lon1/lon2/lat1/lat2&#39;, but will accept also shapely.geometry.Polygon (!!)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_in_volclips</span><span class="p">(</span><span class="n">volcid</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR, this volcano has already its volclip, cancelling for now&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;you can delete the volclip for the volcano using: delete_volclip(vid)&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;where you can get vid using: get_volclip_vids(volcid)&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="c1">#</span>
+    <span class="n">vpd</span> <span class="o">=</span> <span class="n">get_volc_info</span><span class="p">(</span><span class="n">volcid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">vpd</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no record found for this volcano ID - please check again&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="c1">#</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">cliparea_geo</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># prepare polygon</span>
+        <span class="n">clon</span><span class="p">,</span> <span class="n">clat</span> <span class="o">=</span> <span class="n">vpd</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vpd</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">radius_km</span> <span class="o">=</span> <span class="mi">25</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">radius_deg</span><span class="o">=</span><span class="n">radius_km</span><span class="o">/</span><span class="mi">111</span>
+        <span class="n">lon1</span><span class="o">=</span><span class="n">clon</span><span class="o">-</span><span class="n">radius_deg</span>
+        <span class="n">lon2</span><span class="o">=</span><span class="n">clon</span><span class="o">+</span><span class="n">radius_deg</span>
+        <span class="n">lat1</span><span class="o">=</span><span class="n">clat</span><span class="o">-</span><span class="n">radius_deg</span>
+        <span class="n">lat2</span><span class="o">=</span><span class="n">clat</span><span class="o">+</span><span class="n">radius_deg</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">cliparea_geo</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="s1">&#39;string&#39;</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">lics_unwrap</span> <span class="kn">import</span> <span class="n">cliparea_geo2coords</span>
+        <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span> <span class="o">=</span> <span class="n">cliparea_geo2coords</span><span class="p">(</span><span class="n">cliparea_geo</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">lon1</span><span class="p">,</span><span class="n">lat1</span><span class="p">,</span><span class="n">lon2</span><span class="p">,</span><span class="n">lat2</span><span class="o">=</span><span class="n">cliparea_geo</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="n">lon1</span><span class="p">,</span><span class="n">lon2</span><span class="o">=</span><span class="nb">sorted</span><span class="p">([</span><span class="n">lon1</span><span class="p">,</span><span class="n">lon2</span><span class="p">])</span>
+        <span class="n">lat1</span><span class="p">,</span><span class="n">lat2</span><span class="o">=</span><span class="nb">sorted</span><span class="p">([</span><span class="n">lat1</span><span class="p">,</span><span class="n">lat2</span><span class="p">])</span>
+    <span class="c1">#</span>
+    <span class="n">lonlats</span> <span class="o">=</span> <span class="p">[(</span><span class="n">lon1</span><span class="p">,</span><span class="n">lat1</span><span class="p">),</span> <span class="p">(</span><span class="n">lon1</span><span class="p">,</span><span class="n">lat2</span><span class="p">),</span> <span class="p">(</span><span class="n">lon2</span><span class="p">,</span><span class="n">lat2</span><span class="p">),</span> <span class="p">(</span><span class="n">lon2</span><span class="p">,</span><span class="n">lat1</span><span class="p">),</span> <span class="p">(</span><span class="n">lon1</span><span class="p">,</span><span class="n">lat1</span><span class="p">)]</span>
+    <span class="n">polygon</span> <span class="o">=</span> <span class="n">Polygon</span><span class="p">(</span><span class="n">lonlats</span><span class="p">)</span>
+    <span class="n">wkt</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">wkt</span>
+    <span class="c1">#</span>
+    <span class="n">sql_q</span><span class="o">=</span><span class="s2">&quot;SELECT MAX(vid) from volclips;&quot;</span>
+    <span class="n">lastvid</span><span class="o">=</span><span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">vid</span><span class="o">=</span><span class="n">lastvid</span><span class="o">+</span><span class="mi">1</span>  <span class="c1"># because of auto-increment</span>
+    <span class="c1">#</span>
+    <span class="c1"># adding to volclips</span>
+    <span class="n">sql_q</span> <span class="o">=</span> <span class="s2">&quot;INSERT INTO volclips (vid, geometry) VALUES (</span><span class="si">{0}</span><span class="s2">, GeomFromText(&#39;</span><span class="si">{1}</span><span class="s2">&#39;));&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">),</span> <span class="n">wkt</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="c1">#sql_q = &quot;select last_insert_id();&quot;</span>
+    <span class="c1"># link the vid and volcano:</span>
+    <span class="n">sql_q</span> <span class="o">=</span> <span class="s2">&quot;INSERT INTO volclip2volcs (vid, volc_id) VALUES (</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">);&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">volcid</span><span class="p">))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vid</span></div>
+
+
+<div class="viewcode-block" id="add_volcano_to_volclip"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.add_volcano_to_volclip">[docs]</a><span class="k">def</span> <span class="nf">add_volcano_to_volclip</span><span class="p">(</span><span class="n">volcid</span><span class="p">,</span> <span class="n">vid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This will add a &#39;volcid&#39; volcano to a &#39;vid&#39; volclip&quot;&quot;&quot;</span>
+    <span class="n">sql_q</span> <span class="o">=</span> <span class="s2">&quot;INSERT INTO volclip2volcs (vid, volc_id) VALUES (</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">);&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">volcid</span><span class="p">))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="delete_volclip"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.delete_volclip">[docs]</a><span class="k">def</span> <span class="nf">delete_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This will delete volcano clip definition - careful, not many checks in place</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sql_q</span> <span class="o">=</span> <span class="s2">&quot;DELETE FROM volclip2volcs where vid = </span><span class="si">{0}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">sql_q</span> <span class="o">=</span> <span class="s2">&quot;DELETE FROM volclips where vid = </span><span class="si">{0}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">def get_volclip_info(vid=None): #,extended=True):</span>
+<span class="sd">    &quot;&quot;&quot;NOT WORKING AS POLYID ARE DROPPED FOR NOW&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot; This will load info about volcanic frame clip.</span>
+<span class="sd">    if vid==None: it will return table for all existing clip definitions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    if vid:</span>
+<span class="sd">        cond = &quot; where vid={}&quot;.format(str(vid))</span>
+<span class="sd">    else:</span>
+<span class="sd">        cond = &#39;&#39;</span>
+<span class="sd">    sql = &quot;select vf.*,v.name,v.lat,v.lon,v.alt,v.priority,p.polyid_name from volclips vf \</span>
+<span class="sd">        inner join volcanoes v on vf.volc_id=v.volc_id inner join polygs p on vf.polyid=p.polyid&quot;+cond+&quot;;&quot;</span>
+<span class="sd">    a=do_pd_query(sql)</span>
+<span class="sd">    if a.empty:</span>
+<span class="sd">        return False</span>
+<span class="sd">    else:</span>
+<span class="sd">        return a</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="init_all_subsets"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets">[docs]</a><span class="k">def</span> <span class="nf">init_all_subsets</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This will auto-init all volclips (assuming only one vid per volcano...)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">volcs</span><span class="o">=</span><span class="n">get_volc_info</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">volc</span> <span class="ow">in</span> <span class="n">volcs</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">volc</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">get_volcano_frames</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">volc</span><span class="p">[</span><span class="s1">&#39;volc_id&#39;</span><span class="p">]))</span>
+        <span class="n">vid</span> <span class="o">=</span> <span class="n">get_volclip_vids</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">volc</span><span class="p">[</span><span class="s1">&#39;volc_id&#39;</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">frames</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">initialise_subset_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error with init, cleaning&#39;</span><span class="p">)</span>
+                    <span class="n">subsetdir</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol1/projects/LiCS/proc/current/subsets/volc/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">frame</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">subsetdir</span><span class="p">):</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm -rf &#39;</span><span class="o">+</span><span class="n">subsetdir</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_volcano_frames"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_volcano_frames">[docs]</a><span class="k">def</span> <span class="nf">get_volcano_frames</span><span class="p">(</span><span class="n">volcid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets frames covering the given volcano.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">volc</span><span class="o">=</span><span class="n">get_volc_info</span><span class="p">(</span><span class="n">volcid</span><span class="p">)</span>
+    <span class="c1">#print(volc[&#39;name&#39;])</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">frames</span><span class="o">=</span> <span class="n">sqlout2list</span><span class="p">(</span><span class="n">get_frames_in_lonlat</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">volc</span><span class="o">.</span><span class="n">lon</span><span class="p">),</span><span class="nb">float</span><span class="p">(</span><span class="n">volc</span><span class="o">.</span><span class="n">lat</span><span class="p">)))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no frame found&#39;</span><span class="p">)</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">frames</span></div>
+
+
+<div class="viewcode-block" id="get_volclip_vids"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_volclip_vids">[docs]</a><span class="k">def</span> <span class="nf">get_volclip_vids</span><span class="p">(</span><span class="n">volcid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets all volclip vids for given volcano.</span>
+<span class="sd">    volcid is the volcano ID&quot;&quot;&quot;</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;select vf.vid from volclip2volcs vf inner join volcanoes v on vf.volc_id=v.volc_id where v.volc_id=</span><span class="si">{}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">volcid</span><span class="p">))</span>
+    <span class="n">a</span><span class="o">=</span><span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">=</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span></div>
+
+
+<span class="k">def</span> <span class="nf">get_volcano_from_vid</span><span class="p">(</span><span class="n">vid</span><span class="p">):</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;select volc_id from volclip2volcs where vid=</span><span class="si">{}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">))</span>
+    <span class="n">a</span><span class="o">=</span><span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">=</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">a</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">a</span>
+
+
+<div class="viewcode-block" id="get_volclips_gpd"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_volclips_gpd">[docs]</a><span class="k">def</span> <span class="nf">get_volclips_gpd</span><span class="p">(</span><span class="n">vid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets volclips as geodatabase - either one if given vid, or all&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">vid</span><span class="p">:</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="s2">&quot; where vc.vid=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="c1">#sql = &quot;SELECT ST_AsBinary(geometry) as geom from volclips {0};&quot;.format(cond)</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT v.volc_id,v.name,vc.vid,ST_AsBinary(vc.geometry) as geom from volclips vc inner join volclip2volcs vf on vf.vid=vc.vid inner join volcanoes v on vf.volc_id=v.volc_id </span><span class="si">{0}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+    <span class="n">engine</span><span class="o">=</span><span class="n">Conn_sqlalchemy</span><span class="p">()</span>
+    <span class="n">volclips</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_postgis</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">geom_col</span><span class="o">=</span><span class="s1">&#39;geom&#39;</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">volclips</span></div>
+
+
+<div class="viewcode-block" id="initialise_subset_volclip"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.initialise_subset_volclip">[docs]</a><span class="k">def</span> <span class="nf">initialise_subset_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">resol_m</span> <span class="o">=</span> <span class="mi">30</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This will initialise the volclip subset for given frame and volclip.</span>
+<span class="sd">    If frame is &#39;None&#39;, it will do this for all relevant (fully overlapping) frames.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vclipdb</span> <span class="o">=</span> <span class="n">get_volclips_gpd</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span>
+    <span class="c1">#volcid = vclipdb.volc_id.values[0]</span>
+    <span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vclipdb</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">frame</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;getting related frames&#39;</span><span class="p">)</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">subset_get_frames</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">full_overlap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">only_initialised</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+            <span class="c1">#fc.subset_initialise_corners(frame, lon1, lon2, lat1, lat2, sid = str(volcid), is_volc = True, resol_m=resol_m)</span>
+            <span class="n">fc</span><span class="o">.</span><span class="n">subset_initialise_corners</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">sid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">),</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="n">resol_m</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1">#fc.subset_initialise_corners(frame, lon1, lon2, lat1, lat2, sid = str(volcid), is_volc = True, resol_m=resol_m)</span>
+        <span class="n">fc</span><span class="o">.</span><span class="n">subset_initialise_corners</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">sid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">),</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="n">resol_m</span><span class="p">)</span></div>
+
+
+<span class="c1"># HOW TO MERGE:</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd"># select volcanoes in the area (in Kamchatka):</span>
+<span class="sd">lat1,lon1=56.275212713142146, 161.08682836667546</span>
+<span class="sd">lat2,lon2=55.67535919777727, 160.1041122831717</span>
+<span class="sd">polygon=lonlat_to_poly(lon1, lon2, lat1, lat2)</span>
+<span class="sd">selclips=get_volcanoes_in_polygon(polygon, volclips)</span>
+<span class="sd">vis_gpd(selclips)</span>
+
+<span class="sd"># say that we will merge only last 5 clips of the selection</span>
+<span class="sd">tomerge=selclips.tail(5)</span>
+<span class="sd">lon1,lat1,lon2,lat2=tomerge.geom.cascaded_union.bounds</span>
+<span class="sd">poly=lonlat_to_poly(lon1, lon2, lat1, lat2)</span>
+<span class="sd">fc.vis_subset_frames(lon1, lon2, lat1, lat2)</span>
+
+<span class="sd"># we now want to remove all vids (volclips) and instead map the volcids to the new vid.</span>
+<span class="sd"># so let&#39;s just choose one volcid, create the volclip for it, and then attach the other ones:</span>
+<span class="sd">vids=tomerge.vid.values</span>
+<span class="sd">volcids=tomerge.volc_id.values</span>
+<span class="sd">volcid1=volcids[0]</span>
+<span class="sd"># delete the older (assuming unused!) vids:</span>
+<span class="sd">for vid in vids:</span>
+<span class="sd">    delete_volclip(vid)</span>
+<span class="sd"># create new volclip with volcid1</span>
+<span class="sd">newvid = create_volclip_for_volcano(volcid1, cliparea_geo = poly)</span>
+<span class="sd"># attach other volcanoes to this volclip</span>
+<span class="sd">for volcid in volcids[1:]:</span>
+<span class="sd">    add_volcano_to_volclip(volcid, newvid)</span>
+
+<span class="sd"># ok, and now finally, initialise that volclip</span>
+<span class="sd">frames = subset_get_frames(lon1, lon2, lat1, lat2, full_overlap=True, only_initialised=True)</span>
+<span class="sd">for frame in frames:</span>
+<span class="sd">    fc.subset_initialise_corners(frame, lon1, lon2, lat1, lat2, sid = str(vid), is_volc = True)</span>
+
+<span class="sd"># and if you want, start their processing:</span>
+<span class="sd">for frame in frames:</span>
+<span class="sd">    cmd = &#39;framebatch_update_frame.sh -P -u &#39;+frame+&#39; upfill&#39;</span>
+<span class="sd">    os.system(cmd)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">frames=[&#39;147A_02466_191712&#39;,&#39;009D_02504_202119&#39;,&#39;045A_02494_171816&#39;]</span>
+<span class="sd">for frame in frames:</span>
+<span class="sd">    vdb.initialise_subset_volclip(vid, frame)</span>
+
+<span class="sd">frame=&#39;111D_02490_152021&#39;</span>
+<span class="sd">vid = 2712</span>
+
+
+<span class="sd">volcid = get_volcano_from_vid(vid)</span>
+<span class="sd">    </span>
+<span class="sd">    147A_02466_191712</span>
+<span class="sd">    111D_02490_152021</span>
+<span class="sd">    009D_02504_202119</span>
+<span class="sd">    045A_02494_171816</span>
+<span class="sd">&#39;&#39;&#39;</span>
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, COMET and CEMAC teams.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
