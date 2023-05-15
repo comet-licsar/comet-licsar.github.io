@@ -110,6 +110,7 @@
 <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">glob</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1230,6 +1231,31 @@
             <span class="n">pairset</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">pairset</span><span class="p">:</span>
         <span class="n">pairset</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">inputifgdir</span><span class="p">)</span>
+    <span class="c1"># clean the pairset</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[1,2]...[0,1].[0-3]._[1,2]...[0,1].[0-3].&#39;</span><span class="p">)</span>
+    <span class="n">pairset</span> <span class="o">=</span> <span class="p">[</span><span class="n">pair</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">pairset</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pair</span><span class="p">)]</span>
+    <span class="c1"># check for existence of GACOS corrections. if there is only for one epoch, skip that pair.</span>
+    <span class="c1"># (this way we ensure that we keep also epochs with no gacos data, but will not cause phase loop closure errors with the GACOS-corrected pairs)</span>
+    <span class="k">if</span> <span class="n">gacoscorr</span><span class="p">:</span>
+        <span class="n">gacosdir</span> <span class="o">=</span> <span class="s1">&#39;GACOS&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gacosdir</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING, GACOS directory does not exist - continuing without gacos...&#39;</span><span class="p">)</span>
+            <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pairsetok</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;checking existing GACOS data&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">pairset</span><span class="p">:</span>
+                <span class="n">epoch1</span> <span class="o">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">epoch2</span> <span class="o">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gacosdir</span><span class="p">,</span><span class="n">epoch1</span><span class="o">+</span><span class="s1">&#39;.sltd.geo.tif&#39;</span><span class="p">))</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gacosdir</span><span class="p">,</span><span class="n">epoch2</span><span class="o">+</span><span class="s1">&#39;.sltd.geo.tif&#39;</span><span class="p">)):</span>
+                    <span class="n">pairsetok</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;skipping pair &#39;</span><span class="o">+</span><span class="n">pair</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairsetok</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">pairset</span> <span class="o">=</span> <span class="n">pairsetok</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING, no GACOS corrections found in the &#39;</span><span class="o">+</span><span class="n">gacosdir</span><span class="o">+</span><span class="s1">&#39; folder. Continuing without GACOS&#39;</span><span class="p">)</span>
+                <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="c1"># functions for multiprocessing</span>
     <span class="k">def</span> <span class="nf">check_and_process_ifg</span><span class="p">(</span><span class="n">pair</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoifgdir</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">pair</span><span class="o">+</span><span class="s1">&#39;.geo.diff_pha.tif&#39;</span><span class="p">)):</span>
