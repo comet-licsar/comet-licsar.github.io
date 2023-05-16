@@ -230,7 +230,7 @@
 <span class="sd">        frame (string): LiCSAR frame ID</span>
 <span class="sd">        pair (string): identifier of interferometric pair, e.g. &#39;20200120_20200201&#39;</span>
 <span class="sd">        downtoml (int): target multilook factor (default: 1, no extra multilooking)</span>
-<span class="sd">        procdir (string): path to processing directory</span>
+<span class="sd">        procdir (string): path to processing directory (here, this will create subdirectory of *pair* and use this to generate result)</span>
 <span class="sd">        only10 (boolean): switch to use only 1 previous ramp, scaled 10x to the downtoml, instead of few cascades</span>
 <span class="sd">        finalgoldstein (boolean): switch to use Goldstein filter for the final unwrapping pass (ON by default)</span>
 <span class="sd">        smooth (boolean): switch to use extra Gaussian filtering for 2-pass unwrapping</span>
@@ -245,6 +245,10 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        xarray.Dataset: unwrapped multilooked interferogram with additional layers</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># fix to ensure unique directory per processing (issues with parallelism..)</span>
+    <span class="n">procdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">procdir</span><span class="p">,</span><span class="n">pair</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">procdir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">procdir</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;performing cascade unwrapping&#39;</span><span class="p">)</span>
     <span class="n">starttime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">only10</span><span class="p">:</span>
@@ -579,13 +583,16 @@
     <span class="k">return</span> <span class="n">ifg_ml</span>
 
 
-<span class="k">def</span> <span class="nf">process_ifg_core</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> 
+<div class="viewcode-block" id="process_ifg_core"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.process_ifg_core">[docs]</a><span class="k">def</span> <span class="nf">process_ifg_core</span><span class="p">(</span><span class="n">ifg</span><span class="p">,</span> <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> 
         <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">fillby</span> <span class="o">=</span> <span class="s1">&#39;gauss&#39;</span><span class="p">,</span> <span class="n">thres</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">lowpass</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">goldstein</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">specmag</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">hgtcorr</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">pre_detrend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">outtif</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">prevest</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">prev_ramp</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">coh2var</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">add_resid</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>  <span class="n">rampit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">subtract_gacos</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">extweights</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">keep_coh_px</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Core ifg unwrapping procedure</span>
+<span class="sd">    Note: tmpdir should be place for unneeded products (please keep unique per pair)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># masking by coherence if we do not use multilooking - here the coherence corresponds to reality</span>
     <span class="n">tmpunwdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span><span class="s1">&#39;temp_unw&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">dodir</span> <span class="ow">in</span> <span class="p">[</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">tmpunwdir</span><span class="p">]:</span>
@@ -1091,7 +1098,7 @@
         <span class="c1">#    os.remove(outtif+&#39;.nc&#39;)</span>
         <span class="c1">#except:</span>
         <span class="c1">#    print(&#39;ERROR removing the nc file - something wrong with export&#39;)</span>
-    <span class="k">return</span> <span class="n">ifg_ml</span>
+    <span class="k">return</span> <span class="n">ifg_ml</span></div>
 
 
 <div class="viewcode-block" id="process_frame"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.process_frame">[docs]</a><span class="k">def</span> <span class="nf">process_frame</span><span class="p">(</span><span class="n">frame</span> <span class="o">=</span> <span class="s1">&#39;dummy&#39;</span><span class="p">,</span> <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">thres</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -2514,6 +2521,9 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">deltemp</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error, tmpdir &#39;</span><span class="o">+</span><span class="n">tmpdir</span><span class="o">+</span><span class="s1">&#39; already exists, stopping here&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">binmask</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span><span class="s1">&#39;mask.bin&#39;</span><span class="p">)</span>
