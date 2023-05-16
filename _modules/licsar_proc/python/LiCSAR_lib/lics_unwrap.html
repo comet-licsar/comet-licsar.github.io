@@ -1152,19 +1152,19 @@
             <span class="n">geoframedir</span><span class="o">=</span><span class="n">frame</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;provided wrong frame id&#39;</span><span class="p">)</span>
-            <span class="n">exit</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="n">dolocal</span><span class="p">:</span>
         <span class="n">geoifgdir</span> <span class="o">=</span> <span class="s1">&#39;GEOC&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">geoifgdir</span><span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR: the GEOC directory does not exist, cancelling&#39;</span><span class="p">)</span>
-            <span class="n">exit</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="n">hgtfile</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;GEOC/*.geo.hgt.tif&#39;</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">hgtfile</span><span class="o">=</span><span class="n">hgtfile</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR: GEOC/*.geo.hgt.tif is not existing, cancelling (although might just avoid it?)&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;please generate this file first - tip: use gdal2warp.py $anydem.tif $anygoodfile.tif GEOC/any.geo.hgt.tif&#39;</span><span class="p">)</span>
-            <span class="n">exit</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">geoifgdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;interferograms&#39;</span><span class="p">)</span>
         <span class="n">hgtfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="o">+</span><span class="s1">&#39;.geo.hgt.tif&#39;</span><span class="p">)</span>
@@ -1262,8 +1262,9 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairsetok</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
                 <span class="n">pairset</span> <span class="o">=</span> <span class="n">pairsetok</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING, no GACOS corrections found in the &#39;</span><span class="o">+</span><span class="n">gacosdir</span><span class="o">+</span><span class="s1">&#39; folder. Continuing without GACOS&#39;</span><span class="p">)</span>
-                <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING, no GACOS corrections found in the &#39;</span><span class="o">+</span><span class="n">gacosdir</span><span class="o">+</span><span class="s1">&#39; folder. Cancelling, please run without GACOS&#39;</span><span class="p">)</span>
+                <span class="c1">#gacoscorr = False</span>
+                <span class="k">return</span> <span class="kc">False</span>
     <span class="c1"># functions for multiprocessing</span>
     <span class="k">def</span> <span class="nf">check_and_process_ifg</span><span class="p">(</span><span class="n">pair</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoifgdir</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">pair</span><span class="o">+</span><span class="s1">&#39;.geo.diff_pha.tif&#39;</span><span class="p">)):</span>
