@@ -1106,7 +1106,7 @@
             <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pairsetfile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
             <span class="n">export_to_tif</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">subtract_gacos</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
             <span class="n">nproc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dolocal</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">specmag</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
-            <span class="n">use_amp_stab</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_coh_stab</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="n">use_amp_stab</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_coh_stab</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">keep_coh_debug</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">gacosdir</span> <span class="o">=</span> <span class="s1">&#39;../GACOS&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Main function to process whole LiCSAR frame (i.e. unwrap all available interferograms within the frame). Works only at JASMIN.</span>
 
 <span class="sd">    Args:</span>
@@ -1131,6 +1131,7 @@
 <span class="sd">        use_amp_stab (boolean): apply amplitude stability index instead of coherence-per-interferogram for unwrapping</span>
 <span class="sd">        use_coh_stab (boolean): apply (experimental) coherence stability index. not recommended (seems not logical to me) - worth investigating though (maybe helps against loop closure errors)</span>
 <span class="sd">        keep_coh_debug (boolean): only in combination with use_coh_stab - whether or not to keep original (downsampled) ifg coherence after using the coh_stab to weight the phase during multilooking</span>
+<span class="sd">        gacosdir (str): path to directory with *pair*.sltd.geo.tif files</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        xarray.Dataset: multilooked interferogram with additional layers</span>
@@ -1245,9 +1246,8 @@
     <span class="c1"># check for existence of GACOS corrections. if there is only for one epoch, skip that pair.</span>
     <span class="c1"># (this way we ensure that we keep also epochs with no gacos data, but will not cause phase loop closure errors with the GACOS-corrected pairs)</span>
     <span class="k">if</span> <span class="n">gacoscorr</span><span class="p">:</span>
-        <span class="n">gacosdir</span> <span class="o">=</span> <span class="s1">&#39;GACOS&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gacosdir</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING, GACOS directory does not exist - continuing without gacos...&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING, &#39;</span><span class="o">+</span><span class="n">gacosdir</span><span class="o">+</span><span class="s1">&#39; directory does not exist - continuing without gacos... later i can add direct check in LiCSAR_public, not now&#39;</span><span class="p">)</span>
             <span class="n">gacoscorr</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">pairsetok</span> <span class="o">=</span> <span class="p">[]</span>
