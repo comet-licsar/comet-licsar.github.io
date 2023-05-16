@@ -246,7 +246,7 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>frame</strong> (<em>string</em>) – LiCSAR frame ID</p></li>
 <li><p><strong>pair</strong> (<em>string</em>) – identifier of interferometric pair, e.g. <code class="docutils literal notranslate"><span class="pre">'20200120_20200201'</span></code></p></li>
-<li><p><strong>procdir</strong> (<em>string</em>) – path to processing directory</p></li>
+<li><p><strong>procdir</strong> (<em>string</em>) – path to processing directory (here, this will create subdirectory of <em>pair</em> and use this to generate result)</p></li>
 <li><p><strong>ml</strong> (<em>int</em>) – multilooking factor used to reduce the interferogram in lon/lat</p></li>
 <li><p><strong>fillby</strong> (<em>string</em>) – algorithm to fill gaps. use one of values: <code class="docutils literal notranslate"><span class="pre">'gauss'</span></code>, <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>, <code class="docutils literal notranslate"><span class="pre">'none'</span></code> (where <code class="docutils literal notranslate"><span class="pre">'none'</span></code> would only fill NaNs by zeroes)</p></li>
 <li><p><strong>thres</strong> (<em>float</em>) – threshold between 0-1 for gaussian-based coherence-like measure (spatial phase consistence?); higher number - more is masked prior to unwrapping</p></li>

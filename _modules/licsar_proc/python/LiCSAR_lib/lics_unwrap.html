@@ -408,7 +408,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        frame (string): LiCSAR frame ID</span>
 <span class="sd">        pair (string): identifier of interferometric pair, e.g. ``&#39;20200120_20200201&#39;``</span>
-<span class="sd">        procdir (string): path to processing directory</span>
+<span class="sd">        procdir (string): path to processing directory (here, this will create subdirectory of *pair* and use this to generate result)</span>
 <span class="sd">        ml (int): multilooking factor used to reduce the interferogram in lon/lat</span>
 <span class="sd">        fillby (string): algorithm to fill gaps. use one of values: ``&#39;gauss&#39;``, ``&#39;nearest&#39;``, ``&#39;none&#39;`` (where ``&#39;none&#39;`` would only fill NaNs by zeroes)</span>
 <span class="sd">        thres (float): threshold between 0-1 for gaussian-based coherence-like measure (spatial phase consistence?); higher number - more is masked prior to unwrapping</span>
@@ -1129,6 +1129,8 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        xarray.Dataset: multilooked interferogram with additional layers</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cascade</span> <span class="ow">and</span> <span class="n">ml</span><span class="o">&gt;</span><span class="mi">9</span><span class="p">:</span>
+        <span class="n">only10</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="c1">#if cascade and ml&gt;1:</span>
     <span class="c1">#    print(&#39;error - the cascade approach is ready only for ML1&#39;)</span>
     <span class="c1">#    return False</span>
@@ -1303,7 +1305,7 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">outtif</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">procdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">pair</span><span class="p">)</span>
+                    <span class="n">procdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span> <span class="c1">#, pair)</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">dolocal</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">cascade</span><span class="p">:</span>
                             <span class="n">ifg_ml</span> <span class="o">=</span> <span class="n">cascade_unwrap</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">downtoml</span> <span class="o">=</span> <span class="n">ml</span><span class="p">,</span> <span class="n">procdir</span> <span class="o">=</span> <span class="n">procdir</span><span class="p">,</span> <span class="n">only10</span> <span class="o">=</span> <span class="n">only10</span><span class="p">,</span> 
