@@ -300,8 +300,9 @@
 <span class="sd">        return a</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
-<div class="viewcode-block" id="init_all_subsets"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets">[docs]</a><span class="k">def</span> <span class="nf">init_all_subsets</span><span class="p">():</span>
+<div class="viewcode-block" id="init_all_subsets"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets">[docs]</a><span class="k">def</span> <span class="nf">init_all_subsets</span><span class="p">(</span><span class="n">full_overlap</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This will auto-init all volclips (assuming only one vid per volcano...)</span>
+<span class="sd">    if full_overlap==False, it will skip checking for full overlap of the volclip and frames. good for the last auto-run</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">volcs</span><span class="o">=</span><span class="n">get_volc_info</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">volc</span> <span class="ow">in</span> <span class="n">volcs</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
@@ -311,7 +312,7 @@
         <span class="k">if</span> <span class="n">frames</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">initialise_subset_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+                    <span class="n">initialise_subset_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span><span class="n">full_overlap</span><span class="o">=</span><span class="n">full_overlap</span><span class="p">)</span>
                 <span class="k">except</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error with init, cleaning&#39;</span><span class="p">)</span>
                     <span class="n">subsetdir</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol1/projects/LiCS/proc/current/subsets/volc/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">frame</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
