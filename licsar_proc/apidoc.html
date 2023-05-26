@@ -133,6 +133,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#lics-volc-db">LiCS Volc DB</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.export_all_volclips_to_kml"><code class="docutils literal notranslate"><span class="pre">export_all_volclips_to_kml()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volc_info"><code class="docutils literal notranslate"><span class="pre">get_volc_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_status_table_all_volcs"><code class="docutils literal notranslate"><span class="pre">get_status_table_all_volcs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volcanoes_in_polygon"><code class="docutils literal notranslate"><span class="pre">get_volcanoes_in_polygon()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.vis_gpd"><code class="docutils literal notranslate"><span class="pre">vis_gpd()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.find_volcano_by_name"><code class="docutils literal notranslate"><span class="pre">find_volcano_by_name()</span></code></a></li>
@@ -693,6 +694,7 @@ All nans in arr, stay nans in gauss.</p>
 <p>get coefficient for correction of correlating areas
 interpolate the coefficient throughout whole raster
 multiply by hgt = ‘to_remove’</p>
+<p>2023/05: in case of having inc. angle, we would better estimate, similar to ‘ZTD’&lt;-&gt;’SLTD’</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>ifg_ml (xarray.Dataset): input dataset
 corr_thres (float): threshold of correlation within window to keep
@@ -1226,6 +1228,20 @@ ML 2023</p>
 <dd><p>“This will get info on all volcanoes from the db.
 If volcid is provided, it will show info only for that volcano.</p>
 <p>try e.g. volcid=357070</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.get_status_table_all_volcs">
+<span class="sig-name descname"><span class="pre">get_status_table_all_volcs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#get_status_table_all_volcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.get_status_table_all_volcs" title="Permalink to this definition"></a></dt>
+<dd><p>Gets current processing status of all volcanoes (number of already existing RSLCs of their volclips).
+Will get table in the form of:
+| volc_id | vid | subframe | number of RSLC clips |
+Note that only info for already initialised volclips is returned. Also note that number of RSLCs excludes reference epoch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">

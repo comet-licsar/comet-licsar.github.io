@@ -96,6 +96,7 @@
 <span class="sd">MySQL database query wrappers for volcanoes</span>
 <span class="sd">ML 2023</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">LiCSquery</span> <span class="kn">import</span> <span class="o">*</span>
@@ -110,6 +111,12 @@
     <span class="n">gpd</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">fiona</span><span class="o">.</span><span class="n">drvsupport</span><span class="o">.</span><span class="n">supported_drivers</span><span class="p">[</span><span class="s1">&#39;KML&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;rw&#39;</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error, export to kml not working (update geopandas)&#39;</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">subvolcpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_procdir&#39;</span><span class="p">],</span> <span class="s1">&#39;subsets&#39;</span><span class="p">,</span> <span class="s1">&#39;volc&#39;</span><span class="p">)</span> <span class="c1">#/volc/267)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no LiCSAR_procdir ? subvolcpath is set wrong (but leaving for now)&#39;</span><span class="p">)</span>
+    <span class="n">subvolcpath</span> <span class="o">=</span> <span class="s1">&#39;subsets/volc&#39;</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">CREATE TABLE volclips (vid INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, geometry POLYGON NOT NULL);</span>
@@ -175,6 +182,49 @@
     <span class="c1">#a = do_pd_query(sql)</span>
     <span class="c1">#a[&#39;geometry&#39;] = a.geometry.apply(wkt.loads)</span>
     <span class="k">return</span> <span class="n">a</span></div>
+
+
+<span class="k">def</span> <span class="nf">get_existing_rslcs_for_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">):</span>
+    <span class="n">volclippath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subvolcpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">))</span>
+    <span class="n">rtable</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;vid&#39;</span><span class="p">,</span><span class="s1">&#39;subframe&#39;</span><span class="p">,</span> <span class="s1">&#39;no_rslcs&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">volclippath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">rtable</span>
+    <span class="k">for</span> <span class="n">subframe</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">volclippath</span><span class="p">):</span>
+        <span class="n">rslcs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">volclippath</span><span class="p">,</span> <span class="n">subframe</span><span class="p">,</span> <span class="s1">&#39;RSLC&#39;</span><span class="p">))</span>
+        <span class="n">norslcs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rslcs</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">rtable</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">rtable</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="n">vid</span><span class="p">,</span><span class="n">subframe</span><span class="p">,</span> <span class="n">norslcs</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">rtable</span>
+
+
+<span class="k">def</span> <span class="nf">get_status_table_volc</span><span class="p">(</span><span class="n">volcid</span><span class="p">):</span>
+    <span class="n">vids</span> <span class="o">=</span> <span class="n">get_volclip_vids</span><span class="p">(</span><span class="n">volcid</span><span class="p">)</span>
+    <span class="n">vidtable</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;volc_id&#39;</span><span class="p">,</span><span class="s1">&#39;vid&#39;</span><span class="p">,</span><span class="s1">&#39;subframe&#39;</span><span class="p">,</span> <span class="s1">&#39;no_rslcs&#39;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">vid</span> <span class="ow">in</span> <span class="n">vids</span><span class="p">:</span>
+        <span class="n">rtable</span> <span class="o">=</span> <span class="n">get_existing_rslcs_for_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">rtable</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">r</span> <span class="ow">in</span> <span class="n">rtable</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="n">vidtable</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">vidtable</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="n">volcid</span><span class="p">,</span> <span class="n">vid</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">subframe</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">no_rslcs</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">vidtable</span>
+
+
+<div class="viewcode-block" id="get_status_table_all_volcs"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_status_table_all_volcs">[docs]</a><span class="k">def</span> <span class="nf">get_status_table_all_volcs</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets current processing status of all volcanoes (number of already existing RSLCs of their volclips).</span>
+<span class="sd">    Will get table in the form of:</span>
+<span class="sd">    | volc_id | vid | subframe | number of RSLC clips |</span>
+<span class="sd">    Note that only info for already initialised volclips is returned. Also note that number of RSLCs excludes reference epoch.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Getting processing status info for all volcanoes (ETA few minutes)&#39;</span><span class="p">)</span>
+    <span class="n">volcs</span> <span class="o">=</span> <span class="n">get_volc_info</span><span class="p">()</span>
+    <span class="n">vtable</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;volc_id&#39;</span><span class="p">,</span><span class="s1">&#39;vid&#39;</span><span class="p">,</span><span class="s1">&#39;subframe&#39;</span><span class="p">,</span> <span class="s1">&#39;no_rslcs&#39;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">volcid</span> <span class="ow">in</span> <span class="n">volcs</span><span class="o">.</span><span class="n">volc_id</span><span class="p">:</span>
+        <span class="n">volcrecs</span> <span class="o">=</span> <span class="n">get_status_table_volc</span><span class="p">(</span><span class="n">volcid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">volcrecs</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">vtable</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">vtable</span><span class="p">,</span> <span class="n">volcrecs</span><span class="p">])</span>
+            <span class="n">vtable</span> <span class="o">=</span> <span class="n">vtable</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vtable</span></div>
 
 
 <div class="viewcode-block" id="get_volcanoes_in_polygon"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_volcanoes_in_polygon">[docs]</a><span class="k">def</span> <span class="nf">get_volcanoes_in_polygon</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">volcs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
