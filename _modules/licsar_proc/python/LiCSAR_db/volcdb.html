@@ -261,6 +261,14 @@
     <span class="k">return</span> <span class="n">is_in_table</span><span class="p">(</span><span class="n">volcid</span><span class="p">,</span> <span class="s1">&#39;volc_id&#39;</span><span class="p">,</span> <span class="s1">&#39;volclip2volcs&#39;</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="classify_volc"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.classify_volc">[docs]</a><span class="k">def</span> <span class="nf">classify_volc</span><span class="p">(</span><span class="n">volcid</span><span class="p">,</span> <span class="n">toclass</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Will classify volcano to a given class (e.g. &#39;C&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sql_q</span> <span class="o">=</span> <span class="s2">&quot;UPDATE volc SET priority=&#39;</span><span class="si">{0}</span><span class="s2">&#39; where volc_id = </span><span class="si">{1}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">toclass</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">volcid</span><span class="p">))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="create_volclip_for_volcano"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.create_volclip_for_volcano">[docs]</a><span class="k">def</span> <span class="nf">create_volclip_for_volcano</span><span class="p">(</span><span class="n">volcid</span><span class="p">,</span> <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Will create a volclip definition for given volcano (volcid).</span>
 <span class="sd">    If cliparea is not set, it will auto-generate area using diameter 25 km centered on the volc lon/lat.</span>
@@ -352,11 +360,14 @@
 <span class="sd">        return a</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
-<div class="viewcode-block" id="init_all_subsets"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets">[docs]</a><span class="k">def</span> <span class="nf">init_all_subsets</span><span class="p">(</span><span class="n">full_overlap</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="init_all_subsets"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets">[docs]</a><span class="k">def</span> <span class="nf">init_all_subsets</span><span class="p">(</span><span class="n">full_overlap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">only_classed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This will auto-init all volclips (assuming only one vid per volcano...)</span>
 <span class="sd">    if full_overlap==False, it will skip checking for full overlap of the volclip and frames. good for the last auto-run</span>
+<span class="sd">    if only_classed==True, it will skip volcanoes that are not classified (they have &#39;None&#39; class)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">volcs</span><span class="o">=</span><span class="n">get_volc_info</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">only_classed</span><span class="p">:</span>
+        <span class="n">volcs</span><span class="o">=</span><span class="n">volcs</span><span class="p">[</span><span class="o">~</span><span class="n">volcs</span><span class="o">.</span><span class="n">priority</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">volc</span> <span class="ow">in</span> <span class="n">volcs</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">volc</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
         <span class="n">frames</span> <span class="o">=</span> <span class="n">get_volcano_frames</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">volc</span><span class="p">[</span><span class="s1">&#39;volc_id&#39;</span><span class="p">]))</span>

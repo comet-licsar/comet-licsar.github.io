@@ -138,6 +138,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.vis_gpd"><code class="docutils literal notranslate"><span class="pre">vis_gpd()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.find_volcano_by_name"><code class="docutils literal notranslate"><span class="pre">find_volcano_by_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.is_in_volclips"><code class="docutils literal notranslate"><span class="pre">is_in_volclips()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.classify_volc"><code class="docutils literal notranslate"><span class="pre">classify_volc()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.create_volclip_for_volcano"><code class="docutils literal notranslate"><span class="pre">create_volclip_for_volcano()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.add_volcano_to_volclip"><code class="docutils literal notranslate"><span class="pre">add_volcano_to_volclip()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.delete_volclip"><code class="docutils literal notranslate"><span class="pre">delete_volclip()</span></code></a></li>
@@ -1281,6 +1282,12 @@ You may create the polygon from lon/lat borders, e.g. using fc.lonlat_to_poly(lo
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.classify_volc">
+<span class="sig-name descname"><span class="pre">classify_volc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volcid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toclass</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#classify_volc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.classify_volc" title="Permalink to this definition"></a></dt>
+<dd><p>Will classify volcano to a given class (e.g. ‘C’)</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.create_volclip_for_volcano">
 <span class="sig-name descname"><span class="pre">create_volclip_for_volcano</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volcid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cliparea_geo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#create_volclip_for_volcano"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.create_volclip_for_volcano" title="Permalink to this definition"></a></dt>
 <dd><p>Will create a volclip definition for given volcano (volcid).
@@ -1309,9 +1316,10 @@ If cliparea is not set, it will auto-generate area using diameter 25 km centered
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets">
-<span class="sig-name descname"><span class="pre">init_all_subsets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#init_all_subsets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">init_all_subsets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_classed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#init_all_subsets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets" title="Permalink to this definition"></a></dt>
 <dd><p>This will auto-init all volclips (assuming only one vid per volcano…)
-if full_overlap==False, it will skip checking for full overlap of the volclip and frames. good for the last auto-run</p>
+if full_overlap==False, it will skip checking for full overlap of the volclip and frames. good for the last auto-run
+if only_classed==True, it will skip volcanoes that are not classified (they have ‘None’ class)</p>
 </dd></dl>
 
 <dl class="py function">
