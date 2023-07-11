@@ -321,7 +321,27 @@
     <span class="n">azi2</span><span class="o">=</span><span class="n">azi2</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">azi</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
     <span class="c1"># azi2=azi2.interp_like(azi, method=&#39;nearest&#39;)</span>
     <span class="n">export_xr2tif</span><span class="p">(</span><span class="n">azi2</span><span class="p">,</span> <span class="n">outif</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">azi</span>
+    <span class="k">return</span> <span class="n">azi2</span>
+
+
+<span class="k">def</span> <span class="nf">filter_tureq</span><span class="p">(</span><span class="n">intif</span><span class="p">,</span> <span class="n">thres_m</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+    <span class="n">redfac</span> <span class="o">=</span> <span class="n">thres_m</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+    <span class="n">ml</span><span class="o">=</span><span class="mi">10</span>
+    <span class="n">outif</span> <span class="o">=</span> <span class="n">intif</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span><span class="s1">&#39;.filtered.tif&#39;</span><span class="p">)</span>
+    <span class="n">azi</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">intif</span><span class="p">)</span>
+    <span class="n">azi2</span><span class="o">=</span><span class="n">azi</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">azi</span><span class="p">)</span><span class="o">&lt;</span><span class="n">thres_m</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">azi2</span> <span class="o">=</span> <span class="n">azi2</span><span class="o">.</span><span class="n">coarsen</span><span class="p">({</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">ml</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">ml</span><span class="p">},</span> <span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;trim&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+    <span class="n">azi2</span> <span class="o">=</span> <span class="n">goldstein_filter_xr</span><span class="p">(</span><span class="n">azi2</span><span class="o">/</span><span class="n">redfac</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">azi2</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">azi2</span><span class="o">.</span><span class="n">values</span><span class="o">*</span><span class="n">redfac</span>
+    <span class="n">azi2</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">filter_histmed_ndarray</span><span class="p">(</span><span class="n">azi2</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">azi2</span><span class="o">=</span><span class="n">azi2</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">azi</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+    <span class="n">medres</span> <span class="o">=</span> <span class="p">(</span><span class="n">azi</span><span class="o">-</span><span class="n">azi2</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">medres</span><span class="o">=</span><span class="n">medres</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># just in case..</span>
+    <span class="n">medres</span><span class="o">=</span><span class="n">medianfilter_array</span><span class="p">(</span><span class="n">medres</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+    <span class="n">azi2</span><span class="o">=</span><span class="n">azi2</span><span class="o">+</span><span class="n">medres</span>
+    <span class="n">export_xr2tif</span><span class="p">(</span><span class="n">azi2</span><span class="p">,</span> <span class="n">outif</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">azi2</span>
+
 
 <span class="sd">&#39;&#39;&#39;</span>
 
@@ -2278,30 +2298,95 @@
 <span class="c1"># perhaps winsize=64 and bins=10 is ... &#39;optimal&#39;, but must be better tested (i check few options now)</span>
 
 <span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">generic_filter</span>
-<div class="viewcode-block" id="filterhistmed"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.filterhistmed">[docs]</a><span class="k">def</span> <span class="nf">filterhistmed</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">amin</span><span class="p">,</span> <span class="n">amax</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span> <span class="c1">#, medbin=True):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Support function to be used with generic_filter (where only 1D array is passed, expecting one output-&gt;using median here only)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">def filterhistmed(block, amin, amax, bins=20): #, medbin=True):</span>
+<span class="sd">    &quot;&quot;&quot;Support function to be used with generic_filter (where only 1D array is passed, expecting one output-&gt;using median here only)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    if np.isnan(block).all():</span>
+<span class="sd">        return np.nan</span>
+<span class="sd">    histc, histe = np.histogram(block,range=(amin,amax), bins=bins)</span>
+<span class="sd">    histmax=np.argmax(histc)</span>
+<span class="sd">    minval=histe[histmax]</span>
+<span class="sd">    maxval=histe[histmax+1]</span>
+<span class="sd">    #</span>
+<span class="sd">    bb=block[block&gt;minval]</span>
+<span class="sd">    bb=bb[bb&lt;maxval]</span>
+<span class="sd">    return np.nanmedian(bb)</span>
+
+
+<span class="sd">def filter_histmed_ndarray(ndarr, winsize=32, bins=20):</span>
+<span class="sd">    &quot;&quot;&quot;Main filtering function, works with both numpy.ndarray and xr.DataArray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    #footprint=disk(winsize)</span>
+<span class="sd">    amin=np.nanmin(ndarr)</span>
+<span class="sd">    amax=np.nanmax(ndarr)</span>
+<span class="sd">    footprint=unit_circle(int(winsize/2))</span>
+<span class="sd">    return generic_filter(ndarr, filterhistmed, footprint=footprint, mode=&#39;constant&#39;, cval=np.nan,</span>
+<span class="sd">                      extra_keywords= {&#39;amin&#39;: amin, &#39;amax&#39;:amax, &#39;bins&#39;:bins})</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">get_disk_ones</span><span class="p">(</span><span class="n">block</span><span class="p">):</span>
+    <span class="n">mask</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1">#should be square</span>
+    <span class="c1">#nyquistlen=int(mask.shape[0]/2+0.5) + 1 #+ extrapx</span>
+    <span class="n">circle</span><span class="o">=</span><span class="n">unit_circle</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#will contain +1 px for zero</span>
+    <span class="n">i</span><span class="o">=</span><span class="nb">int</span><span class="p">((</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">circle</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">j</span><span class="o">=</span><span class="nb">int</span><span class="p">((</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">circle</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">mask</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">circle</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">circle</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">=</span><span class="n">circle</span>
+    <span class="n">mask</span><span class="p">[</span><span class="n">mask</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span> <span class="n">mask</span>
+
+
+<div class="viewcode-block" id="filterhistmed"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.filterhistmed">[docs]</a><span class="k">def</span> <span class="nf">filterhistmed</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">amin</span><span class="p">,</span> <span class="n">amax</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">medbin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">circleblock</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Support function to be used with generic_filter (where only 1D array is passed, expecting one output-&gt;using median here only</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">block</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">circleblock</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">block</span><span class="o">=</span><span class="n">get_disk_ones</span><span class="p">(</span><span class="n">block</span><span class="p">)</span><span class="o">*</span><span class="n">block</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;warning: conversion to circle block did not work&#39;</span><span class="p">)</span>
+            <span class="k">pass</span>
     <span class="n">histc</span><span class="p">,</span> <span class="n">histe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">block</span><span class="p">,</span><span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="n">amin</span><span class="p">,</span><span class="n">amax</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
     <span class="n">histmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">histc</span><span class="p">)</span>
-    <span class="n">minval</span><span class="o">=</span><span class="n">histe</span><span class="p">[</span><span class="n">histmax</span><span class="p">]</span>
-    <span class="n">maxval</span><span class="o">=</span><span class="n">histe</span><span class="p">[</span><span class="n">histmax</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-    <span class="c1">#</span>
-    <span class="n">bb</span><span class="o">=</span><span class="n">block</span><span class="p">[</span><span class="n">block</span><span class="o">&gt;</span><span class="n">minval</span><span class="p">]</span>
-    <span class="n">bb</span><span class="o">=</span><span class="n">bb</span><span class="p">[</span><span class="n">bb</span><span class="o">&lt;</span><span class="n">maxval</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">bb</span><span class="p">)</span></div>
+    <span class="c1">#minval=histe[histmax]</span>
+    <span class="c1">#maxval=histe[histmax+1]</span>
+    <span class="c1"># tiny update</span>
+    <span class="k">if</span> <span class="n">histmax</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">histmax</span><span class="o">=</span><span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">histmax</span> <span class="o">==</span> <span class="n">bins</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">histmax</span> <span class="o">=</span> <span class="n">bins</span><span class="o">-</span><span class="mi">2</span>
+    <span class="n">minval</span><span class="o">=</span><span class="n">histe</span><span class="p">[</span><span class="n">histmax</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">maxval</span><span class="o">=</span><span class="n">histe</span><span class="p">[</span><span class="n">histmax</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+    <span class="c1"># add median or interpolate:</span>
+    <span class="k">if</span> <span class="n">medbin</span><span class="p">:</span>
+        <span class="n">bb</span><span class="o">=</span><span class="n">block</span><span class="p">[</span><span class="n">block</span><span class="o">&gt;</span><span class="n">minval</span><span class="p">]</span>
+        <span class="n">bb</span><span class="o">=</span><span class="n">bb</span><span class="p">[</span><span class="n">bb</span><span class="o">&lt;</span><span class="n">maxval</span><span class="p">]</span>
+        <span class="n">outval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">bb</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">blockxr</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+            <span class="n">blockxr</span><span class="o">.</span><span class="n">values</span><span class="o">=</span><span class="n">interpolate_nans</span><span class="p">(</span><span class="n">blockxr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">blockxr</span><span class="o">&gt;</span><span class="n">minval</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">blockxr</span><span class="o">&lt;</span><span class="n">maxval</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+            <span class="n">blockxr</span><span class="o">.</span><span class="n">values</span><span class="o">=</span><span class="n">interpolate_nans</span><span class="p">(</span><span class="n">blockxr</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span> <span class="c1"># just to be sure..</span>
+            <span class="n">outval</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">blockxr</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)])</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">outval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span> <span class="n">outval</span></div>
 
 
-<div class="viewcode-block" id="filter_histmed_ndarray"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_histmed_ndarray">[docs]</a><span class="k">def</span> <span class="nf">filter_histmed_ndarray</span><span class="p">(</span><span class="n">ndarr</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+<div class="viewcode-block" id="filter_histmed_ndarray"><a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.filter_histmed_ndarray">[docs]</a><span class="k">def</span> <span class="nf">filter_histmed_ndarray</span><span class="p">(</span><span class="n">ndarr</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">medbin</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Main filtering function, works with both numpy.ndarray and xr.DataArray</span>
+<span class="sd">    Args:</span>
+<span class="sd">        medbin (boolean): if False, it will interpolate (fit) the central value from the bin subset. otherwise returns its median</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#footprint=disk(winsize)</span>
     <span class="n">amin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">ndarr</span><span class="p">)</span>
     <span class="n">amax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">ndarr</span><span class="p">)</span>
     <span class="n">footprint</span><span class="o">=</span><span class="n">unit_circle</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">winsize</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">generic_filter</span><span class="p">(</span><span class="n">ndarr</span><span class="p">,</span> <span class="n">filterhistmed</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">footprint</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
-                      <span class="n">extra_keywords</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;amin&#39;</span><span class="p">:</span> <span class="n">amin</span><span class="p">,</span> <span class="s1">&#39;amax&#39;</span><span class="p">:</span><span class="n">amax</span><span class="p">,</span> <span class="s1">&#39;bins&#39;</span><span class="p">:</span><span class="n">bins</span><span class="p">})</span></div>
+                      <span class="n">extra_keywords</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;amin&#39;</span><span class="p">:</span> <span class="n">amin</span><span class="p">,</span> <span class="s1">&#39;amax&#39;</span><span class="p">:</span><span class="n">amax</span><span class="p">,</span> <span class="s1">&#39;bins&#39;</span><span class="p">:</span><span class="n">bins</span><span class="p">,</span> <span class="s1">&#39;medbin&#39;</span><span class="p">:</span><span class="n">medbin</span><span class="p">})</span></div>
 
 
 <span class="c1"># main_unwrap(binCPX, bincoh, binmask, outunwbin, width, bin_est</span>
