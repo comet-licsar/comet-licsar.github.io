@@ -258,9 +258,7 @@
     <span class="n">starttime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="c1"># 06/2023: </span>
     <span class="c1"># 01/2022: updating parameters:</span>
-    <span class="n">i</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">downtoml</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;processing cascade of ML&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-    <span class="n">ifg_mlc</span> <span class="o">=</span> <span class="n">process_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">procdir</span> <span class="o">=</span> <span class="n">procdir</span><span class="p">,</span> <span class="n">ml</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">fillby</span> <span class="o">=</span> <span class="s1">&#39;gauss&#39;</span><span class="p">,</span> 
+    <span class="n">ifg_mlc</span> <span class="o">=</span> <span class="n">process_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">procdir</span> <span class="o">=</span> <span class="n">procdir</span><span class="p">,</span> <span class="n">ml</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">downtoml</span><span class="p">,</span> <span class="n">fillby</span> <span class="o">=</span> <span class="s1">&#39;gauss&#39;</span><span class="p">,</span> 
             <span class="n">defomax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">thres</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">add_resid</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">hgtcorr</span> <span class="o">=</span> <span class="n">hgtcorr</span><span class="p">,</span> <span class="n">rampit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
             <span class="n">dolocal</span> <span class="o">=</span> <span class="n">dolocal</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">goldstein</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">only10</span><span class="p">:</span>
@@ -341,8 +339,6 @@
     <span class="n">azi2</span><span class="o">=</span><span class="n">azi2</span><span class="o">+</span><span class="n">medres</span>
     <span class="n">export_xr2tif</span><span class="p">(</span><span class="n">azi2</span><span class="p">,</span> <span class="n">outif</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">azi2</span>
-
-
 <span class="sd">&#39;&#39;&#39;</span>
 
 <span class="sd">ml10=process_ifg_core(ifg, tmpdir = &#39;bagrr&#39;, ml = 10, fillby = &#39;nearest&#39;,smooth = False, goldstein = True, lowpass =False, specmag = True); ml10.unw.plot(); plt.show()</span>
@@ -1152,7 +1148,7 @@
 <span class="sd">        xarray.Dataset: multilooked interferogram with additional layers</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">cascade</span> <span class="ow">and</span> <span class="n">ml</span><span class="o">&gt;</span><span class="mi">9</span><span class="p">:</span>
-        <span class="n">only10</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">only10</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="n">cascade</span> <span class="ow">and</span> <span class="n">ml</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
         <span class="c1"># use &#39;more&#39; steps if this is ml1</span>
         <span class="n">only10</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1160,8 +1156,8 @@
     <span class="c1">#    print(&#39;error - the cascade approach is ready only for ML1&#39;)</span>
     <span class="c1">#    return False</span>
     <span class="c1">#the best to run in directory named by the frame id</span>
-    <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
     <span class="k">try</span><span class="p">:</span>
+        <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
         <span class="n">track</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
         <span class="n">geoframedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">track</span><span class="p">),</span><span class="n">frame</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
@@ -1780,10 +1776,9 @@
 
 
 <span class="k">def</span> <span class="nf">load_ifg</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">unw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dolocal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cliparea_geo</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="s1">&#39;diff_pha&#39;</span><span class="p">):</span>
-    <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
-    <span class="n">geoframedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span><span class="n">frame</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">dolocal</span><span class="p">:</span>
         <span class="n">geoifgdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;GEOC&#39;</span><span class="p">,</span><span class="n">pair</span><span class="p">)</span>
+        <span class="n">geoepochsdir</span> <span class="o">=</span> <span class="s1">&#39;GEOC.MLI&#39;</span>
         <span class="n">hgtfile</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;GEOC/*.geo.hgt.tif&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">Ufile</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;GEOC/*.geo.U.tif&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1792,7 +1787,10 @@
         <span class="n">landmask_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;GEOC&#39;</span><span class="p">,</span><span class="n">frame</span><span class="o">+</span><span class="s1">&#39;.geo.landmask.tif&#39;</span><span class="p">)</span>
         <span class="c1">#print(&#39;debug l 1662: using U&#39;)</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
+        <span class="n">geoframedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span> <span class="n">frame</span><span class="p">)</span>
         <span class="n">geoifgdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;interferograms&#39;</span><span class="p">,</span><span class="n">pair</span><span class="p">)</span>
+        <span class="n">geoepochsdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span> <span class="s1">&#39;epochs&#39;</span><span class="p">)</span>
         <span class="n">hgtfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span><span class="n">frame</span><span class="o">+</span><span class="s1">&#39;.geo.hgt.tif&#39;</span><span class="p">)</span>
         <span class="n">Ufile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span><span class="n">frame</span><span class="o">+</span><span class="s1">&#39;.geo.U.tif&#39;</span><span class="p">)</span>
         <span class="c1">#print(&#39;debug l 1667: using U&#39;)</span>
@@ -1831,12 +1829,11 @@
         <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;unw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span>
         <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;unw&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">inunw</span><span class="o">.</span><span class="n">values</span>
     <span class="k">if</span> <span class="n">mag</span><span class="p">:</span>
-        <span class="n">geoepochsdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;epochs&#39;</span><span class="p">)</span>
         <span class="n">inmag</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">pair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">):</span>
             <span class="n">epochmli</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoepochsdir</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">epoch</span><span class="o">+</span><span class="s1">&#39;.geo.mli.tif&#39;</span> <span class="p">)</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">epochmli</span><span class="p">):</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;debug: using mli of epoch &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">epoch</span><span class="p">))</span>
+                <span class="c1">#print(&#39;debug: using mli of epoch &#39;+str(epoch))</span>
                 <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">inmag</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
                     <span class="n">inmag</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">epochmli</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -1844,7 +1841,7 @@
                     <span class="c1"># but we will use only average here, for practical purposes - should be ok</span>
                     <span class="n">inmag</span> <span class="o">=</span> <span class="p">(</span><span class="n">load_tif2xr</span><span class="p">(</span><span class="n">epochmli</span><span class="p">)</span><span class="o">+</span><span class="n">inmag</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">inmag</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no epoch mlis found, not using magnitude&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no epoch mlis found, not using magnitude for pair &#39;</span><span class="o">+</span><span class="n">pair</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;mag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;pha&#39;</span><span class="p">]</span>
             <span class="n">ifg</span><span class="p">[</span><span class="s1">&#39;mag&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">inmag</span><span class="o">.</span><span class="n">values</span>
@@ -2323,7 +2320,6 @@
 <span class="sd">    footprint=unit_circle(int(winsize/2))</span>
 <span class="sd">    return generic_filter(ndarr, filterhistmed, footprint=footprint, mode=&#39;constant&#39;, cval=np.nan,</span>
 <span class="sd">                      extra_keywords= {&#39;amin&#39;: amin, &#39;amax&#39;:amax, &#39;bins&#39;:bins})</span>
-
 <span class="sd">&#39;&#39;&#39;</span>
 
 
