@@ -1515,9 +1515,15 @@
         <span class="c1">#coh_ml = bagcoh.sum() / bagcoh.count()</span>
         <span class="n">coh_ml</span> <span class="o">=</span> <span class="n">bagcoh</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;coh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">cpx</span>
-        <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;coh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">coh_ml</span><span class="o">.</span><span class="n">coh</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;cohlike&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">coh</span>
-        <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;cohlike&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">cohlike</span><span class="o">.</span><span class="n">cpx</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">if</span> <span class="n">ml</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="c1"># if there is quite a number of pixels, we can just use the cohlike measure instead of coh! not standard but makes sense to me (ML)</span>
+            <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;coh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">coh</span>
+            <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;coh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">cohlike</span><span class="o">.</span><span class="n">cpx</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;coh&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">coh_ml</span><span class="o">.</span><span class="n">coh</span><span class="o">.</span><span class="n">values</span>
+            <span class="c1"># just store cohlike for further investigation</span>
+            <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;cohlike&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">coh</span>
+            <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;cohlike&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">cohlike</span><span class="o">.</span><span class="n">cpx</span><span class="o">.</span><span class="n">values</span>
         <span class="n">cohlike</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># non-nan px count per window</span>
         <span class="n">ifg_ml</span><span class="p">[</span><span class="s1">&#39;pxcount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifg_ml</span><span class="o">.</span><span class="n">cpx</span>
