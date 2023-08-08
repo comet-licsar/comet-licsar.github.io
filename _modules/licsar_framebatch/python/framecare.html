@@ -1106,7 +1106,7 @@
     <span class="k">return</span> <span class="n">filenumber</span>
 
 
-<span class="k">def</span> <span class="nf">get_epochs</span><span class="p">(</span><span class="n">framename</span><span class="p">,</span> <span class="n">return_mli_tifs</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_epochs</span><span class="p">(</span><span class="n">framename</span><span class="p">,</span> <span class="n">return_mli_tifs</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">return_as_dt</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
     <span class="n">track</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">framename</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]))</span>
     <span class="n">pubpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pubdir</span><span class="p">,</span><span class="n">track</span><span class="p">,</span><span class="n">framename</span><span class="p">)</span>
@@ -1120,6 +1120,11 @@
         <span class="k">return</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">epochspath</span> <span class="o">+</span> <span class="s2">&quot;/**/*.geo.mli.tif&quot;</span><span class="p">,</span> <span class="n">recursive</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">epochslist</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob1</span><span class="p">(</span><span class="n">epochspath</span><span class="p">,</span><span class="s1">&#39;2???????&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">return_as_dt</span><span class="p">:</span>
+            <span class="n">es</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">epochslist</span><span class="p">:</span>
+                <span class="n">es</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">es</span>
         <span class="k">return</span> <span class="n">epochslist</span>
 
 
