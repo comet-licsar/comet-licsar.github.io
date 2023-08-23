@@ -10,11 +10,11 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -155,11 +155,14 @@
 <span class="c1">#sid=&#39;SAREZ&#39;</span>
 <span class="c1">#fc.subset_initialise_corners(frame, lon1, lon2, lat1, lat2, sid)</span>
 
-<div class="viewcode-block" id="get_frame_path"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_frame_path">[docs]</a><span class="k">def</span> <span class="nf">get_frame_path</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+<div class="viewcode-block" id="get_frame_path">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_frame_path">[docs]</a>
+<span class="k">def</span> <span class="nf">get_frame_path</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Will get expected path for the frame&quot;&quot;&quot;</span>
     <span class="n">track</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
     <span class="n">framepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_procdir&#39;</span><span class="p">],</span><span class="nb">str</span><span class="p">(</span><span class="n">track</span><span class="p">),</span><span class="n">frame</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">framepath</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">lonlat_to_poly</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">):</span>
@@ -171,7 +174,9 @@
     <span class="k">return</span> <span class="n">polygon</span>
 
 
-<div class="viewcode-block" id="subset_get_frames"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.subset_get_frames">[docs]</a><span class="k">def</span> <span class="nf">subset_get_frames</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">full_overlap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">only_initialised</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="subset_get_frames">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.subset_get_frames">[docs]</a>
+<span class="k">def</span> <span class="nf">subset_get_frames</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">full_overlap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">only_initialised</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This will get frames that overlap with given coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># sort the coordinates</span>
@@ -194,6 +199,7 @@
             <span class="k">if</span> <span class="n">framepoly</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">polygon</span><span class="p">)</span> <span class="ow">or</span> <span class="n">framepoly</span><span class="o">.</span><span class="n">overlaps</span><span class="p">(</span><span class="n">polygon</span><span class="p">):</span>
                 <span class="n">framesok</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">framesok</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">vis_subset_frames</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">):</span>
@@ -219,7 +225,9 @@
 <span class="sd">    os.system(cmd)</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
-<div class="viewcode-block" id="subset_initialise_corners"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.subset_initialise_corners">[docs]</a><span class="k">def</span> <span class="nf">subset_initialise_corners</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+<div class="viewcode-block" id="subset_initialise_corners">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.subset_initialise_corners">[docs]</a>
+<span class="k">def</span> <span class="nf">subset_initialise_corners</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This will initialise a subset given by corner lon/lat-s.</span>
 <span class="sd">    The results will be stored in $LiCSAR_procdir/subsets</span>
 <span class="sd">    </span>
@@ -326,7 +334,10 @@
     <span class="k">return</span></div>
 
 
-<div class="viewcode-block" id="subset_initialise_centre_coords"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.subset_initialise_centre_coords">[docs]</a><span class="k">def</span> <span class="nf">subset_initialise_centre_coords</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">clon</span><span class="p">,</span> <span class="n">clat</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">radius_km</span> <span class="o">=</span> <span class="mi">25</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+
+<div class="viewcode-block" id="subset_initialise_centre_coords">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.subset_initialise_centre_coords">[docs]</a>
+<span class="k">def</span> <span class="nf">subset_initialise_centre_coords</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">clon</span><span class="p">,</span> <span class="n">clat</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">radius_km</span> <span class="o">=</span> <span class="mi">25</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This will initialise a subset given by centre lon/lat and radius in km.</span>
 <span class="sd">    The results will be stored in \$LiCSAR_procdir/subsets</span>
 <span class="sd">    </span>
@@ -350,14 +361,20 @@
     <span class="k">return</span></div>
 
 
-<div class="viewcode-block" id="make_subsets_volcano"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.make_subsets_volcano">[docs]</a><span class="k">def</span> <span class="nf">make_subsets_volcano</span><span class="p">(</span><span class="n">volcid</span><span class="p">):</span>
+
+<div class="viewcode-block" id="make_subsets_volcano">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.make_subsets_volcano">[docs]</a>
+<span class="k">def</span> <span class="nf">make_subsets_volcano</span><span class="p">(</span><span class="n">volcid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Makes subset clips for the volcano with given ID&quot;&quot;&quot;</span>
     <span class="n">volcvids</span><span class="o">=</span><span class="n">get_volclip_vids</span><span class="p">(</span><span class="n">volcid</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">vid</span> <span class="ow">in</span> <span class="n">volcvids</span><span class="p">:</span>
         <span class="n">make_subsets_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="make_subsets_volclip"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.make_subsets_volclip">[docs]</a><span class="k">def</span> <span class="nf">make_subsets_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">):</span>
+
+<div class="viewcode-block" id="make_subsets_volclip">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.make_subsets_volclip">[docs]</a>
+<span class="k">def</span> <span class="nf">make_subsets_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Makes subset clips for the volc_frame_clip id vid&quot;&quot;&quot;</span>
     <span class="n">volc</span> <span class="o">=</span> <span class="n">get_volclip_info</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">volc</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
@@ -372,6 +389,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_boundary_lonlats</span><span class="p">(</span><span class="n">volc</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span>
             <span class="n">rc</span> <span class="o">=</span> <span class="n">subset_initialise_corners</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">sid</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">vid</span><span class="p">),</span> <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">resol_m</span><span class="o">=</span><span class="n">volc</span><span class="o">.</span><span class="n">resolution_m</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">check_and_fix_burst</span><span class="p">(</span><span class="n">mburst</span><span class="p">,</span> <span class="n">framebursts</span><span class="p">):</span>
@@ -680,13 +698,16 @@
         <span class="n">reingest_file</span><span class="p">(</span><span class="n">fileid</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="vis_file"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.vis_file">[docs]</a><span class="k">def</span> <span class="nf">vis_file</span><span class="p">(</span><span class="n">fileid</span><span class="p">):</span>
+<div class="viewcode-block" id="vis_file">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.vis_file">[docs]</a>
+<span class="k">def</span> <span class="nf">vis_file</span><span class="p">(</span><span class="n">fileid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Visualize bursts of given file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fbursts</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_bursts_in_file</span><span class="p">(</span><span class="n">fileid</span><span class="p">)</span>
     <span class="n">fbursts</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">fbursts</span><span class="p">)</span>
     <span class="c1">#filegpd = bursts2geopandas(fbursts)</span>
     <span class="n">vis_bidtanxs</span><span class="p">(</span><span class="n">fbursts</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">check_bursts_in_file</span><span class="p">(</span><span class="n">fileid</span> <span class="o">=</span> <span class="s1">&#39;S1A_IW_SLC__1SDV_20210908T235238_20210908T235305_039597_04AE3C_4CA7&#39;</span><span class="p">,</span> <span class="n">badburstfind</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">autocorrect</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
@@ -796,7 +817,9 @@
     <span class="k">return</span> <span class="n">chars</span>
 
 
-<div class="viewcode-block" id="ingest_file_to_licsinfo"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.ingest_file_to_licsinfo">[docs]</a><span class="k">def</span> <span class="nf">ingest_file_to_licsinfo</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">isfullpath</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="ingest_file_to_licsinfo">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.ingest_file_to_licsinfo">[docs]</a>
+<span class="k">def</span> <span class="nf">ingest_file_to_licsinfo</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">isfullpath</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Will ingest a S1 SLC zip file to the LiCSInfo database.</span>
 <span class="sd">    If filepath is only filename, it will try find this file in neodc or LiCSAR_SLC&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">isfullpath</span><span class="p">:</span>
@@ -815,14 +838,20 @@
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">aaaa</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_bidtanxs_from_xy"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_bidtanxs_from_xy">[docs]</a><span class="k">def</span> <span class="nf">get_bidtanxs_from_xy</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span><span class="n">lat</span><span class="p">,</span><span class="n">relorb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">swath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+
+<div class="viewcode-block" id="get_bidtanxs_from_xy">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_bidtanxs_from_xy">[docs]</a>
+<span class="k">def</span> <span class="nf">get_bidtanxs_from_xy</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span><span class="n">lat</span><span class="p">,</span><span class="n">relorb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">swath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets bursts in given coordinates (and optionally in given track or swath)&quot;&quot;&quot;</span>
     <span class="n">bursts</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_bursts_in_xy</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span><span class="n">lat</span><span class="p">,</span><span class="n">relorb</span><span class="p">,</span><span class="n">swath</span><span class="p">,</span><span class="n">tol</span><span class="p">)</span>
     <span class="n">bursts</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">bursts</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">bursts</span></div>
 
 
-<div class="viewcode-block" id="get_bidtanxs_from_xy_file"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_bidtanxs_from_xy_file">[docs]</a><span class="k">def</span> <span class="nf">get_bidtanxs_from_xy_file</span><span class="p">(</span><span class="n">intxt</span><span class="p">,</span> <span class="n">relorb</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="get_bidtanxs_from_xy_file">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_bidtanxs_from_xy_file">[docs]</a>
+<span class="k">def</span> <span class="nf">get_bidtanxs_from_xy_file</span><span class="p">(</span><span class="n">intxt</span><span class="p">,</span> <span class="n">relorb</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets bursts in polygon given by the xy text file.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">intxt</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR, the file does not exist&#39;</span><span class="p">)</span>
@@ -834,7 +863,10 @@
     <span class="k">return</span> <span class="n">bidtanxs</span></div>
 
 
-<div class="viewcode-block" id="make_bperp_file"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.make_bperp_file">[docs]</a><span class="k">def</span> <span class="nf">make_bperp_file</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">bperp_file</span><span class="p">):</span>
+
+<div class="viewcode-block" id="make_bperp_file">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.make_bperp_file">[docs]</a>
+<span class="k">def</span> <span class="nf">make_bperp_file</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">bperp_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates baselines file for given frame, by requesting info from ASF&quot;&quot;&quot;</span>
     <span class="n">mid</span> <span class="o">=</span> <span class="n">get_master</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">asfilenames</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">mid</span><span class="p">:</span>
@@ -844,7 +876,10 @@
     <span class="n">bpd</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">bperp_file</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_master"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_master">[docs]</a><span class="k">def</span> <span class="nf">get_master</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">asfilenames</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">asdate</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">asdatetime</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">metafile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="get_master">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_master">[docs]</a>
+<span class="k">def</span> <span class="nf">get_master</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">asfilenames</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">asdate</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">asdatetime</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">metafile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets reference epoch of given frame, returns in several ways</span>
 
 <span class="sd">    Args:</span>
@@ -892,7 +927,10 @@
     <span class="k">return</span> <span class="n">masterdate</span></div>
 
 
-<div class="viewcode-block" id="get_frame_master_s1ab"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_frame_master_s1ab">[docs]</a><span class="k">def</span> <span class="nf">get_frame_master_s1ab</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">metafile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="get_frame_master_s1ab">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_frame_master_s1ab">[docs]</a>
+<span class="k">def</span> <span class="nf">get_frame_master_s1ab</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">metafile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Gets information if the reference epoch of given frame is S1 &#39;A&#39; or &#39;B&#39;.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
@@ -915,7 +953,10 @@
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="vis_aoi"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.vis_aoi">[docs]</a><span class="k">def</span> <span class="nf">vis_aoi</span><span class="p">(</span><span class="n">aoi</span><span class="p">):</span>
+
+<div class="viewcode-block" id="vis_aoi">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.vis_aoi">[docs]</a>
+<span class="k">def</span> <span class="nf">vis_aoi</span><span class="p">(</span><span class="n">aoi</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;to visualize a polygon element (&#39;aoi&#39;)</span>
 <span class="sd">    Note: aoi might be a list of polygons, see subset_get_frames&quot;&quot;&quot;</span>
     <span class="n">crs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;init&#39;</span><span class="p">:</span> <span class="s1">&#39;epsg:4326&#39;</span><span class="p">}</span>
@@ -934,7 +975,10 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="vis_bidtanxs"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.vis_bidtanxs">[docs]</a><span class="k">def</span> <span class="nf">vis_bidtanxs</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="vis_bidtanxs">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.vis_bidtanxs">[docs]</a>
+<span class="k">def</span> <span class="nf">vis_bidtanxs</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Visualize list of bursts (use bidtanx id, i.e. e.g. &#39;73_IW1_1234&#39;)&quot;&quot;&quot;</span>
     <span class="n">tovis</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">bid</span> <span class="ow">in</span> <span class="n">bidtanxs</span><span class="p">:</span>
@@ -942,11 +986,15 @@
     <span class="n">vis_aoi</span><span class="p">(</span><span class="n">tovis</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="vis_frame"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.vis_frame">[docs]</a><span class="k">def</span> <span class="nf">vis_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+
+<div class="viewcode-block" id="vis_frame">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.vis_frame">[docs]</a>
+<span class="k">def</span> <span class="nf">vis_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Visualize frame ID&quot;&quot;&quot;</span>
     <span class="n">ai</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_bursts_in_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
     <span class="n">bidtanxs</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">ai</span><span class="p">)</span>
     <span class="n">vis_bidtanxs</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">)</span></div>
+
 
 <span class="k">def</span> <span class="nf">extract_bursts_by_track</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span> <span class="n">track</span><span class="p">):</span>
     <span class="n">newbids</span> <span class="o">=</span> <span class="p">[]</span>
@@ -956,7 +1004,9 @@
     <span class="k">return</span> <span class="n">newbids</span>
 
 
-<div class="viewcode-block" id="bursts2geopandas"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.bursts2geopandas">[docs]</a><span class="k">def</span> <span class="nf">bursts2geopandas</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_s1burst</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="bursts2geopandas">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.bursts2geopandas">[docs]</a>
+<span class="k">def</span> <span class="nf">bursts2geopandas</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_s1burst</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets geopandas layer for a list of burst IDs (in the form of bidtanx, i.e. e.g. 73_IW1_1234</span>
 
 <span class="sd">    Args:</span>
@@ -1002,7 +1052,10 @@
     <span class="k">return</span> <span class="n">aoi_gpd</span></div>
 
 
-<div class="viewcode-block" id="frame2geopandas"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.frame2geopandas">[docs]</a><span class="k">def</span> <span class="nf">frame2geopandas</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">brute</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_s1burst</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="frame2geopandas">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.frame2geopandas">[docs]</a>
+<span class="k">def</span> <span class="nf">frame2geopandas</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">brute</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_s1burst</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets geopandas layer for a frame</span>
 
 <span class="sd">    Args:</span>
@@ -1029,6 +1082,7 @@
             <span class="c1">#gpan[&#39;frameID&#39;] = frame</span>
             <span class="n">gpan</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">({</span><span class="s1">&#39;frameID&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">frame</span><span class="p">]},</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="p">[</span><span class="n">geom</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">gpan</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">frame2geopandas_brute</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
@@ -1066,7 +1120,9 @@
     <span class="c1">#outgpd = outgpd.append(gpan, ignore_index=True)</span>
     <span class="k">return</span> <span class="n">gpan</span>
 
-<div class="viewcode-block" id="rename_frame_main"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.rename_frame_main">[docs]</a><span class="k">def</span> <span class="nf">rename_frame_main</span><span class="p">(</span><span class="n">framename</span><span class="p">,</span><span class="n">newname</span><span class="p">,</span> <span class="n">reportcsv</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/LiCSAR_products/frameid_changes.txt&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="rename_frame_main">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.rename_frame_main">[docs]</a>
+<span class="k">def</span> <span class="nf">rename_frame_main</span><span class="p">(</span><span class="n">framename</span><span class="p">,</span><span class="n">newname</span><span class="p">,</span> <span class="n">reportcsv</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/LiCSAR_products/frameid_changes.txt&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    this function will physically rename a frame (and move folders etc.) - oh, but it doesn&#39;t touch the frame def in database! for this, use lq.rename_frame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1092,6 +1148,7 @@
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;oldname,newname</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">reportcsv</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">,</span><span class="si">{1}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">framename</span><span class="p">,</span> <span class="n">newname</span><span class="p">))</span></div>
+
 
 <span class="k">def</span> <span class="nf">get_number_of_ifgs</span><span class="p">(</span><span class="n">framename</span><span class="p">):</span>
     <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
@@ -1342,7 +1399,9 @@
     <span class="n">polyid_name</span> <span class="o">=</span> <span class="n">polyid_track</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">polyid_colat10</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">iw1_str</span><span class="o">+</span><span class="n">iw2_str</span><span class="o">+</span><span class="n">iw3_str</span>
     <span class="k">return</span> <span class="n">polyid_name</span>
 
-<div class="viewcode-block" id="generate_new_frame"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.generate_new_frame">[docs]</a><span class="k">def</span> <span class="nf">generate_new_frame</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span><span class="n">testonly</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">hicode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="generate_new_frame">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.generate_new_frame">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_new_frame</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span><span class="n">testonly</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">hicode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Main function to generate new frame definition based on selected bursts</span>
 <span class="sd">    Args:</span>
 <span class="sd">        bidtanxs (list): list of burst IDs in the bidtanx form, e.g. [&#39;73_IW1_1234&#39;,&#39;73_IW1_2345&#39;,..]</span>
@@ -1446,11 +1505,15 @@
     <span class="k">return</span> <span class="n">polyid_name</span></div>
 
 
-<div class="viewcode-block" id="generate_frame_from_bursts_kml"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.generate_frame_from_bursts_kml">[docs]</a><span class="k">def</span> <span class="nf">generate_frame_from_bursts_kml</span><span class="p">(</span><span class="n">inputkml</span><span class="p">):</span>
+
+<div class="viewcode-block" id="generate_frame_from_bursts_kml">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.generate_frame_from_bursts_kml">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_frame_from_bursts_kml</span><span class="p">(</span><span class="n">inputkml</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Directly generates a frame definition from burst ids stored in a KML file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">bursts</span> <span class="o">=</span> <span class="n">load_bursts_from_kml</span><span class="p">(</span><span class="n">inputkml</span><span class="p">)</span>
     <span class="n">generate_new_frame</span><span class="p">(</span><span class="n">bursts</span><span class="p">,</span> <span class="n">testonly</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">load_bursts_from_txt</span><span class="p">(</span><span class="n">intxt</span><span class="p">):</span>
@@ -1487,7 +1550,9 @@
 
 
 
-<div class="viewcode-block" id="export_bidtanxs_to_kml"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.export_bidtanxs_to_kml">[docs]</a><span class="k">def</span> <span class="nf">export_bidtanxs_to_kml</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span> <span class="n">outpath</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/shared/test&#39;</span><span class="p">,</span> <span class="n">projname</span> <span class="o">=</span> <span class="s1">&#39;track&#39;</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="export_bidtanxs_to_kml">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.export_bidtanxs_to_kml">[docs]</a>
+<span class="k">def</span> <span class="nf">export_bidtanxs_to_kml</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span> <span class="n">outpath</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/shared/test&#39;</span><span class="p">,</span> <span class="n">projname</span> <span class="o">=</span> <span class="s1">&#39;track&#39;</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exports list of burst IDs (bidtanxs) to an outpath/projname_TRACK.kml file. If merge=True, the bursts will be merged to one polygon&quot;&quot;&quot;</span>
     <span class="c1">#kmlout name will be auto_completed</span>
     <span class="n">bidtanxs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
@@ -1514,7 +1579,10 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done. please edit the kmls - delete not wanted bursts, save and return&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="export_frame_to_kml"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.export_frame_to_kml">[docs]</a><span class="k">def</span> <span class="nf">export_frame_to_kml</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">outpath</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol2/LiCS/temp/insar_temp/frames_redef/kmls&#39;</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="export_frame_to_kml">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.export_frame_to_kml">[docs]</a>
+<span class="k">def</span> <span class="nf">export_frame_to_kml</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">outpath</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol2/LiCS/temp/insar_temp/frames_redef/kmls&#39;</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Exports the frame polygon to kml. Currently only the uglier version (coarse burst polygons)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outpath</span><span class="p">):</span>
@@ -1522,6 +1590,7 @@
     <span class="n">ai</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_bursts_in_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
     <span class="n">bidtanxs</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">ai</span><span class="p">)</span>
     <span class="n">export_bidtanxs_to_kml</span><span class="p">(</span><span class="n">bidtanxs</span><span class="p">,</span> <span class="n">outpath</span><span class="p">,</span> <span class="n">projname</span> <span class="o">=</span> <span class="n">frame</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="n">merge</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">export_all_frames_to_framecsv</span><span class="p">(</span><span class="n">outcsv</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/shared/frames/frames.csv&#39;</span><span class="p">,</span> <span class="n">store_zero</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -1545,7 +1614,15 @@
     <span class="k">return</span> <span class="n">b</span>
 
 
-<span class="k">def</span> <span class="nf">get_all_frames</span><span class="p">():</span>
+<div class="viewcode-block" id="get_all_frames">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.get_all_frames">[docs]</a>
+<span class="k">def</span> <span class="nf">get_all_frames</span><span class="p">(</span><span class="n">only_initialised</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Will get geopandas for all LiCSAR frames</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        only_initialised (bool): will return only frames that are initialised</span>
+<span class="sd">        merge (bool): if True, it will output in one table only, by default returns asc and desc frames separately</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">asc_gpd</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">geodataframe</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">()</span>
     <span class="n">desc_gpd</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">geodataframe</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">175</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
@@ -1554,6 +1631,9 @@
         <span class="n">frames</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_frames_in_orbit</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>
         <span class="n">frames</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">only_initialised</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span> <span class="n">frame</span><span class="p">)):</span>
+                    <span class="k">continue</span>
             <span class="n">a</span> <span class="o">=</span> <span class="n">frame2geopandas</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
                 <span class="n">desc_gpd</span> <span class="o">=</span> <span class="n">desc_gpd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -1561,10 +1641,19 @@
         <span class="n">frames</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_frames_in_orbit</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span>
         <span class="n">frames</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">only_initialised</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span> <span class="n">frame</span><span class="p">)):</span>
+                    <span class="k">continue</span>
             <span class="n">a</span> <span class="o">=</span> <span class="n">frame2geopandas</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
                 <span class="n">asc_gpd</span> <span class="o">=</span> <span class="n">asc_gpd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">asc_gpd</span><span class="p">,</span> <span class="n">desc_gpd</span>
+    <span class="k">if</span> <span class="n">merge</span><span class="p">:</span>
+        <span class="n">framesgpd</span> <span class="o">=</span> <span class="n">asc_gpd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desc_gpd</span><span class="p">)</span>
+        <span class="n">framesgpd</span> <span class="o">=</span> <span class="n">framesgpd</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">framesgpd</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">asc_gpd</span><span class="p">,</span> <span class="n">desc_gpd</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">manual_check_master_files</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">master</span><span class="p">):</span>
@@ -1614,7 +1703,9 @@
                  <span class="k">return</span>
 
 
-<div class="viewcode-block" id="epoch_has_all_frame_bursts"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.epoch_has_all_frame_bursts">[docs]</a><span class="k">def</span> <span class="nf">epoch_has_all_frame_bursts</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+<div class="viewcode-block" id="epoch_has_all_frame_bursts">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.epoch_has_all_frame_bursts">[docs]</a>
+<span class="k">def</span> <span class="nf">epoch_has_all_frame_bursts</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Checks if epoch contains all necessary bursts in frame definition.</span>
 <span class="sd">    Needs to have the epoch already ingested in LiCSInfo database.</span>
 <span class="sd">    </span>
@@ -1635,6 +1726,7 @@
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">delete_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
@@ -1709,7 +1801,9 @@
     <span class="c1">#delete_frame_commands(frame)</span>
 
 
-<div class="viewcode-block" id="add_more_bursts"><a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.add_more_bursts">[docs]</a><span class="k">def</span> <span class="nf">add_more_bursts</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">extrabursts</span><span class="p">,</span> <span class="n">testonly</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="add_more_bursts">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.add_more_bursts">[docs]</a>
+<span class="k">def</span> <span class="nf">add_more_bursts</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">extrabursts</span><span class="p">,</span> <span class="n">testonly</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds some more bursts to the frame definition. Please follow the printed comments to delete the old frame definition, as this operation will basically create new frame definition.&quot;&quot;&quot;</span>
     <span class="c1">#extrabursts should be a list of bursts not existing in the frame, to be added there</span>
     <span class="c1">#in testonly - it will only give text output, rather than really do something..</span>
@@ -1722,6 +1816,7 @@
     <span class="n">generate_new_frame</span><span class="p">(</span><span class="n">newbursts</span><span class="p">,</span> <span class="n">testonly</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;to remove the old frame, you should do:&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;fc.delete_frame(&#39;</span><span class="si">{}</span><span class="s2">&#39;)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span></div>
+
 
 
 </pre></div>

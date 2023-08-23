@@ -11,11 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -113,7 +113,7 @@
            <div itemprop="articleBody">
              
   <section id="notes-about-documentation">
-<h1>Notes about documentation<a class="headerlink" href="#notes-about-documentation" title="Permalink to this heading"></a></h1>
+<h1>Notes about documentation<a class="headerlink" href="#notes-about-documentation" title="Link to this heading"></a></h1>
 <p>Documentation can be updated simply by editing the rst files in the ‘source’ folder. After commit, github would auto-recreate web page of <a class="reference external" href="https://comet-licsar.github.io">https://comet-licsar.github.io</a> .</p>
 <p>these are some testing lines</p>
 <p>symbol $</p>
@@ -124,9 +124,9 @@
 </div></blockquote>
 </section>
 <section id="admin-or-dev-comments">
-<h1>Admin or dev comments<a class="headerlink" href="#admin-or-dev-comments" title="Permalink to this heading"></a></h1>
+<h1>Admin or dev comments<a class="headerlink" href="#admin-or-dev-comments" title="Link to this heading"></a></h1>
 <section id="earthquake-responder">
-<h2>Earthquake Responder<a class="headerlink" href="#earthquake-responder" title="Permalink to this heading"></a></h2>
+<h2>Earthquake Responder<a class="headerlink" href="#earthquake-responder" title="Link to this heading"></a></h2>
 <p>This section will be moved to a better place. Now, only few comments:
 1. the table for limits in selection of an EQ to process is:
 ::python</p>
@@ -138,9 +138,9 @@
 </ol>
 </section>
 <section id="how-do-i">
-<h2>How do I..<a class="headerlink" href="#how-do-i" title="Permalink to this heading"></a></h2>
+<h2>How do I..<a class="headerlink" href="#how-do-i" title="Link to this heading"></a></h2>
 <section id="clone-and-edit-the-docs">
-<h3>clone and edit the docs<a class="headerlink" href="#clone-and-edit-the-docs" title="Permalink to this heading"></a></h3>
+<h3>clone and edit the docs<a class="headerlink" href="#clone-and-edit-the-docs" title="Link to this heading"></a></h3>
 <p>few steps are needed to clone and set the docs on your computer. first of all, you should set in github page, in Settings of your profile an up-to-date ssh key, formed with the email that is registered with your profile (you may add more emails in github profile settings, it works).</p>
 <p>you may do e.g.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span><span class="o">-</span><span class="n">keygen</span> <span class="o">-</span><span class="n">t</span> <span class="n">ed25519</span> <span class="o">-</span><span class="n">f</span> <span class="o">~/.</span><span class="n">ssh</span><span class="o">/</span><span class="n">id_ed</span> <span class="o">-</span><span class="n">C</span> <span class="s2">&quot;YOURUSERNAME@leeds.ac.uk&quot;</span>
@@ -161,7 +161,7 @@
 <p>ok, then you’re set and you can edit and push changes (if you are maintainer) as usual.</p>
 </section>
 <section id="prepare-hi-res-frames">
-<h3>prepare hi res frames<a class="headerlink" href="#prepare-hi-res-frames" title="Permalink to this heading"></a></h3>
+<h3>prepare hi res frames<a class="headerlink" href="#prepare-hi-res-frames" title="Link to this heading"></a></h3>
 <p>say we have an AOI as e.g.</p>
 <dl>
 <dt>::</dt><dd><p>import framecare as fc
@@ -183,7 +183,7 @@ fc.generate_new_frame(bursts, testonly=False, hicode=’H’)</p>
 </dl>
 </section>
 <section id="prepare-hi-res-subframes">
-<h3>prepare hi res subframes<a class="headerlink" href="#prepare-hi-res-subframes" title="Permalink to this heading"></a></h3>
+<h3>prepare hi res subframes<a class="headerlink" href="#prepare-hi-res-subframes" title="Link to this heading"></a></h3>
 <p>I know this sounds as duplicate - but it is not.
 While the above commands would create new hires frame (that will be normally processed through licsar_make_frame.sh etc.),
 it is often much better just to crop existing large frame, as this will ensure correct SD estimation, and generally decrease
@@ -217,12 +217,12 @@ run in their <cite>$BATCH_CACHE_DIR/$frame</cite> following command that will al
 </section>
 </section>
 <section id="test">
-<h2>test<a class="headerlink" href="#test" title="Permalink to this heading"></a></h2>
+<h2>test<a class="headerlink" href="#test" title="Link to this heading"></a></h2>
 <section id="this-is-section">
-<h3>this is section<a class="headerlink" href="#this-is-section" title="Permalink to this heading"></a></h3>
+<h3>this is section<a class="headerlink" href="#this-is-section" title="Link to this heading"></a></h3>
 <p><cite>this is quoted text</cite></p>
 <section id="examples">
-<h4>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h4>
+<h4>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h4>
 <p>Some example of Sphinx generated documentation</p>
 <ul class="simple">
 <li><p>bullet 1</p></li>
@@ -231,9 +231,9 @@ run in their <cite>$BATCH_CACHE_DIR/$frame</cite> following command that will al
 <p>link to <a href="#id5"><span class="problematic" id="id6">`Sphinx Examples`_</span></a></p>
 <p>ok, now this is from RSTPAD:</p>
 <section id="h1">
-<h5>h1<a class="headerlink" href="#h1" title="Permalink to this heading"></a></h5>
+<h5>h1<a class="headerlink" href="#h1" title="Link to this heading"></a></h5>
 <section id="h2">
-<h6>h2<a class="headerlink" href="#h2" title="Permalink to this heading"></a></h6>
+<h6>h2<a class="headerlink" href="#h2" title="Link to this heading"></a></h6>
 <p># h3
 # ==</p>
 </section>
@@ -242,9 +242,9 @@ run in their <cite>$BATCH_CACHE_DIR/$frame</cite> following command that will al
 </section>
 </section>
 <section id="h4">
-<h2>h4<a class="headerlink" href="#h4" title="Permalink to this heading"></a></h2>
+<h2>h4<a class="headerlink" href="#h4" title="Link to this heading"></a></h2>
 <section id="h5">
-<h3>h5<a class="headerlink" href="#h5" title="Permalink to this heading"></a></h3>
+<h3>h5<a class="headerlink" href="#h5" title="Link to this heading"></a></h3>
 <p><strong>bold</strong>
 <em>italic</em>
 - list

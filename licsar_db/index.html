@@ -11,11 +11,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -94,7 +94,7 @@
            <div itemprop="articleBody">
              
   <section id="licsinfo-db">
-<h1>LiCSInfo db<a class="headerlink" href="#licsinfo-db" title="Permalink to this heading"></a></h1>
+<h1>LiCSInfo db<a class="headerlink" href="#licsinfo-db" title="Link to this heading"></a></h1>
 <p>Here we describe the LiCSInfo database that plays a key role in LiCSAR processing chain, especially in the LiCSAR FrameBatch solutions.
 For overall description, you may visit <a class="reference external" href="https://doi.org/10.3390/rs12152430">article about LiCSAR system</a> - we build on top of the existing architecture.</p>
 <p>In brief, as our frames are defined based on unique Sentinel-1 burst identifiers (that were not existing in the first years of S1 existence), we built a MySQL/MariaDB database that would link Sentinel-1 SLC zip files with their bursts and the LiCSAR frame definitions (<code class="docutils literal notranslate"><span class="pre">polygs</span></code>) - a LiCSInfo database. We further extended the database to contain geometric information (<code class="docutils literal notranslate"><span class="pre">polygs2geom</span></code> and <code class="docutils literal notranslate"><span class="pre">bursts2geom</span></code> are geodatabase tables) and some other relevant information, for example the <code class="docutils literal notranslate"><span class="pre">esd</span></code> table contains frame-scale offsets to measure development of tectonic plates (through <a class="reference external" href="https://comet-licsar.github.io/daz/index.html">daz</a> tool). See the ‘base metadata’ block at figure below:</p>
