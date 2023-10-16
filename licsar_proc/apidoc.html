@@ -923,8 +923,9 @@ improvised way, not reading much about it… pure intuition (knowing this is onl
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.make_avg_amp">
-<span class="sig-name descname"><span class="pre">make_avg_amp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mlitiflist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hgtxr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_avg_amp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_avg_amp" title="Link to this definition"></a></dt>
-<dd><p>Generates average amplitude from list of MLI tiffs</p>
+<span class="sig-name descname"><span class="pre">make_avg_amp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mlitiflist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hgtxr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#make_avg_amp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_avg_amp" title="Link to this definition"></a></dt>
+<dd><p>Generates average amplitude from list of MLI tiffs
+if intensity==True, use squared amplitude</p>
 </dd></dl>
 
 <dl class="py function">
@@ -947,8 +948,14 @@ improvised way, not reading much about it… pure intuition (knowing this is onl
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_lib.lics_unwrap.build_amp_avg_std">
-<span class="sig-name descname"><span class="pre">build_amp_avg_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_ampstab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#build_amp_avg_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.build_amp_avg_std" title="Link to this definition"></a></dt>
-<dd><p>Builds amplitude stability map (or just avg/std amplitude) of a frame</p>
+<span class="sig-name descname"><span class="pre">build_amp_avg_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_ampstab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_lib/lics_unwrap.html#build_amp_avg_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_lib.lics_unwrap.build_amp_avg_std" title="Link to this definition"></a></dt>
+<dd><p>Builds amplitude stability map (or just avg/std amplitude) of a frame
+:param frame:
+:type frame: str
+:param return_ampstab: if True, returns amplitude[/int] stability, otherwise avg amp and std amp
+:type return_ampstab: bool
+:param intensity: if True, will work with intensity (amp squared)
+:type intensity: bool</p>
 </dd></dl>
 
 <dl class="py function">
