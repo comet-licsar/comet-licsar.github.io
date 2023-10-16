@@ -3636,7 +3636,7 @@
 
 <div class="viewcode-block" id="make_std_amp">
 <a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_lib.lics_unwrap.make_std_amp">[docs]</a>
-<span class="k">def</span> <span class="nf">make_std_amp</span><span class="p">(</span><span class="n">mlitiflist</span><span class="p">,</span> <span class="n">avgamp</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">make_std_amp</span><span class="p">(</span><span class="n">mlitiflist</span><span class="p">,</span> <span class="n">avgamp</span><span class="p">,</span> <span class="n">intensity</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates standard deviation of amplitude from list of MLI tiffs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span>
@@ -3650,6 +3650,8 @@
             <span class="k">continue</span>
         <span class="n">amp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">amp</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">nopixels</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">amp</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">intensity</span><span class="p">:</span>
+            <span class="n">amp</span><span class="o">=</span><span class="n">amp</span><span class="o">**</span><span class="mi">2</span>
         <span class="n">avgvar</span> <span class="o">=</span> <span class="n">avgvar</span> <span class="o">+</span> <span class="p">(</span><span class="n">amp</span> <span class="o">-</span> <span class="n">avgamp</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
     <span class="c1"># correct for ddof</span>
     <span class="n">sumpx</span> <span class="o">=</span> <span class="n">nopixels</span> <span class="o">-</span> <span class="n">ddof</span>
@@ -3739,7 +3741,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;generating amp average&#39;</span><span class="p">)</span>
     <span class="n">ampavg</span> <span class="o">=</span> <span class="n">make_avg_amp</span><span class="p">(</span><span class="n">mlitiflist</span><span class="p">,</span> <span class="n">hgtxr</span><span class="p">,</span> <span class="n">intensity</span><span class="o">=</span><span class="n">intensity</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;generating amp std&#39;</span><span class="p">)</span>
-    <span class="n">ampstd</span> <span class="o">=</span> <span class="n">make_std_amp</span><span class="p">(</span><span class="n">mlitiflist</span><span class="p">,</span> <span class="n">ampavg</span><span class="p">)</span>
+    <span class="n">ampstd</span> <span class="o">=</span> <span class="n">make_std_amp</span><span class="p">(</span><span class="n">mlitiflist</span><span class="p">,</span> <span class="n">ampavg</span><span class="p">,</span> <span class="n">intensity</span><span class="o">=</span><span class="n">intensity</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">return_ampstab</span><span class="p">:</span>
         <span class="n">ampstab</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ampstd</span><span class="o">/</span><span class="n">ampavg</span>
         <span class="n">ampstab</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">ampstab</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.00001</span>
