@@ -377,6 +377,42 @@
 
 
 
+<div class="viewcode-block" id="replace_volclips_by_larger_area">
+<a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.replace_volclips_by_larger_area">[docs]</a>
+<span class="k">def</span> <span class="nf">replace_volclips_by_larger_area</span><span class="p">(</span><span class="n">new_cliparea_geo</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; This will delete db records (only) of volclips in given cliparea and link to volcanoes in this area</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        new_cliparea_geo (str):  licsbas style string, i.e. lon1/lon2/lat1/lat2</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        gpd.DataFrame:  table for the new volclip with its volcanoes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#lon1, lon2, lat1, lat2 = -22.725, -21.6375, 63.787, 64.03855</span>
+    <span class="c1">#new_cliparea_geo = str(lon1) + &#39;/&#39; + str(lon2) + &#39;/&#39; + str(lat1) + &#39;/&#39; + str(lat2)</span>
+    <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_cliparea_geo</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">roi</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">lonlat_to_poly</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">)</span>
+    <span class="n">volcs</span> <span class="o">=</span> <span class="n">get_volcanoes_in_polygon</span><span class="p">(</span><span class="n">roi</span><span class="p">)</span>  <span class="c1"># , volcstable)</span>
+    <span class="c1">#</span>
+    <span class="c1"># now delete the smaller volclips of those volcanoes</span>
+    <span class="n">firstrun</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">volcs</span><span class="o">.</span><span class="n">volc_id</span><span class="p">:</span>
+        <span class="c1"># print(v)</span>
+        <span class="n">vids</span> <span class="o">=</span> <span class="n">get_volclip_vids</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">vid</span> <span class="ow">in</span> <span class="n">vids</span><span class="p">:</span>
+            <span class="c1"># print(vid)</span>
+            <span class="n">delete_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">firstrun</span><span class="p">:</span>
+            <span class="n">newclip</span> <span class="o">=</span> <span class="n">create_volclip_for_volcano</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">new_cliparea_geo</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_volcano_to_volclip</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">newclip</span><span class="p">)</span>
+        <span class="n">firstrun</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="c1">#</span>
+    <span class="n">volclip</span> <span class="o">=</span> <span class="n">get_volclips_gpd</span><span class="p">(</span><span class="n">newclip</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">volclip</span></div>
+
+
+
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">def get_volclip_info(vid=None): #,extended=True):</span>
 <span class="sd">    &quot;&quot;&quot;NOT WORKING AS POLYID ARE DROPPED FOR NOW&quot;&quot;&quot;</span>

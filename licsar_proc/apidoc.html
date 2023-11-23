@@ -91,6 +91,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.create_volclip_for_volcano"><code class="docutils literal notranslate"><span class="pre">create_volclip_for_volcano()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.add_volcano_to_volclip"><code class="docutils literal notranslate"><span class="pre">add_volcano_to_volclip()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.delete_volclip"><code class="docutils literal notranslate"><span class="pre">delete_volclip()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.replace_volclips_by_larger_area"><code class="docutils literal notranslate"><span class="pre">replace_volclips_by_larger_area()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets"><code class="docutils literal notranslate"><span class="pre">init_all_subsets()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volcano_frames"><code class="docutils literal notranslate"><span class="pre">get_volcano_frames()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volclip_vids"><code class="docutils literal notranslate"><span class="pre">get_volclip_vids()</span></code></a></li>
@@ -457,6 +458,23 @@ If cliparea is not set, it will auto-generate area using diameter 25 km centered
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.delete_volclip">
 <span class="sig-name descname"><span class="pre">delete_volclip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#delete_volclip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.delete_volclip" title="Link to this definition"></a></dt>
 <dd><p>This will delete volcano clip definition - careful, not many checks in place</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.replace_volclips_by_larger_area">
+<span class="sig-name descname"><span class="pre">replace_volclips_by_larger_area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_cliparea_geo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#replace_volclips_by_larger_area"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.replace_volclips_by_larger_area" title="Link to this definition"></a></dt>
+<dd><p>This will delete db records (only) of volclips in given cliparea and link to volcanoes in this area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_cliparea_geo</strong> (<em>str</em>) – licsbas style string, i.e. lon1/lon2/lat1/lat2</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>table for the new volclip with its volcanoes</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>gpd.DataFrame</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
