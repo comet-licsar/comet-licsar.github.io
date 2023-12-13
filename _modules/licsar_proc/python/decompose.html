@@ -151,6 +151,23 @@
     <span class="n">framesetvel</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">frameset</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">firstrun</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1"># getting years in all ncs:</span>
+    <span class="n">yearsall</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="n">framencs</span><span class="p">:</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">nc</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">framenc</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">nc</span><span class="p">)</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="n">framenc</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">years</span><span class="p">))</span>
+        <span class="c1"># print(years)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">yearsall</span><span class="p">:</span>
+            <span class="n">yearsall</span> <span class="o">=</span> <span class="n">years</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yearsall</span><span class="o">.</span><span class="n">copy</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">y</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+                    <span class="n">yearsall</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">yearsall</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no overlapping year, cancelling annual decomposition&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
     <span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="n">framencs</span><span class="p">:</span>
         <span class="n">frame</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">nc</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;extracting frame &#39;</span><span class="o">+</span><span class="n">frame</span><span class="p">)</span>
@@ -175,7 +192,7 @@
         <span class="n">framesetvel</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">framevel</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">heading</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">inc</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">annual</span><span class="p">:</span>
             <span class="c1"># doing the annuals!</span>
-            <span class="n">nc1</span> <span class="o">=</span> <span class="n">calculate_annual_vels</span><span class="p">(</span><span class="n">framenc</span><span class="p">)</span>
+            <span class="n">nc1</span> <span class="o">=</span> <span class="n">calculate_annual_vels</span><span class="p">(</span><span class="n">framenc</span><span class="p">,</span> <span class="n">yearsall</span><span class="p">)</span>
             <span class="n">frameset</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">nc1</span><span class="p">[</span><span class="s1">&#39;vel_annual&#39;</span><span class="p">],</span> <span class="n">heading</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">inc</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
     <span class="n">dec</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
     <span class="n">U</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -221,15 +238,17 @@
 <span class="kn">import</span> <span class="nn">LiCSBAS_inv_lib</span> <span class="k">as</span> <span class="nn">inv_lib</span>
 <div class="viewcode-block" id="calculate_annual_vels">
 <a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.calculate_annual_vels">[docs]</a>
-<span class="k">def</span> <span class="nf">calculate_annual_vels</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">calculate_annual_vels</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">commonyears</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Will calculate annual velocities from LiCSBAS results</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        cube (xr.Dataset): loaded netcdf file, extracted using e.g. LiCSBAS_out2nc.py</span>
-<span class="sd">    </span>
+<span class="sd">        commonyears (list): list of years to decompose</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        xr.Dataset with new dataarray: vel_annual</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">commonyears</span><span class="p">:</span>
+        <span class="n">cube</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">commonyears</span><span class="p">))</span>
     <span class="n">annualset</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">cum</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;AS&#39;</span><span class="p">)</span>
     <span class="n">firstrun</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">for</span> <span class="n">yeardt</span><span class="p">,</span> <span class="n">yearcum</span> <span class="ow">in</span> <span class="n">annualset</span><span class="p">:</span>
