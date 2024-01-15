@@ -114,9 +114,12 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">gpd</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">fiona</span><span class="o">.</span><span class="n">drvsupport</span><span class="o">.</span><span class="n">supported_drivers</span><span class="p">[</span><span class="s1">&#39;KML&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;rw&#39;</span>
+    <span class="c1">#gpd.io.file.fiona.drvsupport.supported_drivers[&#39;KML&#39;] = &#39;rw&#39;</span>
+    <span class="n">fiona</span><span class="o">.</span><span class="n">drvsupport</span><span class="o">.</span><span class="n">supported_drivers</span><span class="p">[</span><span class="s1">&#39;KML&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;rw&#39;</span>
+    <span class="n">fiona</span><span class="o">.</span><span class="n">drvsupport</span><span class="o">.</span><span class="n">supported_drivers</span><span class="p">[</span><span class="s1">&#39;LIBKML&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;rw&#39;</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: cannot load KML support&#39;</span><span class="p">)</span>
+
 <span class="kn">import</span> <span class="nn">rioxarray</span>
 
 <span class="n">pubdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">]</span>
@@ -1868,7 +1871,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, COMET and CEMAC teams.</p>
+    <p>&#169; Copyright 2024, COMET and CEMAC teams.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

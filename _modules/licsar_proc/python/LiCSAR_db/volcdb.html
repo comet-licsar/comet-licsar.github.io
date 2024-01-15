@@ -103,6 +103,7 @@
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">LiCSquery</span> <span class="kn">import</span> <span class="o">*</span>
     <span class="kn">from</span> <span class="nn">dbfunctions</span> <span class="kn">import</span> <span class="n">Conn_sqlalchemy</span>
+    <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">text</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error loading LicsInfo tools - volcdb is quite useless then&#39;</span><span class="p">)</span>
 
@@ -185,7 +186,8 @@
         <span class="n">cond</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
     <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;select volc_id,name,lat,lon,alt,priority, ST_AsBinary(geometry) as geom from volcanoes&quot;</span><span class="o">+</span><span class="n">cond</span><span class="o">+</span><span class="s2">&quot;;&quot;</span>
     <span class="n">engine</span><span class="o">=</span><span class="n">Conn_sqlalchemy</span><span class="p">()</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_postgis</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">geom_col</span><span class="o">=</span><span class="s1">&#39;geom&#39;</span> <span class="p">)</span>
+    <span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_postgis</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="n">sql</span><span class="p">),</span> <span class="n">conn</span><span class="p">,</span> <span class="n">geom_col</span><span class="o">=</span><span class="s1">&#39;geom&#39;</span><span class="p">)</span>
     <span class="c1">#a = do_pd_query(sql)</span>
     <span class="c1">#a[&#39;geometry&#39;] = a.geometry.apply(wkt.loads)</span>
     <span class="k">return</span> <span class="n">a</span></div>
@@ -512,7 +514,9 @@
     <span class="c1">#sql = &quot;SELECT ST_AsBinary(geometry) as geom from volclips {0};&quot;.format(cond)</span>
     <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT v.volc_id,v.name,vc.vid,ST_AsBinary(vc.geometry) as geom from volclips vc inner join volclip2volcs vf on vf.vid=vc.vid inner join volcanoes v on vf.volc_id=v.volc_id </span><span class="si">{0}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
     <span class="n">engine</span><span class="o">=</span><span class="n">Conn_sqlalchemy</span><span class="p">()</span>
-    <span class="n">volclips</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_postgis</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">geom_col</span><span class="o">=</span><span class="s1">&#39;geom&#39;</span> <span class="p">)</span>
+    <span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="n">volclips</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_postgis</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="n">sql</span><span class="p">),</span> <span class="n">conn</span><span class="p">,</span> <span class="n">geom_col</span><span class="o">=</span><span class="s1">&#39;geom&#39;</span><span class="p">)</span>
+    <span class="c1">#volclips = gpd.GeoDataFrame.from_postgis(sql, engine, geom_col=&#39;geom&#39; )</span>
     <span class="k">return</span> <span class="n">volclips</span></div>
 
 
@@ -605,7 +609,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, COMET and CEMAC teams.</p>
+    <p>&#169; Copyright 2024, COMET and CEMAC teams.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
