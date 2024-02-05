@@ -502,6 +502,28 @@
     <span class="n">a</span><span class="o">=</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">a</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">a</span>
 
+<div class="viewcode-block" id="get_licsbas_clipstring_volclip">
+<a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_licsbas_clipstring_volclip">[docs]</a>
+<span class="k">def</span> <span class="nf">get_licsbas_clipstring_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets clip string of LiCSBAS from a volclip&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_licsbas_clipstring_geom</span><span class="p">(</span><span class="n">get_volclips_gpd</span><span class="p">(</span><span class="n">vid</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">geom</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_licsbas_clipstring_geom">
+<a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_licsbas_clipstring_geom">[docs]</a>
+<span class="k">def</span> <span class="nf">get_licsbas_clipstring_geom</span><span class="p">(</span><span class="n">geom</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets clip string of LiCSBAS from a record of Geoseries</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        string (in form &#39;lon1/lon2/lat1/lat2&#39; )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">minx</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">maxx</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">miny</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">maxy</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span></div>
+
+
 
 <div class="viewcode-block" id="get_volclips_gpd">
 <a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_volclips_gpd">[docs]</a>

@@ -97,6 +97,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.init_all_subsets"><code class="docutils literal notranslate"><span class="pre">init_all_subsets()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volcano_frames"><code class="docutils literal notranslate"><span class="pre">get_volcano_frames()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volclip_vids"><code class="docutils literal notranslate"><span class="pre">get_volclip_vids()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_licsbas_clipstring_volclip"><code class="docutils literal notranslate"><span class="pre">get_licsbas_clipstring_volclip()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_licsbas_clipstring_geom"><code class="docutils literal notranslate"><span class="pre">get_licsbas_clipstring_geom()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volclips_gpd"><code class="docutils literal notranslate"><span class="pre">get_volclips_gpd()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.volcdb.initialise_subset_volclip"><code class="docutils literal notranslate"><span class="pre">initialise_subset_volclip()</span></code></a></li>
 </ul>
@@ -508,6 +510,23 @@ If cliparea is not set, it will auto-generate area using diameter 25 km centered
 <span class="sig-name descname"><span class="pre">get_volclip_vids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volcid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#get_volclip_vids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.get_volclip_vids" title="Link to this definition"></a></dt>
 <dd><p>Gets all volclip vids for given volcano.
 volcid is the volcano ID</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.get_licsbas_clipstring_volclip">
+<span class="sig-name descname"><span class="pre">get_licsbas_clipstring_volclip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#get_licsbas_clipstring_volclip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.get_licsbas_clipstring_volclip" title="Link to this definition"></a></dt>
+<dd><p>Gets clip string of LiCSBAS from a volclip</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.get_licsbas_clipstring_geom">
+<span class="sig-name descname"><span class="pre">get_licsbas_clipstring_geom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geom</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#get_licsbas_clipstring_geom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.get_licsbas_clipstring_geom" title="Link to this definition"></a></dt>
+<dd><p>Gets clip string of LiCSBAS from a record of Geoseries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string (in form ‘lon1/lon2/lat1/lat2’ )</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
