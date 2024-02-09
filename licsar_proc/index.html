@@ -215,8 +215,8 @@ The third option is result of active development (and will further improve). So 
 <section id="reunwrapping-existing-interferograms">
 <h3>Reunwrapping existing interferograms<a class="headerlink" href="#reunwrapping-existing-interferograms" title="Link to this heading"></a></h3>
 <p>Standard LiCSAR products use general parameters for unwrapping. Here we document the python tool <code class="docutils literal notranslate"><span class="pre">lics_unwrap.py</span></code> that performs <a class="reference external" href="https://ieeexplore.ieee.org/document/9884337">published procedures</a> .
-We will soon augment it to allow processing directly from command line as part of LiCSBAS, for now you may check the <a class="reference internal" href="apidoc.html#apidoc-unwrap"><span class="std std-ref">API documentation</span></a>.</p>
-<p>But to show an example here, this is how we could use range offsets to support unwrapping (in dev, but functional):</p>
+This approach is implemented in LiCSBAS as LiCSBAS02to05_unwrap.py and details available at <a class="reference internal" href="apidoc.html#apidoc-unwrap"><span class="std std-ref">API documentation</span></a>.</p>
+<p>To show an example, this is how we could use range offsets [px] to support unwrapping:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lics_unwrap</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">ifgdir</span> <span class="o">=</span> <span class="s1">&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/LiCSAR_products/21/021D_05266_252525/interferograms/20230129_20230210&#39;</span>
 <span class="n">phatif</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ifgdir</span><span class="p">,</span> <span class="s1">&#39;20230129_20230210.geo.diff_pha.tif&#39;</span><span class="p">)</span>
@@ -242,15 +242,15 @@ Afterwards, you may just fine tune parameters of LiCSBAS step 15 (and 16) and re
 <span class="c1">#Parameters:</span>
 <span class="c1">### Basic parameters</span>
 <span class="c1">##-M 10 .... this will do extra multilooking (in this example, 10x multilooking)</span>
-<span class="c1">##-g ....... use GACOS if available for most of the epochs</span>
-<span class="c1">##-S ....... (obsolete but still kept parameter) strict mode - in case of GACOS, use it only if available for ALL ifgs</span>
+<span class="c1">##-g ....... use GACOS if available for at least half of the epochs (and use only ifgs with both epochs having GACOS correction, other will be skipped)</span>
 <span class="c1">##-G lon1/lon2/lat1/lat2  .... clip to this AOI</span>
+<span class="c1">##-u ....... use the reunwrapping procedure</span>
 <span class="c1">### Control over reunwrapping</span>
-<span class="c1">##-u ....... use the (extra Gaussian-improved multilooking and) reunwrapping procedure (useful if multilooking..)</span>
 <span class="c1">##-c ....... if the reunwrapping is to be performed, use cascade (might be better, especially when with shores)</span>
 <span class="c1">##-l ....... if the reunwrapping is to be performed, would do lowpass filter (should be safe unless in tricky areas as islands; good to use by default)</span>
 <span class="c1">##-m ....... with reunwrapping with Goldstein filter on (by defaule), use coh based on spectral magnitude (otherwise nyquist-limited phase difference coherence) - recommended param</span>
 <span class="c1">##-s ....... if the reunwrapping is to be performed, use Gaussian smooth filtering (this will turn off Goldstein filter, and disable -m)</span>
+<span class="c1">##-m ....... use GAMMA ADF for filtering if Goldstein filter is selected (does not work together with -s)</span>
 <span class="c1">##-t 0.35 .. change coherence threshold to 0.35 (default) during reunwrapping (-u)</span>
 <span class="c1">##-H ....... this will use hgt to support unwrapping (only if using reunwrapping)</span>
 <span class="c1">### Control over LiCSBAS processing</span>
