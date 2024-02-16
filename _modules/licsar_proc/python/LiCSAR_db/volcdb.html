@@ -543,6 +543,21 @@
 
 
 
+<div class="viewcode-block" id="initialise_subsets_in_frame">
+<a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.initialise_subsets_in_frame">[docs]</a>
+<span class="k">def</span> <span class="nf">initialise_subsets_in_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to init all subsets in given frame&quot;&quot;&quot;</span>
+    <span class="n">poly</span><span class="o">=</span><span class="n">fc</span><span class="o">.</span><span class="n">get_polygon_from_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">volcs</span> <span class="o">=</span> <span class="n">get_volcanoes_in_polygon</span><span class="p">(</span><span class="n">poly</span><span class="p">)[</span><span class="s1">&#39;volc_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">volcs</span><span class="p">:</span>
+        <span class="n">vids</span> <span class="o">=</span> <span class="n">get_volclip_vids</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">vid</span> <span class="ow">in</span> <span class="n">vids</span><span class="p">:</span>
+            <span class="n">initialise_subset_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="p">)</span></div>
+
+    
+
+
+
 <div class="viewcode-block" id="initialise_subset_volclip">
 <a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.initialise_subset_volclip">[docs]</a>
 <span class="k">def</span> <span class="nf">initialise_subset_volclip</span><span class="p">(</span><span class="n">vid</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">resol_m</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">full_overlap</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
