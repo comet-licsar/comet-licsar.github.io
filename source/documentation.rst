@@ -1,24 +1,57 @@
 .. .. include:: links.rst
 
+Advanced and specific use
+=========================
+
+Manual update of hires volcano time series
+------------------------------------------
+
+In short:
+1. Identify volcano ID (e.g. on `COMET Volcano Portal`_ - the number after the volc name upon opening)
+.. _COMET Volcano Portal: https://comet.nerc.ac.uk/comet-volcano-portal/volcano-index/Search-All
+
+2. On any sciX.jasmin.ac.uk server, after loading LiCSAR env/module, run autoupdate LiCSAR procedure using:
+
+``volq_process.sh -L -v YOUR_VOLCANO_ID``
+
+This will check/request/download data and start LiCSAR processing (running in the background through LOTUS computing nodes) of all frames containing the volcano, ending in up-to-date data stored to the system.
+This might finish in a day, check command ``bjobs`` to see status of processing jobs in LOTUS.
+Data are automatically clipped to predefined high resolution subsets.
+
+3. Once the data are on portal, you can proceed generating time series using LiCSBAS.
+Same command but in time series regime (rather than -L for LiCSAR regime):
+
+``volq_process.sh -v YOUR_VOLCANO_ID``
+
+This will have LOTUS run up-to-date version of LiCSBAS with settings currently considered reliable (without experimental functionality)
+on high resolution subsets for all related frames. By default, it will produce dense ifg network (Tien Shan strategy)
+and unwrap by lics_unwrap.py (modified STAMPS-Goldstein filter-supported) and process to 30 m resolution datacube.
+
+You should then find your results (and processing status) in your
+$BATCH_CACHE_DIR/subsets/per_volcano/YOUR_VOLCANO_ID
+
+
+In more detail:
+Each volcano has its unique ID and is linked to at least one volcano clip definition (volclip) that is by default 25x25 km.
+If you know your volclip, you can provide it instead of volcano ID, see ``volq_process.sh`` for help.
+The operations over volcano database use functionality provided by volcdb python library (licsar_proc).
+
+The time series procedure (step 3) will use existing (reunwrapped) interferograms if it finds them in expected path ($BATCH_CACHE_DIR/subsets).
+However, the inversion itself (LiCSBAS) will run from the start (ongoing dev towards incremental updates).
+
+
+For admins
+==========
+
 Notes about documentation
-=============
+-------------------------
 
-Documentation can be updated simply by editing the rst files in the 'source' folder. After commit, github would auto-recreate web page of https://comet-licsar.github.io .
-
-these are some testing lines
-
-symbol $
-
-symbol \$
+The source files for this page are located at https://github.com/comet-licsar/comet-licsar.github.io
 
 
-links are automatically converted, e.g. as:
+Documentation can be updated simply by editing the rst files in the 'source' folder.
+After commit, github would auto-recreate web page of https://comet-licsar.github.io .
 
-  https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/home.
-
-
-Admin or dev comments
-=====================
 
 Earthquake Responder
 --------------------
