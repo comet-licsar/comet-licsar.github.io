@@ -85,6 +85,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.export_frame_to_kml"><code class="docutils literal notranslate"><span class="pre">export_frame_to_kml()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.get_all_frames"><code class="docutils literal notranslate"><span class="pre">get_all_frames()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.epoch_has_all_frame_bursts"><code class="docutils literal notranslate"><span class="pre">epoch_has_all_frame_bursts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.subset_get_coords_from_sourcecmd"><code class="docutils literal notranslate"><span class="pre">subset_get_coords_from_sourcecmd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.delete_frame"><code class="docutils literal notranslate"><span class="pre">delete_frame()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_framebatch.python.framecare.add_more_bursts"><code class="docutils literal notranslate"><span class="pre">add_more_bursts()</span></code></a></li>
 </ul>
 </li>
@@ -98,8 +100,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Developer comments and advices</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Notes about documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../documentation.html#admin-or-dev-comments">Admin or dev comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Advanced and specific use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html#for-admins">For admins</a></li>
 </ul>
 
         </div>
@@ -378,6 +380,30 @@ Needs to have the epoch already ingested in LiCSInfo database.</p>
 <dd class="field-odd"><p>boolean</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.subset_get_coords_from_sourcecmd">
+<span class="sig-name descname"><span class="pre">subset_get_coords_from_sourcecmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clipcmd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#subset_get_coords_from_sourcecmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.subset_get_coords_from_sourcecmd" title="Link to this definition"></a></dt>
+<dd><p>Returns coordinates and resol from clip (subset) sourcecmd.txt file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>clipcmd</strong> – path to the sourcecmd.txt file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>minlon, maxlon, minlat, maxlat, resol_deg</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_framebatch.python.framecare.delete_frame">
+<span class="sig-name descname"><span class="pre">delete_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_framebatch/python/framecare.html#delete_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_framebatch.python.framecare.delete_frame" title="Link to this definition"></a></dt>
+<dd><p>This will delete given frame from LiCSAR system:
+- physically all data in LiCSAR_procdir and public
+- including from frames.csv files
+- from the LiCSInfo database
+- from the related subsets (it will check for other possible frames, so better to first generate substitute frame, and then to delete this one)</p>
 </dd></dl>
 
 <dl class="py function">

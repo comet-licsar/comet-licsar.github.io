@@ -64,8 +64,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Developer comments and advices</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html">Notes about documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html#admin-or-dev-comments">Admin or dev comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html">Advanced and specific use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html#for-admins">For admins</a></li>
 </ul>
 
         </div>
@@ -237,6 +237,15 @@
             <span class="n">vtable</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">vtable</span><span class="p">,</span> <span class="n">volcrecs</span><span class="p">])</span>
             <span class="n">vtable</span> <span class="o">=</span> <span class="n">vtable</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">vtable</span></div>
+
+
+
+<div class="viewcode-block" id="get_volcanoes_in_frame">
+<a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_volcanoes_in_frame">[docs]</a>
+<span class="k">def</span> <span class="nf">get_volcanoes_in_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;will get all volcanoes in given frame&#39;&#39;&#39;</span>
+    <span class="n">polygon</span> <span class="o">=</span> <span class="n">get_polygon_from_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">get_volcanoes_in_polygon</span><span class="p">(</span><span class="n">polygon</span><span class="p">)</span></div>
 
 
 
@@ -467,6 +476,21 @@
                         <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm -rf &#39;</span><span class="o">+</span><span class="n">subsetdir</span><span class="p">)</span></div>
 
 
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">def init_volcs_in_frame(frame, full_overlap=True):</span>
+<span class="sd">    &#39;&#39;&#39;will init all volcs within given frame&#39;&#39;&#39;</span>
+<span class="sd">    volcs = get_volcanoes_in_frame(frame)</span>
+<span class="sd">    for i,volc in volcs.iterrows():</span>
+<span class="sd">        print(volc[&#39;name&#39;])</span>
+<span class="sd">        vid = get_volclip_vids(int(volc[&#39;volc_id&#39;]))[0]</span>
+<span class="sd">        try:</span>
+<span class="sd">            initialise_subset_volclip(vid, frame,full_overlap=full_overlap)</span>
+<span class="sd">        except:</span>
+<span class="sd">            print(&#39;error with init, cleaning&#39;)</span>
+<span class="sd">            subsetdir = &#39;/gws/nopw/j04/nceo_geohazards_vol1/projects/LiCS/proc/current/subsets/volc/&#39;+str(vid)+&#39;/&#39;+frame[:4]</span>
+<span class="sd">            if os.path.exists(subsetdir):</span>
+<span class="sd">                os.system(&#39;rm -rf &#39;+subsetdir)</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="get_volcano_frames">
 <a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.volcdb.get_volcano_frames">[docs]</a>

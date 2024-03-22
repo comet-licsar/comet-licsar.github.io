@@ -64,8 +64,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Developer comments and advices</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Notes about documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html#admin-or-dev-comments">Admin or dev comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Advanced and specific use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html#for-admins">For admins</a></li>
 </ul>
 
         </div>
@@ -1780,7 +1780,38 @@
 
 
 
+<div class="viewcode-block" id="subset_get_coords_from_sourcecmd">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.subset_get_coords_from_sourcecmd">[docs]</a>
+<span class="k">def</span> <span class="nf">subset_get_coords_from_sourcecmd</span><span class="p">(</span><span class="n">clipcmd</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Returns coordinates and resol from clip (subset) sourcecmd.txt file</span>
+
+<span class="sd">    :param clipcmd: path to the sourcecmd.txt file</span>
+<span class="sd">    :return: minlon, maxlon, minlat, maxlat, resol_deg</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">clipstr</span> <span class="o">=</span> <span class="n">grep1line</span><span class="p">(</span><span class="s1">&#39;clip_slc.sh&#39;</span><span class="p">,</span> <span class="n">clipcmd</span><span class="p">)</span>
+    <span class="n">clipstr</span> <span class="o">=</span> <span class="n">clipstr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">clipstr</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">clipstr</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">clipstr</span><span class="p">[</span><span class="mi">4</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">clipstr</span><span class="p">[</span><span class="mi">5</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">clipstr</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">def post_init_frame(frame, volc_full_overlap=True):</span>
+<span class="sd">    &#39;&#39;&#39;additional operations after the frame gets initialised:</span>
+<span class="sd">    - find volclips and init them</span>
+<span class="sd">    - ...</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    print(&#39;checking volcanoes in given frame&#39;)</span>
+<span class="sd">    init_volcs_in_frame(frame, full_overlap=volc_full_overlap)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="delete_frame">
+<a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.delete_frame">[docs]</a>
 <span class="k">def</span> <span class="nf">delete_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; This will delete given frame from LiCSAR system:</span>
+<span class="sd">    - physically all data in LiCSAR_procdir and public</span>
+<span class="sd">    - including from frames.csv files</span>
+<span class="sd">    - from the LiCSInfo database</span>
+<span class="sd">    - from the related subsets (it will check for other possible frames, so better to first generate substitute frame, and then to delete this one)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1">#print(&#39;cannot use this anymore, in CentOS7 - please contact admin to delete frame &#39;+frame)</span>
     <span class="c1">#return False</span>
     <span class="n">polyid</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_frame_polyid</span><span class="p">(</span><span class="n">frame</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -1790,7 +1821,83 @@
     <span class="c1">#cmd_mysql=&#39;mysql -h ..... licsar_batch &#39; # see lics_mysql.sh</span>
     <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;setFrameInactive.py </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
     <span class="n">track</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]))</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm -rf $LiCSAR_procdir/</span><span class="si">{0}</span><span class="s1">/</span><span class="si">{1}</span><span class="s1"> $LiCSAR_public/</span><span class="si">{0}</span><span class="s1">/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">track</span><span class="p">,</span><span class="n">frame</span><span class="p">))</span>
+    <span class="n">procdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_procdir&#39;</span><span class="p">],</span> <span class="n">track</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+    <span class="n">clipdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">procdir</span><span class="p">,</span> <span class="s1">&#39;subsets&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">clipdir</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">clip</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">clipdir</span><span class="p">):</span> <span class="c1"># TOCHECK</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">clipath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">readlink</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">clipdir</span><span class="p">,</span> <span class="n">clip</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1">## get polygon for the given subset folder</span>
+                <span class="n">clipcmd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">clipath</span><span class="p">,</span> <span class="s1">&#39;sourcecmd.txt&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">clipcmd</span><span class="p">):</span>
+                    <span class="c1"># get the coords</span>
+                    <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">resol_deg</span> <span class="o">=</span> <span class="n">subset_get_coords_from_sourcecmd</span><span class="p">(</span><span class="n">clipcmd</span><span class="p">)</span>
+                    <span class="c1"># get it as polygon</span>
+                    <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">])</span>
+                    <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">])</span>
+                    <span class="n">lonlats</span> <span class="o">=</span> <span class="p">[(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">),</span> <span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">),</span> <span class="p">(</span><span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">),</span> <span class="p">(</span><span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">),</span> <span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">)]</span>
+                    <span class="n">polygon</span> <span class="o">=</span> <span class="n">Polygon</span><span class="p">(</span><span class="n">lonlats</span><span class="p">)</span>
+                    <span class="n">resol_m</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">resol_deg</span> <span class="o">*</span> <span class="mi">111111</span><span class="p">))</span>
+                    <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">if</span> <span class="n">clipath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;volc&#39;</span><span class="p">:</span>
+                        <span class="n">is_volc</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">frames</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_frames_in_polygon</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">)</span>
+                    <span class="n">frames</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">sqlout2list</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
+                    <span class="n">framesok</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">fr</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+                        <span class="n">frdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_procdir&#39;</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">fr</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span> <span class="n">fr</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">fr</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">track</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">track</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">track</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span><span class="n">fr</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">frame</span><span class="p">[</span><span class="mi">3</span><span class="p">]):</span>
+                            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">frdir</span><span class="p">):</span>
+                                <span class="n">framesok</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fr</span><span class="p">)</span>
+                    <span class="n">framesok2</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">fr</span> <span class="ow">in</span> <span class="n">framesok</span><span class="p">:</span>
+                        <span class="n">framepoly</span> <span class="o">=</span> <span class="n">lq</span><span class="o">.</span><span class="n">get_polygon_from_frame</span><span class="p">(</span><span class="n">fr</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">framepoly</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">polygon</span><span class="p">):</span>
+                            <span class="n">framesok2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fr</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">framesok2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>   <span class="c1"># this means, no full overlap found, using only partial overlap</span>
+                        <span class="n">framesok2</span> <span class="o">=</span> <span class="n">framesok</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">framesok2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="c1"># choose the newer one</span>
+                        <span class="n">framesok2_crdate</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">fr</span> <span class="ow">in</span> <span class="n">framesok2</span><span class="p">:</span>
+                            <span class="n">frdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_procdir&#39;</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">fr</span><span class="p">[:</span><span class="mi">3</span><span class="p">])),</span> <span class="n">fr</span><span class="p">)</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">mtime</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">frdir</span><span class="p">,</span> <span class="s1">&#39;geo&#39;</span><span class="p">,</span> <span class="s1">&#39;EQA.dem&#39;</span><span class="p">))</span>
+                            <span class="k">except</span><span class="p">:</span>
+                                <span class="n">mtime</span> <span class="o">=</span> <span class="mi">0</span>
+                            <span class="n">framesok2_crdate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mtime</span><span class="p">)</span>
+                        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">framesok2_crdate</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+                        <span class="n">finfr</span> <span class="o">=</span> <span class="n">framesok2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                        <span class="n">framesok2</span> <span class="o">=</span> <span class="p">[</span><span class="n">finfr</span><span class="p">]</span>
+                    <span class="c1"># delete the subset clip</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;deleting subset from &#39;</span><span class="o">+</span><span class="n">clipath</span><span class="p">)</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm -rf &#39;</span><span class="o">+</span><span class="n">clipath</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">clipath</span><span class="p">):</span> <span class="c1"># can happen due to permissions</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;mv &#39;</span><span class="o">+</span><span class="n">clipath</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="n">clipath</span><span class="o">+</span><span class="s1">&#39;.backup&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">framesok2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="c1"># found frame to clip!</span>
+                        <span class="n">fr</span> <span class="o">=</span> <span class="n">framesok2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;initialising subset with the (new) frame &#39;</span><span class="o">+</span><span class="n">fr</span><span class="p">)</span>
+                        <span class="n">subset_initialise_corners</span><span class="p">(</span><span class="n">fr</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">sid</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">clip</span><span class="p">),</span> <span class="n">is_volc</span><span class="o">=</span><span class="n">is_volc</span><span class="p">,</span>
+                                                     <span class="n">resol_m</span><span class="o">=</span><span class="n">resol_m</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no substitute frame found for the subset&#39;</span><span class="p">)</span>
+                <span class="c1"># now delete the clipath data</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error rearranging subset &#39;</span><span class="o">+</span><span class="n">clip</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">clipath</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;deleting subset from &#39;</span> <span class="o">+</span> <span class="n">clipath</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm -rf &#39;</span> <span class="o">+</span> <span class="n">clipath</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">clipath</span><span class="p">):</span>  <span class="c1"># can happen due to permissions</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;mv &#39;</span> <span class="o">+</span> <span class="n">clipath</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">clipath</span> <span class="o">+</span> <span class="s1">&#39;.backup&#39;</span><span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm -rf $LiCSAR_procdir/</span><span class="si">{0}</span><span class="s1">/</span><span class="si">{1}</span><span class="s1"> $LiCSAR_public/</span><span class="si">{0}</span><span class="s1">/</span><span class="si">{1}</span><span class="s1"> $BATCH_CACHE_DIR/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">track</span><span class="p">,</span><span class="n">frame</span><span class="p">))</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;echo </span><span class="si">{0}</span><span class="s1"> &gt;&gt; /gws/nopw/j04/nceo_geohazards_vol1/projects/LiCS/volc-portal/processing_scripts/excluded_frames/excluded_frames_extras&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;mv $LiCSAR_procdir/</span><span class="si">{0}</span><span class="s1">/</span><span class="si">{1}</span><span class="s1"> $LiCSAR_procdir/</span><span class="si">{0}</span><span class="s1">/todel.</span><span class="si">{1}</span><span class="s1"> 2&gt;/dev/null&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">frame</span><span class="p">))</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;mv $LiCSAR_public/</span><span class="si">{0}</span><span class="s1">/</span><span class="si">{1}</span><span class="s1"> $LiCSAR_public/</span><span class="si">{0}</span><span class="s1">/todel.</span><span class="si">{1}</span><span class="s1"> 2&gt;/dev/null&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">frame</span><span class="p">))</span>
     <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;sed -i &#39;/</span><span class="si">{}</span><span class="s2">/d&#39; /gws/nopw/j04/nceo_geohazards_vol1/public/shared/frames/frames.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
     <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;sed -i &#39;/</span><span class="si">{}</span><span class="s2">/d&#39; /gws/nopw/j04/nceo_geohazards_vol1/public/LiCSAR_products/EQ/eqframes.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
     <span class="c1">#polyid = lq.get_frame_polyid(frame)[0][0]</span>
@@ -1815,7 +1922,8 @@
     <span class="c1">#rc = os.system(cmd_mysql+&#39; -e &quot;{}&quot; 2&gt;/dev/null&#39;.format(sql))</span>
     <span class="c1">#if rc != 0:</span>
     <span class="c1">#    print(&#39;WARNING: the frame was only partially removed. But it should not appear in processing&#39;)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;the frame </span><span class="si">{}</span><span class="s1"> has been removed, associated files purged&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;the frame </span><span class="si">{}</span><span class="s1"> has been removed, associated files purged&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">delete_frame_commands</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>

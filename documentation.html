@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Notes about documentation &mdash; COMET LiCSAR  documentation</title>
+  <title>Advanced and specific use &mdash; COMET LiCSAR  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -66,8 +66,12 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Developer comments and advices</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Notes about documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#admin-or-dev-comments">Admin or dev comments</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced and specific use</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#manual-update-of-hires-volcano-time-series">Manual update of hires volcano time series</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#for-admins">For admins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#notes-about-documentation">Notes about documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#earthquake-responder">Earthquake Responder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-do-i">How do I..</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#clone-and-edit-the-docs">clone and edit the docs</a></li>
@@ -104,7 +108,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Notes about documentation</li>
+      <li class="breadcrumb-item active">Advanced and specific use</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/documentation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -114,19 +118,44 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="notes-about-documentation">
-<h1>Notes about documentation<a class="headerlink" href="#notes-about-documentation" title="Link to this heading"></a></h1>
-<p>Documentation can be updated simply by editing the rst files in the ‘source’ folder. After commit, github would auto-recreate web page of <a class="reference external" href="https://comet-licsar.github.io">https://comet-licsar.github.io</a> .</p>
-<p>these are some testing lines</p>
-<p>symbol $</p>
-<p>symbol $</p>
-<p>links are automatically converted, e.g. as:</p>
-<blockquote>
-<div><p><a class="reference external" href="https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/home">https://gitlab.com/comet_licsar/licsar_documentation/-/wikis/home</a>.</p>
-</div></blockquote>
+  <section id="advanced-and-specific-use">
+<h1>Advanced and specific use<a class="headerlink" href="#advanced-and-specific-use" title="Link to this heading"></a></h1>
+<section id="manual-update-of-hires-volcano-time-series">
+<h2>Manual update of hires volcano time series<a class="headerlink" href="#manual-update-of-hires-volcano-time-series" title="Link to this heading"></a></h2>
+<p>In short:
+1. Identify volcano ID (e.g. on <a href="#id5"><span class="problematic" id="id6">`COMET Volcano Portal`_</span></a> - the number after the volc name upon opening)
+.. _COMET Volcano Portal: <a class="reference external" href="https://comet.nerc.ac.uk/comet-volcano-portal/volcano-index/Search-All">https://comet.nerc.ac.uk/comet-volcano-portal/volcano-index/Search-All</a></p>
+<ol class="arabic simple" start="2">
+<li><p>On any sciX.jasmin.ac.uk server, after loading LiCSAR env/module, run autoupdate LiCSAR procedure using:</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">volq_process.sh</span> <span class="pre">-L</span> <span class="pre">-v</span> <span class="pre">YOUR_VOLCANO_ID</span></code></p>
+<p>This will check/request/download data and start LiCSAR processing (running in the background through LOTUS computing nodes) of all frames containing the volcano, ending in up-to-date data stored to the system.
+This might finish in a day, check command <code class="docutils literal notranslate"><span class="pre">bjobs</span></code> to see status of processing jobs in LOTUS.
+Data are automatically clipped to predefined high resolution subsets.</p>
+<p>3. Once the data are on portal, you can proceed generating time series using LiCSBAS.
+Same command but in time series regime (rather than -L for LiCSAR regime):</p>
+<p><code class="docutils literal notranslate"><span class="pre">volq_process.sh</span> <span class="pre">-v</span> <span class="pre">YOUR_VOLCANO_ID</span></code></p>
+<p>This will have LOTUS run up-to-date version of LiCSBAS with settings currently considered reliable (without experimental functionality)
+on high resolution subsets for all related frames. By default, it will produce dense ifg network (Tien Shan strategy)
+and unwrap by lics_unwrap.py (modified STAMPS-Goldstein filter-supported) and process to 30 m resolution datacube.</p>
+<p>You should then find your results (and processing status) in your
+$BATCH_CACHE_DIR/subsets/per_volcano/YOUR_VOLCANO_ID</p>
+<p>In more detail:
+Each volcano has its unique ID and is linked to at least one volcano clip definition (volclip) that is by default 25x25 km.
+If you know your volclip, you can provide it instead of volcano ID, see <code class="docutils literal notranslate"><span class="pre">volq_process.sh</span></code> for help.
+The operations over volcano database use functionality provided by volcdb python library (licsar_proc).</p>
+<p>The time series procedure (step 3) will use existing (reunwrapped) interferograms if it finds them in expected path ($BATCH_CACHE_DIR/subsets).
+However, the inversion itself (LiCSBAS) will run from the start (ongoing dev towards incremental updates).</p>
 </section>
-<section id="admin-or-dev-comments">
-<h1>Admin or dev comments<a class="headerlink" href="#admin-or-dev-comments" title="Link to this heading"></a></h1>
+</section>
+<section id="for-admins">
+<h1>For admins<a class="headerlink" href="#for-admins" title="Link to this heading"></a></h1>
+<section id="notes-about-documentation">
+<h2>Notes about documentation<a class="headerlink" href="#notes-about-documentation" title="Link to this heading"></a></h2>
+<p>The source files for this page are located at <a class="reference external" href="https://github.com/comet-licsar/comet-licsar.github.io">https://github.com/comet-licsar/comet-licsar.github.io</a></p>
+<p>Documentation can be updated simply by editing the rst files in the ‘source’ folder.
+After commit, github would auto-recreate web page of <a class="reference external" href="https://comet-licsar.github.io">https://comet-licsar.github.io</a> .</p>
+</section>
 <section id="earthquake-responder">
 <h2>Earthquake Responder<a class="headerlink" href="#earthquake-responder" title="Link to this heading"></a></h2>
 <p>This section will be moved to a better place. Now, only few comments:
@@ -230,7 +259,7 @@ run in their <cite>$BATCH_CACHE_DIR/$frame</cite> following command that will al
 <li><p>bullet 1</p></li>
 <li><p>bullet 2</p></li>
 </ul>
-<p>link to <a href="#id5"><span class="problematic" id="id6">`Sphinx Examples`_</span></a></p>
+<p>link to <a href="#id7"><span class="problematic" id="id8">`Sphinx Examples`_</span></a></p>
 <p>ok, now this is from RSTPAD:</p>
 <section id="h1">
 <h5>h1<a class="headerlink" href="#h1" title="Link to this heading"></a></h5>
@@ -326,7 +355,7 @@ inline <a href="#id1"><span class="problematic" id="id2">``</span></a>code is <a
 </div>
 </dd></dl>
 
-<p>To include autogenerated documentation, there are various methods available (see the <a href="#id7"><span class="problematic" id="id8">`Sphinx Autodoc Documentation`_</span></a>), for example, to include documentation for all members of the Python library <code class="docutils literal notranslate"><span class="pre">python_library</span></code>:</p>
+<p>To include autogenerated documentation, there are various methods available (see the <a href="#id9"><span class="problematic" id="id10">`Sphinx Autodoc Documentation`_</span></a>), for example, to include documentation for all members of the Python library <code class="docutils literal notranslate"><span class="pre">python_library</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">automodule</span><span class="p">::</span> <span class="n">python_library</span>
     <span class="p">:</span><span class="n">members</span><span class="p">:</span>
 </pre></div>
