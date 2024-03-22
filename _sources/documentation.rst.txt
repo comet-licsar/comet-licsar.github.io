@@ -41,7 +41,9 @@ to find volcano ID based on name, you can try:
 
 ``import volcdb; volcdb.find_volcano_by_name('ernandina')``
 
-The time series procedure (step 3) will use existing (reunwrapped) interferograms if it finds them in expected path ($BATCH_CACHE_DIR/subsets).
+The time series procedure (step 3) is copying clipped RSLCs to $BATCH_CACHE_DIR/subsets,
+generates ifgs in extended network (with 3-,6-,12-months connections) and then unwraps them prior to LiCSBAS processing.
+It will use existing (reunwrapped) interferograms if it finds them in expected path ($BATCH_CACHE_DIR/subsets).
 However, the inversion itself (LiCSBAS) will run from the start (ongoing dev towards incremental updates).
 
 

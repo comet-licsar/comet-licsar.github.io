@@ -146,7 +146,9 @@ If you know your volclip, you can provide it instead of volcano ID, see <code cl
 The operations over volcano database use functionality provided by volcdb python library (licsar_proc), e.g.
 to find volcano ID based on name, you can try:</p>
 <p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">volcdb;</span> <span class="pre">volcdb.find_volcano_by_name('ernandina')</span></code></p>
-<p>The time series procedure (step 3) will use existing (reunwrapped) interferograms if it finds them in expected path ($BATCH_CACHE_DIR/subsets).
+<p>The time series procedure (step 3) is copying clipped RSLCs to $BATCH_CACHE_DIR/subsets,
+generates ifgs in extended network (with 3-,6-,12-months connections) and then unwraps them prior to LiCSBAS processing.
+It will use existing (reunwrapped) interferograms if it finds them in expected path ($BATCH_CACHE_DIR/subsets).
 However, the inversion itself (LiCSBAS) will run from the start (ongoing dev towards incremental updates).</p>
 </section>
 </section>
