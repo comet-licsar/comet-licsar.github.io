@@ -122,14 +122,15 @@
 <h1>Advanced and specific use<a class="headerlink" href="#advanced-and-specific-use" title="Link to this heading"></a></h1>
 <section id="manual-update-of-hires-volcano-time-series">
 <h2>Manual update of hires volcano time series<a class="headerlink" href="#manual-update-of-hires-volcano-time-series" title="Link to this heading"></a></h2>
-<p>In short:</p>
+<p><strong>Processing steps:</strong></p>
 <ol class="arabic simple">
 <li><p>Identify volcano ID (e.g. on COMET Volcano Portal: <a class="reference external" href="https://comet.nerc.ac.uk/comet-volcano-portal/volcano-index/Search-All">https://comet.nerc.ac.uk/comet-volcano-portal/volcano-index/Search-All</a>  - the number after the volc name upon opening)</p></li>
 <li><p>On any sciX.jasmin.ac.uk server, after loading LiCSAR env/module, run autoupdate LiCSAR procedure using:</p></li>
 </ol>
 <p><code class="docutils literal notranslate"><span class="pre">volq_process.sh</span> <span class="pre">-L</span> <span class="pre">-v</span> <span class="pre">YOUR_VOLCANO_ID</span></code></p>
-<p>This will check/request/download data and start LiCSAR processing (running in the background through LOTUS computing nodes) of all frames containing the volcano, ending in up-to-date data stored to the system.
+<p>This will check if there is any new unprocessed acquisition and request/download needed data and start LiCSAR processing (running in the background through LOTUS computing nodes) of all frames containing the volcano, ending in up-to-date data stored to the system.
 This might finish in a day, check command <code class="docutils literal notranslate"><span class="pre">bjobs</span></code> to see status of processing jobs in LOTUS.
+The general processing log file is in $BATCH_CACHE_DIR/VOLCLIP.frames.log.FRAME.
 Data are automatically clipped to predefined high resolution subsets.</p>
 <p>3. Once the data are on portal, you can proceed generating time series using LiCSBAS.
 Same command but in time series regime (rather than -L for LiCSAR regime):</p>
@@ -139,12 +140,12 @@ on high resolution subsets for all related frames. By default, it will produce d
 and unwrap by lics_unwrap.py (modified STAMPS-Goldstein filter-supported) and process to 30 m resolution datacube.</p>
 <p>You should then find your results (and processing status) in your
 $BATCH_CACHE_DIR/subsets/per_volcano/YOUR_VOLCANO_ID</p>
-<p>Some more details:</p>
+<p><strong>Some more details:</strong></p>
 <p>Each volcano has its unique ID and is linked to at least one volcano clip definition (volclip) that is by default 25x25 km.
 If you know your volclip, you can provide it instead of volcano ID, see <code class="docutils literal notranslate"><span class="pre">volq_process.sh</span></code> for help.
 The operations over volcano database use functionality provided by volcdb python library (licsar_proc), e.g.
 to find volcano ID based on name, you can try:</p>
-<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">volcdb;</span> <span class="pre">volcdb.find_volcano_by_name('ernandina')</span> <span class="pre">#.volc_id</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">volcdb;</span> <span class="pre">volcdb.find_volcano_by_name('ernandina')</span></code></p>
 <p>The time series procedure (step 3) will use existing (reunwrapped) interferograms if it finds them in expected path ($BATCH_CACHE_DIR/subsets).
 However, the inversion itself (LiCSBAS) will run from the start (ongoing dev towards incremental updates).</p>
 </section>

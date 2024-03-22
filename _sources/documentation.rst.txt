@@ -6,7 +6,7 @@ Advanced and specific use
 Manual update of hires volcano time series
 ------------------------------------------
 
-In short:
+**Processing steps:**
 
 1. Identify volcano ID (e.g. on COMET Volcano Portal: https://comet.nerc.ac.uk/comet-volcano-portal/volcano-index/Search-All  - the number after the volc name upon opening)
 
@@ -14,8 +14,9 @@ In short:
 
 ``volq_process.sh -L -v YOUR_VOLCANO_ID``
 
-This will check/request/download data and start LiCSAR processing (running in the background through LOTUS computing nodes) of all frames containing the volcano, ending in up-to-date data stored to the system.
+This will check if there is any new unprocessed acquisition and request/download needed data and start LiCSAR processing (running in the background through LOTUS computing nodes) of all frames containing the volcano, ending in up-to-date data stored to the system.
 This might finish in a day, check command ``bjobs`` to see status of processing jobs in LOTUS.
+The general processing log file is in $BATCH_CACHE_DIR/VOLCLIP.frames.log.FRAME.
 Data are automatically clipped to predefined high resolution subsets.
 
 3. Once the data are on portal, you can proceed generating time series using LiCSBAS.
@@ -31,15 +32,14 @@ You should then find your results (and processing status) in your
 $BATCH_CACHE_DIR/subsets/per_volcano/YOUR_VOLCANO_ID
 
 
-Some more details:
+**Some more details:**
 
 Each volcano has its unique ID and is linked to at least one volcano clip definition (volclip) that is by default 25x25 km.
 If you know your volclip, you can provide it instead of volcano ID, see ``volq_process.sh`` for help.
 The operations over volcano database use functionality provided by volcdb python library (licsar_proc), e.g.
 to find volcano ID based on name, you can try:
 
-
-``import volcdb; volcdb.find_volcano_by_name('ernandina') #.volc_id``
+``import volcdb; volcdb.find_volcano_by_name('ernandina')``
 
 The time series procedure (step 3) will use existing (reunwrapped) interferograms if it finds them in expected path ($BATCH_CACHE_DIR/subsets).
 However, the inversion itself (LiCSBAS) will run from the start (ongoing dev towards incremental updates).
