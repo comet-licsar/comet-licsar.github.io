@@ -7,8 +7,8 @@ Manual update of hires volcano time series
 ------------------------------------------
 
 In short:
-1. Identify volcano ID (e.g. on `COMET Volcano Portal`_ - the number after the volc name upon opening)
-.. _COMET Volcano Portal: https://comet.nerc.ac.uk/comet-volcano-portal/volcano-index/Search-All
+
+1. Identify volcano ID (e.g. on COMET Volcano Portal: https://comet.nerc.ac.uk/comet-volcano-portal/volcano-index/Search-All  - the number after the volc name upon opening)
 
 2. On any sciX.jasmin.ac.uk server, after loading LiCSAR env/module, run autoupdate LiCSAR procedure using:
 
@@ -31,10 +31,15 @@ You should then find your results (and processing status) in your
 $BATCH_CACHE_DIR/subsets/per_volcano/YOUR_VOLCANO_ID
 
 
-In more detail:
+Some more details:
+
 Each volcano has its unique ID and is linked to at least one volcano clip definition (volclip) that is by default 25x25 km.
 If you know your volclip, you can provide it instead of volcano ID, see ``volq_process.sh`` for help.
-The operations over volcano database use functionality provided by volcdb python library (licsar_proc).
+The operations over volcano database use functionality provided by volcdb python library (licsar_proc), e.g.
+to find volcano ID based on name, you can try:
+
+
+``import volcdb; volcdb.find_volcano_by_name('ernandina') #.volc_id``
 
 The time series procedure (step 3) will use existing (reunwrapped) interferograms if it finds them in expected path ($BATCH_CACHE_DIR/subsets).
 However, the inversion itself (LiCSBAS) will run from the start (ongoing dev towards incremental updates).
