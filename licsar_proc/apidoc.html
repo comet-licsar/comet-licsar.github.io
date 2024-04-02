@@ -278,7 +278,10 @@ Note for me: this way i created sql file, and then see cat lics_mysql.sh, to do 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.clone_frame">
 <span class="sig-name descname"><span class="pre">clone_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frameold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framenew</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oldpolyid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newpolyid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#clone_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.clone_frame" title="Link to this definition"></a></dt>
-<dd><p>copies frame definition to a new name (‘cloning’ of frame). not tested without admin rights…</p>
+<dd><p>copies frame definition to a new name (‘cloning’ of frame). not tested without admin rights…
+works in two steps:
+1, copy the frame records to the new name (and show old and new polyids)
+2, use the returned polyids and set the polygons and link bursts</p>
 </dd></dl>
 
 <dl class="py function">
