@@ -214,12 +214,15 @@ inputs are xr.dataarrays - this will also check/interpolate them to fit</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_np">
-<span class="sig-name descname"><span class="pre">decompose_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel_asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aschead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deschead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascinc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descinc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_np"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_np" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">decompose_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel_asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aschead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deschead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascinc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descinc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_velUN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_np"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_np" title="Link to this definition"></a></dt>
 <dd><p>Decomposes values from ascending and descending np (or xr) arrays, using heading and inc. angle
 (these might be arrays of same size of just float values)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>beta</strong> (<em>float</em>) – angle of expected horizontal motion direction, clockwise from the E, in degrees</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beta</strong> (<em>float</em>) – angle of expected horizontal motion direction, clockwise from the E, in degrees</p></li>
+<li><p><strong>do_velUN</strong> (<em>boolean</em>) – if yes, extract v_{UN} instead of v_U, following Qi et al, 2022: doi=10.1029/2F2022JB024176</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
