@@ -915,14 +915,34 @@
 
 <div class="viewcode-block" id="make_bperp_file">
 <a class="viewcode-back" href="../../../licsar_framebatch/apidoc.html#licsar_framebatch.python.framecare.make_bperp_file">[docs]</a>
-<span class="k">def</span> <span class="nf">make_bperp_file</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">bperp_file</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates baselines file for given frame, by requesting info from ASF&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">make_bperp_file</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">bperp_file</span><span class="p">,</span> <span class="n">donotstore</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates baselines file for given frame, by requesting info from ASF</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#if preload_if_exists: try preloading and then just filling missing dates&quot;&quot;&quot;</span>
+    <span class="c1">#if preload_if_exists:</span>
+    <span class="c1">#    try:</span>
+    <span class="c1">#        prevbp = pd.read_csv(bperp_file, header=None, sep = &#39; &#39;)</span>
+    <span class="c1">#        prevbp.columns = [&#39;ref_date&#39;, &#39;date&#39;, &#39;bperp&#39;, &#39;btemp&#39;]</span>
+    <span class="c1">#        </span>
     <span class="n">mid</span> <span class="o">=</span> <span class="n">get_master</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">asfilenames</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">mid</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="n">mid</span><span class="o">=</span><span class="n">mid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">bpd</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">get_bperps_asf</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span>
-    <span class="n">bpd</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">bperp_file</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span></div>
+    <span class="n">bpd</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">midf</span> <span class="ow">in</span> <span class="n">mid</span><span class="p">:</span>
+        <span class="n">midf</span><span class="o">=</span><span class="n">midf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">bpd1</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">get_bperps_asf</span><span class="p">(</span><span class="n">midf</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">bpd</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">bpd</span> <span class="o">=</span> <span class="n">bpd1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">bpd</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">bpd</span><span class="p">,</span> <span class="n">bpd1</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">bpd</span> <span class="o">=</span> <span class="n">bpd</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">donotstore</span><span class="p">:</span>
+        <span class="n">bpd</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">bperp_file</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bpd</span></div>
 
 
 
