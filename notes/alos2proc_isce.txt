@@ -1,0 +1,34 @@
+## ALOS processing in ISCE2:
+## https://github.com/isce-framework/isce2/commit/e9bd7edeb3ebf2811e92a46a789bb9bd7706a159#diff-b8548fa08be0395453835164006d26e6cbd96a1d938dbd359d1dd4ef554200a6
+export PATH_ALOSSTACK=/gws/smf/j04/nceo_geohazards/software/mambalics/lib/python3.8/site-packages/isce/contrib/stack/alosStack
+
+
+### HOW TO GET PROPER DEM/WBD FOR ISCE2
+
+for x in 1 2 3 4 5; do par_EORC_PALSAR_ScanSAR IMG-HH-ALOS2371500000-210409-WBDR1.1__A-F$x LED-ALOS2371500000-210409-WBDR1.1__A pal.$x.par - pal.$x.tops_par; done
+
+echo "lat,lon" > coords.txt
+for x in 1 2 3 4 5; do 
+sarpix_coord pal.$x.par | grep -A6 longitude | tail -n4 | gawk {'print $3,$4'} | sed 's/ /\,/' >> coords.txt
+done
+
+python3 -c "import pandas as pd; a=pd.read_csv('coords.txt'); print(a.lon.min(), a.lon.max(), a.lat.min(), a.lat.max())"
+
+cd dem;
+dem=/work/scratch-pw2/licsar/earmla/batchdir/licsbas/alos_indo/dem/dem_clip.bin
+mk_copdem $dem 118.78358703 122.63299347 -1.10237273 3.55802437
+
+nano dem.le.vrt  ## yes, i did this manually...
+
+gdal_translate -of GTiff dem.le.vrt dem.tif
+gdal2isce_xml.py -i `pwd`/dem.tif
+
+
+# wbd - - that was too harsh (some say land=0,wet=-1, another source say land=0,wet=255.. in fact,
+every time i got values==0 masked away!!!! so, ... just use wbd.py  :
+
+2024 - updated server to:
+https://e4ftl01.cr.usgs.gov/MEASURES/SRTMSWBD.003/2000.02.11
+wbd.py -2 5 117 124 0
+
+
