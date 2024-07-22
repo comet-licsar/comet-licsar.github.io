@@ -238,6 +238,7 @@
 <span class="sd">    works in two steps:</span>
 <span class="sd">    1, copy the frame records to the new name (and show old and new polyids)</span>
 <span class="sd">    2, use the returned polyids and set the polygons and link bursts</span>
+<span class="sd">    (or step 0 to do this automatically... careful...)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">step</span> <span class="o">==</span><span class="mi">1</span><span class="p">:</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;DROP TABLE IF EXISTS temp_tb; CREATE TEMPORARY TABLE temp_tb ENGINE=MEMORY (SELECT * FROM polygs where polyid_name=&#39;</span><span class="si">{0}</span><span class="s2">&#39;);&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frameold</span><span class="p">)</span>
@@ -259,18 +260,62 @@
     <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="c1">#newpolyid = sqlout2list(res)[0]</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;insert into polygs2gis (polyid, geom) select </span><span class="si">{0}</span><span class="s2">,s.geom from polygs2gis s where polyid=</span><span class="si">{1}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">newpolyid</span><span class="p">),</span><span class="nb">str</span><span class="p">(</span><span class="n">oldpolyid</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
-        <span class="c1">#res = do_query(sql, True)</span>
+        <span class="c1">#print(sql)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;insert into polygs2bursts (polyid, bid) select </span><span class="si">{0}</span><span class="s2">,bid from polygs2bursts where polyid=</span><span class="si">{1}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">newpolyid</span><span class="p">),</span><span class="nb">str</span><span class="p">(</span><span class="n">oldpolyid</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
-        <span class="c1">#res = do_query(sql, True)</span>
+        <span class="c1">#print(sql)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;DROP TABLE IF EXISTS temp_tb;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
-
-        <span class="c1">#res = do_query(sql, True)</span>
+        <span class="c1">#print(sql)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="c1">#return True</span>
-    <span class="c1">#return res</span>
+    <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># not working.... engine memory??</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;DROP TABLE IF EXISTS temp_tb; CREATE TEMPORARY TABLE temp_tb ENGINE=MEMORY (SELECT * FROM polygs where polyid_name=&#39;</span><span class="si">{0}</span><span class="s2">&#39;);&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">frameold</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;ALTER TABLE temp_tb DROP polyid; update temp_tb set polyid_name=&#39;</span><span class="si">{0}</span><span class="s2">&#39; where polyid_name=&#39;</span><span class="si">{1}</span><span class="s2">&#39;;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">framenew</span><span class="p">,</span> <span class="n">frameold</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;insert into polygs select NULL,t.* from temp_tb t;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;select polyid from polygs where polyid_name=&#39;</span><span class="si">{0}</span><span class="s2">&#39;;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frameold</span><span class="p">)</span>
+        <span class="n">oldpolyid</span> <span class="o">=</span> <span class="n">sqlout2list</span><span class="p">(</span><span class="n">res</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;select polyid from polygs where polyid_name=&#39;</span><span class="si">{0}</span><span class="s2">&#39;;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">framenew</span><span class="p">)</span>
+        <span class="n">newpolyid</span> <span class="o">=</span> <span class="n">sqlout2list</span><span class="p">(</span><span class="n">res</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;insert into polygs2gis (polyid, geom) select </span><span class="si">{0}</span><span class="s2">,s.geom from polygs2gis s where polyid=</span><span class="si">{1}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">newpolyid</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">oldpolyid</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;insert into polygs2bursts (polyid, bid) select </span><span class="si">{0}</span><span class="s2">,bid from polygs2bursts where polyid=</span><span class="si">{1}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">newpolyid</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">oldpolyid</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;DROP TABLE IF EXISTS temp_tb;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
 
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">frameold=&#39;115A_05608_131313&#39;</span>
+<span class="sd">framenew=&#39;115A_05609_131313&#39;</span>
+<span class="sd">sql = &quot;DROP TABLE IF EXISTS temp_tb; CREATE TEMPORARY TABLE temp_tb ENGINE=MEMORY (SELECT * FROM polygs where polyid_name=&#39;{0}&#39;);&quot;.format(frameold)</span>
+<span class="sd">res = do_query(sql, True)</span>
+<span class="sd">sql = &quot;ALTER TABLE temp_tb DROP polyid; update temp_tb set polyid_name=&#39;{0}&#39; where polyid_name=&#39;{1}&#39;;&quot;.format(</span>
+<span class="sd">    framenew, frameold)</span>
+<span class="sd">res = do_query(sql, True)</span>
+<span class="sd">sql = &quot;insert into polygs select NULL,t.* from temp_tb t;&quot;</span>
+<span class="sd">res = do_query(sql, True)</span>
+<span class="sd">sql = &quot;select polyid from polygs where polyid_name=&#39;{0}&#39;;&quot;.format(frameold)</span>
+<span class="sd">oldpolyid = sqlout2list(res)[0]</span>
+<span class="sd">sql = &quot;select polyid from polygs where polyid_name=&#39;{0}&#39;;&quot;.format(framenew)</span>
+<span class="sd">newpolyid = sqlout2list(res)[0]</span>
+<span class="sd">sql = &quot;insert into polygs2gis (polyid, geom) select {0},s.geom from polygs2gis s where polyid={1};&quot;.format(</span>
+<span class="sd">    str(newpolyid), str(oldpolyid))</span>
+<span class="sd">res = do_query(sql, True)</span>
+<span class="sd">sql = &quot;insert into polygs2bursts (polyid, bid) select {0},bid from polygs2bursts where polyid={1};&quot;.format(</span>
+<span class="sd">    str(newpolyid), str(oldpolyid))</span>
+<span class="sd">res = do_query(sql, True)</span>
+<span class="sd">sql = &quot;DROP TABLE IF EXISTS temp_tb;&quot;</span>
+<span class="sd">res = do_query(sql, True)</span>
+<span class="sd">&#39;&#39;&#39;</span>
 
 <span class="k">def</span> <span class="nf">delete_frame_files</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
     <span class="c1">#e.g. in case of messed up bursts, this should help:</span>
