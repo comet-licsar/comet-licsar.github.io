@@ -162,13 +162,18 @@ run in their `$BATCH_CACHE_DIR/$frame` following command that will also generate
     clip_slc.sh SAREZ_005D 72.510 72.845 38.130 38.365 0 0.00027 1
 
 
-test
-----
+LiCSAR things admin
+-------------------
 
-this is section
-^^^^^^^^^^^^^^^
+request binder resources for COMET InSAR Workshop
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`this is quoted text`
+Request an issue similar to the previous years:
+https://github.com/jupyterhub/mybinder.org-deploy/issues/2733
+
+
+docs writing tips and examples
+------------------------------
 
 Examples
 ~~~~~~~~
