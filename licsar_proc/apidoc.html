@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
@@ -6,18 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LiCSAR proc &mdash; COMET LiCSAR  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -493,7 +491,15 @@ If cliparea is not set, it will auto-generate area using diameter 25 km centered
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.volcdb.delete_volclip">
 <span class="sig-name descname"><span class="pre">delete_volclip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/volcdb.html#delete_volclip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.volcdb.delete_volclip" title="Link to this definition"></a></dt>
-<dd><p>This will delete volcano clip definition - careful, not many checks in place</p>
+<dd><p>This will delete volcano clip definition - careful, not many checks in place.
+To delete from the core system in terminal for now:
+vid=
+mv $LiCSAR_procdir/subsets/volc/$vid $LiCSAR_procdir/subsets/volc.todel/.
+for x in $LiCSAR_procdir/subsets/volc.todel/$vid/<em>/corner</em>; do</p>
+<blockquote>
+<div><p>a=`basename $x`; a=`echo $a | cut -d ‘.’ -f2`; cdproc $a; rm subsets/$vid; cd -;</p>
+</div></blockquote>
+<p>done</p>
 </dd></dl>
 
 <dl class="py function">
