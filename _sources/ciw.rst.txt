@@ -1,21 +1,43 @@
 COMET InSAR Workshop Materials
 ------------------------------
 
+COMET InSAR Workshop 2024
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Video recordings will be available on youtube:  
+
+`Day 1, part 1/2 <https://www.not.yet>`_  
+
+`Day 1, part 2/2 <https://www.not.yet>`_  
+
+`Day 2 <https://www.not.yet>`_  
+
+Links for tutorials (can run from binder) are below:  
+
+`Coseismic defo <https://github.com/comet-licsar/coseismic_practical>`_  
+
+`Interseismic defo <https://github.com/andwatson/interseismic_practical>`_  
+
+`Volcano practical <https://github.com/andwatson/volcano_practical>`_  
+
+`ICASAR <https://github.com/matthew-gaddes/insar_workshop>`_  
+
+`LiCSBAS <https://github.com/comet-licsar/LiCSBAS>`_
+
+
 COMET InSAR Workshop 2023
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There are video materials available on youtube:
-`Day 1, part 1/2: <https://www.youtube.com/watch?v=cj3tL9iNFqw>`_
-`Day 1, part 2/2: <https://www.youtube.com/watch?v=c-xAM4FYA1w>`_
-`Day 2: <https://www.youtube.com/watch?v=Xm1w3beyUNk>`_
+There are video materials available on youtube:  
+
+`Day 1, part 1/2 <https://www.youtube.com/watch?v=cj3tL9iNFqw>`_  
+
+`Day 1, part 2/2 <https://www.youtube.com/watch?v=c-xAM4FYA1w>`_  
+
+`Day 2 <https://www.youtube.com/watch?v=Xm1w3beyUNk>`_  
 
 
-Some links for tutorials (can run from binder) are below:
-`Coseismic defo <https://github.com/andwatson/coseismic_practical>`_
-`Interseismic defo <https://github.com/andwatson/interseismic_practical>`_
-`Volcano practical <https://github.com/andwatson/volcano_practical>`_
-`ICASAR <https://github.com/matthew-gaddes/insar_workshop>`_
-`LiCSBAS <https://github.com/comet-licsar/LiCSBAS>`_
+The tutorials remain same as in the 2024 workshop, please see above.
 
 
 COMET InSAR Workshop 2021
