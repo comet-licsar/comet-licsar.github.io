@@ -24,6 +24,7 @@ Links for tutorials (can run from binder) are below:
 
 `LiCSBAS <https://github.com/comet-licsar/LiCSBAS>`_
 
+All presentations are available in the `PDF Format here <https://gws-access.jasmin.ac.uk/public/nceo_geohazards/shared/CIW.2024>`_.
 
 COMET InSAR Workshop 2023
 ^^^^^^^^^^^^^^^^^^^^^^^^^
