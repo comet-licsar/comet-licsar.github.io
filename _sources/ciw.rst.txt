@@ -6,11 +6,8 @@ COMET InSAR Workshop 2024
 
 Video recordings will be available on youtube:  
 
-`Day 1, part 1/2 <https://www.not.yet>`_  
+`COMET InSAR Workshop 2024 Playlist <https://www.youtube.com/playlist?list=PL3R4glb2moBEnuX0BpuUVFsEMQ_KuWcra>`_
 
-`Day 1, part 2/2 <https://www.not.yet>`_  
-
-`Day 2 <https://www.not.yet>`_  
 
 Links for tutorials (can run from binder) are below:  
 
