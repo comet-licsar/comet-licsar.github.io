@@ -59,6 +59,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#licsar-unwrapping-module">LiCSAR unwrapping module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#licsar-decompose">LiCSAR Decompose</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_framencs"><code class="docutils literal notranslate"><span class="pre">decompose_framencs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.custom_annual_resample"><code class="docutils literal notranslate"><span class="pre">custom_annual_resample()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.calculate_annual_vels"><code class="docutils literal notranslate"><span class="pre">calculate_annual_vels()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.get_frame_inc_heading"><code class="docutils literal notranslate"><span class="pre">get_frame_inc_heading()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_dask"><code class="docutils literal notranslate"><span class="pre">decompose_dask()</span></code></a></li>
@@ -130,7 +131,7 @@
 <p>Module with some useful InSAR decomposition functions, not as great as <a class="reference external" href="https://github.com/andwatson/decompose_insar_velocities">approach of Dr. Andrew Watson</a>.</p>
 <dl class="py function" id="module-licsar_proc.python.decompose">
 <dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_framencs">
-<span class="sig-name descname"><span class="pre">decompose_framencs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framencs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_cum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medianfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_framencs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_framencs" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">decompose_framencs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framencs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_cum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medianfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual_buffer_months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selperiods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_framencs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_framencs" title="Link to this definition"></a></dt>
 <dd><p>will decompose frame licsbas results
 the basenames in framencs should contain frame id, followed by ‘.’, e.g.:
 framencs = [‘062D_07629_131313.nc’, ‘172A_07686_131012.nc’]</p>
@@ -139,7 +140,9 @@ framencs = [‘062D_07629_131313.nc’, ‘172A_07686_131012.nc’]</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>framencs</strong> (<em>list</em>) – licsbas nc result files, named by their frame id</p></li>
 <li><p><strong>extract_cum</strong> (<em>bool</em>) – if True, will use the first frame and convert to pseudo vertical</p></li>
-<li><p><strong>annual</strong> (<em>bool</em>) – if True, will decompose annual increments</p></li>
+<li><p><strong>annual</strong> (<em>bool</em>) – if True, will estimate and decompose annual velocities</p></li>
+<li><p><strong>annual_buffer_months</strong> (<em>int</em>) – adds extra months for annual velocities</p></li>
+<li><p><strong>calculate_annual_vels</strong> (<em>selperiods </em><em>...</em><em> see</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -149,14 +152,23 @@ framencs = [‘062D_07629_131313.nc’, ‘172A_07686_131012.nc’]</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.custom_annual_resample">
+<span class="sig-name descname"><span class="pre">custom_annual_resample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffermonths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_from_midyear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#custom_annual_resample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.custom_annual_resample" title="Link to this definition"></a></dt>
+<dd><p>Gets annual data resampled per year +- buffermonths
+if buffer_from_midyear, it will set buffermonths from the mid-year (June) rather than from Jan and Dec</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.decompose.calculate_annual_vels">
-<span class="sig-name descname"><span class="pre">calculate_annual_vels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commonyears</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#calculate_annual_vels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.calculate_annual_vels" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">calculate_annual_vels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commonyears</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffermonths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selperiods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#calculate_annual_vels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.calculate_annual_vels" title="Link to this definition"></a></dt>
 <dd><p>Will calculate annual velocities from LiCSBAS results</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cube</strong> (<em>xr.Dataset</em>) – loaded netcdf file, extracted using e.g. LiCSBAS_out2nc.py</p></li>
 <li><p><strong>commonyears</strong> (<em>list</em>) – list of years to decompose</p></li>
+<li><p><strong>buffermonths</strong> (<em>int</em>) – extend selection of annual data by a number of +-buffermonths months (experimental)</p></li>
+<li><p><strong>selperiods</strong> (<em>list</em><em> or </em><em>None</em>) – override the selection by providing list as [[np.datetime64(‘2014-01-01’), np.datetime64(‘2024-01-01’)]]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

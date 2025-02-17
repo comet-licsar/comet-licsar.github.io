@@ -99,8 +99,10 @@
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">interpolate</span>
 <span class="kn">from</span> <span class="nn">lics_unwrap</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="kn">import</span> <span class="nn">LiCSBAS_inv_lib</span> <span class="k">as</span> <span class="nn">inv_lib</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-
+<span class="c1">#from python.get_dates_scihub import startdate</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd"># 2022-10-18 starts here</span>
@@ -133,7 +135,8 @@
 
 <div class="viewcode-block" id="decompose_framencs">
 <a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.decompose_framencs">[docs]</a>
-<span class="k">def</span> <span class="nf">decompose_framencs</span><span class="p">(</span><span class="n">framencs</span><span class="p">,</span> <span class="n">extract_cum</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">medianfix</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">annual</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">decompose_framencs</span><span class="p">(</span><span class="n">framencs</span><span class="p">,</span> <span class="n">extract_cum</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">medianfix</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">annual</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="n">annual_buffer_months</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">selperiods</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; will decompose frame licsbas results</span>
 <span class="sd">    the basenames in framencs should contain frame id, followed by &#39;.&#39;, e.g.:</span>
 <span class="sd">    framencs = [&#39;062D_07629_131313.nc&#39;, &#39;172A_07686_131012.nc&#39;]</span>
@@ -141,8 +144,9 @@
 <span class="sd">    Args:</span>
 <span class="sd">        framencs (list):  licsbas nc result files, named by their frame id</span>
 <span class="sd">        extract_cum (bool): if True, will use the first frame and convert to pseudo vertical</span>
-<span class="sd">        annual (bool):   if True, will decompose annual increments</span>
-<span class="sd">    </span>
+<span class="sd">        annual (bool):   if True, will estimate and decompose annual velocities</span>
+<span class="sd">        annual_buffer_months (int): adds extra months for annual velocities</span>
+<span class="sd">        selperiods ... see calculate_annual_vels</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        xr.Dataset with U, E, [cum_vert] arrays</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -190,7 +194,7 @@
         <span class="n">framesetvel</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">framevel</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">heading</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">inc</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">annual</span><span class="p">:</span>
             <span class="c1"># doing the annuals!</span>
-            <span class="n">nc1</span> <span class="o">=</span> <span class="n">calculate_annual_vels</span><span class="p">(</span><span class="n">framenc</span><span class="p">,</span> <span class="n">yearsall</span><span class="p">)</span>
+            <span class="n">nc1</span> <span class="o">=</span> <span class="n">calculate_annual_vels</span><span class="p">(</span><span class="n">framenc</span><span class="p">,</span> <span class="n">yearsall</span><span class="p">,</span> <span class="n">annual_buffer_months</span><span class="p">,</span> <span class="n">selperiods</span><span class="p">)</span>
             <span class="n">frameset</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">nc1</span><span class="p">[</span><span class="s1">&#39;vel_annual&#39;</span><span class="p">],</span> <span class="n">heading</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">inc</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
     <span class="n">dec</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
     <span class="n">U</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -233,21 +237,91 @@
 
 
 
-<span class="kn">import</span> <span class="nn">LiCSBAS_inv_lib</span> <span class="k">as</span> <span class="nn">inv_lib</span>
+
+<span class="c1"># Copilot-generated function for custom resample:</span>
+<span class="c1"># cube is either xr.Dataset or xr.Dataarray</span>
+<div class="viewcode-block" id="custom_annual_resample">
+<a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.custom_annual_resample">[docs]</a>
+<span class="k">def</span> <span class="nf">custom_annual_resample</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">buffermonths</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">buffer_from_midyear</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Gets annual data resampled per year +- buffermonths</span>
+<span class="sd">    if buffer_from_midyear, it will set buffermonths from the mid-year (June) rather than from Jan and Dec</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1">#</span>
+    <span class="c1"># Generate a new time range that extends 6 months before and after</span>
+    <span class="c1">#new_time_range = pd.date_range(</span>
+    <span class="c1">#   start=start_date - pd.DateOffset(months=buffermonths),</span>
+    <span class="c1">#    end=end_date + pd.DateOffset(months=buffermonths),</span>
+    <span class="c1">#    freq=&#39;M&#39;</span>
+    <span class="c1">#)</span>
+    <span class="c1">#</span>
+    <span class="c1"># Create an empty list to hold the new resampled cubes</span>
+    <span class="c1"># resampled_cubes = []</span>
+    <span class="c1"># Create an empty dictionary to hold time labels and corresponding values</span>
+    <span class="n">resampled_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;yeardt&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;yearvalues&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="c1">#</span>
+    <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;AS&#39;</span><span class="p">):</span>
+        <span class="c1"># Define the range for the current resample</span>
+        <span class="n">start_period</span> <span class="o">=</span> <span class="n">date</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="n">buffermonths</span><span class="p">)</span>
+        <span class="n">end_period</span> <span class="o">=</span> <span class="n">date</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="mi">12</span><span class="o">+</span><span class="n">buffermonths</span><span class="p">)</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">buffer_from_midyear</span><span class="p">:</span>
+            <span class="n">start_period</span> <span class="o">=</span> <span class="n">start_period</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+            <span class="n">end_period</span> <span class="o">=</span> <span class="n">end_period</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="c1"># Select the data within this range</span>
+        <span class="n">selected_data</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start_period</span><span class="p">,</span> <span class="n">end_period</span><span class="p">))</span>
+        <span class="c1">#</span>
+        <span class="c1"># Create a new time coordinate for the selected data period</span>
+        <span class="n">new_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start_period</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_period</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>
+        <span class="n">selected_data</span> <span class="o">=</span> <span class="n">selected_data</span><span class="o">.</span><span class="n">reindex</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">new_time</span><span class="p">},</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="c1"># Append the selected data to the list</span>
+        <span class="c1">#resampled_cubes.append(selected_data)</span>
+        <span class="n">resampled_data</span><span class="p">[</span><span class="s1">&#39;yeardt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+        <span class="n">resampled_data</span><span class="p">[</span><span class="s1">&#39;yearvalues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">selected_data</span><span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="c1"># Combine all resampled data into one DataArray or Dataset</span>
+    <span class="c1">#resampled_cube = xr.concat(resampled_cubes, dim=&#39;time&#39;)</span>
+    <span class="c1">#return resampled_cube</span>
+    <span class="c1">#</span>
+    <span class="c1"># Convert lists to pandas DataFrame or xarray Dataset for easier use</span>
+    <span class="n">yeardt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">resampled_data</span><span class="p">[</span><span class="s1">&#39;yeardt&#39;</span><span class="p">])</span>
+    <span class="n">yearvalues</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">resampled_data</span><span class="p">[</span><span class="s1">&#39;yearvalues&#39;</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">yeardt</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">))</span>
+    <span class="c1">#</span>
+    <span class="k">return</span> <span class="n">yeardt</span><span class="p">,</span> <span class="n">yearvalues</span></div>
+
+
+
 <div class="viewcode-block" id="calculate_annual_vels">
 <a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.calculate_annual_vels">[docs]</a>
-<span class="k">def</span> <span class="nf">calculate_annual_vels</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">commonyears</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">calculate_annual_vels</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">commonyears</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">buffermonths</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">selperiods</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Will calculate annual velocities from LiCSBAS results</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        cube (xr.Dataset): loaded netcdf file, extracted using e.g. LiCSBAS_out2nc.py</span>
 <span class="sd">        commonyears (list): list of years to decompose</span>
+<span class="sd">        buffermonths (int): extend selection of annual data by a number of +-buffermonths months (experimental)</span>
+<span class="sd">        selperiods (list or None):  override the selection by providing list as [[np.datetime64(&#39;2014-01-01&#39;), np.datetime64(&#39;2024-01-01&#39;)]]</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        xr.Dataset with new dataarray: vel_annual</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">commonyears</span><span class="p">:</span>
         <span class="n">cube</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">commonyears</span><span class="p">))</span>
-    <span class="n">annualset</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">cum</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;AS&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">selperiods</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">annualset</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">selperiods</span><span class="p">:</span>
+            <span class="n">startdate</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">enddate</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">yeardt</span> <span class="o">=</span> <span class="n">startdate</span><span class="o">+</span><span class="p">(</span><span class="n">enddate</span><span class="o">-</span><span class="n">startdate</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">5</span>
+            <span class="n">yearcum</span> <span class="o">=</span> <span class="n">cube</span><span class="p">[</span><span class="s1">&#39;cum&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">startdate</span><span class="p">,</span> <span class="n">enddate</span><span class="p">))</span>
+            <span class="n">annualset</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">yeardt</span><span class="p">,</span> <span class="n">yearcum</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">buffermonths</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning, using Copilot-generated trick to add more months around year of interest...&#39;</span><span class="p">)</span>
+        <span class="n">annualset</span> <span class="o">=</span> <span class="n">custom_annual_resample</span><span class="p">(</span><span class="n">cube</span><span class="p">[</span><span class="s1">&#39;cum&#39;</span><span class="p">],</span> <span class="n">buffermonths</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">annualset</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">cum</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;AS&#39;</span><span class="p">)</span>
     <span class="n">firstrun</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">for</span> <span class="n">yeardt</span><span class="p">,</span> <span class="n">yearcum</span> <span class="ow">in</span> <span class="n">annualset</span><span class="p">:</span>
         <span class="n">year</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">yeardt</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -290,10 +364,15 @@
     <span class="n">e</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span><span class="n">frame</span><span class="o">+</span><span class="s1">&#39;.geo.E.tif&#39;</span><span class="p">)</span>
     <span class="c1">#n=os.path.join(geoframedir,&#39;metadata&#39;,frame+&#39;.geo.N.tif&#39;) #no need for N</span>
     <span class="n">u</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geoframedir</span><span class="p">,</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span><span class="n">frame</span><span class="o">+</span><span class="s1">&#39;.geo.U.tif&#39;</span><span class="p">)</span>
-    <span class="n">e</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">extract_inc_heading</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">extract_inc_heading</span><span class="p">(</span><span class="n">efile</span><span class="p">,</span> <span class="n">ufile</span><span class="p">):</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">efile</span><span class="p">)</span>
     <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">e</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
     <span class="c1">#n = load_tif2xr(n, cliparea_geo=cliparea)</span>
-    <span class="n">u</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">ufile</span><span class="p">)</span>
     <span class="n">u</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">u</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
     <span class="c1">#</span>
     <span class="n">theta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
@@ -301,9 +380,7 @@
     <span class="n">heading</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">-</span><span class="mi">180</span>
     <span class="n">inc</span> <span class="o">=</span> <span class="mi">90</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>   <span class="c1">#correct</span>
     <span class="c1">#inc.values.tofile(outinc)</span>
-    <span class="k">return</span> <span class="n">inc</span><span class="p">,</span> <span class="n">heading</span></div>
-
-
+    <span class="k">return</span> <span class="n">inc</span><span class="p">,</span> <span class="n">heading</span>
 
 
 <div class="viewcode-block" id="decompose_dask">
@@ -500,7 +577,6 @@
 
 
 <span class="sd">&#39;&#39;&#39;</span>
-
 <span class="sd">aschead=-9.918319</span>
 <span class="sd">deschead=-169.61931</span>
 <span class="sd">ascinc=39.4824</span>
