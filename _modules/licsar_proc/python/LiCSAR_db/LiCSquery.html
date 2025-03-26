@@ -733,8 +733,8 @@
             <span class="s2">&quot;inner join polygs on polygs2bursts.polyid=polygs.polyid &quot;</span> \
             <span class="s2">&quot;where polygs.polyid_name=&#39;</span><span class="si">{0}</span><span class="s2">&#39; &quot;</span> \
             <span class="s2">&quot;and date(files.acq_date) between &#39;</span><span class="si">{1}</span><span class="s2">&#39; and &#39;</span><span class="si">{2}</span><span class="s2">&#39; &quot;</span>\
-            <span class="s2">&quot;and (files.pol=&#39;VV&#39; or files.pol=&#39;HH&#39;) &quot;</span>\
-            <span class="s2">&quot;order by files.acq_date asc, files.name asc, files.proc_date desc, files.date_added desc;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">)</span>
+            <span class="s2">&quot;and (files.pol=&#39;VV&#39; or files.pol=&#39;HH&#39;);&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">)</span>  <span class="c1"># &quot;\</span>
+            <span class="c1">#&quot;order by files.acq_date asc, files.name asc, files.proc_date desc, files.date_added desc;&quot;.format(frame,t1,t2)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">sql_q</span> <span class="o">=</span> <span class="s2">&quot;select distinct files.name from files &quot;</span> \
             <span class="s2">&quot;inner join files2bursts on files.fid=files2bursts.fid &quot;</span> \
@@ -742,8 +742,8 @@
             <span class="s2">&quot;inner join polygs on polygs2bursts.polyid=polygs.polyid &quot;</span> \
             <span class="s2">&quot;where polygs.polyid_name=&#39;</span><span class="si">{0}</span><span class="s2">&#39; &quot;</span> \
             <span class="s2">&quot;and date(files.acq_date) between &#39;</span><span class="si">{1}</span><span class="s2">&#39; and &#39;</span><span class="si">{2}</span><span class="s2">&#39; &quot;</span>\
-            <span class="s2">&quot;and (files.pol=&#39;VV&#39; or files.pol=&#39;HH&#39;) &quot;</span>\
-            <span class="s2">&quot;order by files.name asc;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">)</span>
+            <span class="s2">&quot;and (files.pol=&#39;VV&#39; or files.pol=&#39;HH&#39;);&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">)</span>  <span class="c1"># &quot;\</span>
+            <span class="c1">#&quot;order by files.name asc;&quot;.format(frame,t1,t2)   # not working in mysql 8</span>
     <span class="k">return</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">)</span>
 
 
@@ -766,8 +766,8 @@
         <span class="s2">&quot;inner join polygs on polygs2bursts.polyid=polygs.polyid &quot;</span> \
         <span class="s2">&quot;where polygs.polyid_name=&#39;</span><span class="si">{0}</span><span class="s2">&#39; &quot;</span> \
         <span class="s2">&quot;and (date(files.acq_date)=&#39;</span><span class="si">{1}</span><span class="s2">&#39; or date(files.acq_date)=&#39;</span><span class="si">{2}</span><span class="s2">&#39;)&quot;</span> \
-        <span class="s2">&quot;and (pol=&#39;VV&#39; or pol=&#39;HH&#39;)&quot;</span>\
-        <span class="s2">&quot;order by files.acq_date ASC, files.date_added DESC;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">date</span><span class="p">,</span><span class="n">date2</span><span class="p">)</span>
+        <span class="s2">&quot;and (pol=&#39;VV&#39; or pol=&#39;HH&#39;);&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">date</span><span class="p">,</span><span class="n">date2</span><span class="p">)</span>  <span class="c1">#</span>
+        <span class="c1">#&quot;order by files.acq_date ASC, files.date_added DESC;&quot;.format(frame,date,date2)</span>
     <span class="k">return</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">)</span>
 
 
@@ -800,8 +800,8 @@
         <span class="s2">&quot;inner join bursts on polygs2bursts.bid=bursts.bid &quot;</span>\
         <span class="s2">&quot;where polygs.polyid_name=&#39;</span><span class="si">{0}</span><span class="s2">&#39; &quot;</span> \
         <span class="s2">&quot;and date(files.acq_date)=&#39;</span><span class="si">{1}</span><span class="s2">&#39; &quot;</span>\
-        <span class="s2">&quot;and (pol=&#39;VV&#39; or pol=&#39;HH&#39;)&quot;</span>\
-        <span class="s2">&quot;order by files.acq_date;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">date</span><span class="p">)</span>
+        <span class="s2">&quot;and (pol=&#39;VV&#39; or pol=&#39;HH&#39;);&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">date</span><span class="p">)</span> <span class="c1">#&quot;\</span>
+        <span class="c1">#&quot;order by files.acq_date;&quot;.format(frame,date)</span>
     <span class="k">return</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">)</span>
 
 
