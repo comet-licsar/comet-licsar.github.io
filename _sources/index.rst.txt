@@ -24,6 +24,8 @@ COMET LiCSAR
   licsar_framebatch/index
   licsbas/index
   daz/index
+  eidp/index
+  licsar_extra/index
 
 
 .. toctree:: 
