@@ -31,10 +31,14 @@ COMET LiCSAR
 .. toctree:: 
   :maxdepth: 2
   :caption: API Documentation
-  
+
+  licsar_db/apidoc
   licsar_proc/apidoc
   licsar_framebatch/apidoc
-
+  licsbas/apidoc
+  daz/apidoc
+  eidp/apidoc
+  licsar_extra/apidoc
 
 .. toctree::
   :maxdepth: 2
