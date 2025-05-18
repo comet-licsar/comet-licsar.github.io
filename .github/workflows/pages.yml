@@ -41,19 +41,19 @@ jobs:
         fetch-depth: 0
         submodules: true
     - name: Checkout eidp
-        uses: actions/checkout@main
-        with:
-          repository: comet-licsar/eidp
-          path: eidp
-          fetch-depth: 0
-          submodules: true
+      uses: actions/checkout@main
+      with:
+        repository: comet-licsar/eidp
+        path: eidp
+        fetch-depth: 0
+        submodules: true
     - name: Checkout licsar_extra
-        uses: actions/checkout@main
-        with:
-          repository: comet-licsar/licsar_extra
-          path: licsar_extra
-          fetch-depth: 0
-          submodules: true
+      uses: actions/checkout@main
+      with:
+        repository: comet-licsar/licsar_extra
+        path: licsar_extra
+        fetch-depth: 0
+        submodules: true
     - name: Checkout LiCSBAS
       uses: actions/checkout@main
       with:
