@@ -40,13 +40,6 @@ jobs:
         path: daz
         fetch-depth: 0
         submodules: true
-    - name: Checkout eidp
-      uses: actions/checkout@main
-      with:
-        repository: comet-licsar/eidp
-        path: eidp
-        fetch-depth: 0
-        submodules: true
     - name: Checkout licsar_extra
       uses: actions/checkout@main
       with:

@@ -37,7 +37,6 @@ COMET LiCSAR
   licsar_framebatch/apidoc
   licsbas/apidoc
   daz/apidoc
-  eidp/apidoc
   licsar_extra/apidoc
 
 .. toctree::
