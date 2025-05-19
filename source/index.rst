@@ -22,10 +22,10 @@ COMET LiCSAR
   licsar_db/index
   licsar_proc/index
   licsar_framebatch/index
+  licsar_extra/index
   licsbas/index
   daz/index
   eidp/index
-  licsar_extra/index
 
 
 .. toctree:: 
@@ -35,9 +35,9 @@ COMET LiCSAR
   licsar_db/apidoc
   licsar_proc/apidoc
   licsar_framebatch/apidoc
+  licsar_extra/apidoc
   licsbas/apidoc
   daz/apidoc
-  licsar_extra/apidoc
 
 .. toctree::
   :maxdepth: 2
