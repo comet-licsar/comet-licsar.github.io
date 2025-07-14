@@ -212,15 +212,17 @@
 <span class="sd">    Note: col name is the filename without the tailing .zip</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;select fid from files where </span><span class="si">{0}</span><span class="s1">=&quot;</span><span class="si">{1}</span><span class="s1">&quot;;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">ff</span><span class="p">)</span>
+    <span class="c1"># select fid from files where name = &quot;S1A_IW_SLC__1SDV_20250511T130357_20250511T130424_059147_0756BA_6BE7&quot;;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">do_pd_query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">fid</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">fid</span><span class="p">:</span>
         <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;delete from files2jobs where fid=</span><span class="si">{}</span><span class="s1">;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fid</span><span class="p">)</span>
-        <span class="n">num</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">num</span> <span class="o">+=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;delete from files2bursts where fid=</span><span class="si">{}</span><span class="s1">;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fid</span><span class="p">)</span>
-        <span class="n">num</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">num</span> <span class="o">+=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;delete from files where fid=</span><span class="si">{}</span><span class="s1">;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fid</span><span class="p">)</span>
-        <span class="n">num</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="kc">True</span></div>
+        <span class="n">num</span> <span class="o">+=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">num</span></div>
 
 
 
