@@ -111,6 +111,7 @@
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Polygon</span>
 <span class="kn">from</span> <span class="nn">shapely</span> <span class="kn">import</span> <span class="n">wkt</span><span class="p">,</span> <span class="n">wkb</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">unicodedata</span>
 
 <span class="c1"># Local imports</span>
 <span class="kn">import</span> <span class="nn">global_config</span> <span class="k">as</span> <span class="nn">gc</span>
@@ -1502,6 +1503,15 @@
     <span class="k">return</span> <span class="n">res</span>
 
 
+<span class="k">def</span> <span class="nf">remove_non_standard_chars</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="c1"># Normalize to NFKD form to separate accents from characters</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="c1"># Encode to ASCII bytes, ignoring non-ASCII characters</span>
+    <span class="n">ascii_bytes</span> <span class="o">=</span> <span class="n">normalized</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ASCII&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+    <span class="c1"># Decode back to string</span>
+    <span class="k">return</span> <span class="n">ascii_bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ASCII&#39;</span><span class="p">)</span>
+
+
 <span class="k">def</span> <span class="nf">insert_new_eq</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">active</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">active</span><span class="p">:</span>
         <span class="n">stract</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
@@ -1511,6 +1521,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">location</span><span class="p">:</span>
         <span class="n">location</span> <span class="o">=</span> <span class="s1">&#39;Undetermined location&#39;</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="n">remove_non_standard_chars</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
         <span class="n">location</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
     <span class="n">sql_q</span> <span class="o">=</span> <span class="s2">&quot;INSERT INTO eq &quot;</span> \
             <span class="s2">&quot;    (USGS_ID, magnitude, location, depth, time, lat, lon, active) &quot;</span> \

@@ -134,7 +134,7 @@
 <p>Module with some useful InSAR decomposition functions, not as great as <a class="reference external" href="https://github.com/andwatson/decompose_insar_velocities">approach of Dr. Andrew Watson</a>.</p>
 <dl class="py function" id="module-licsar_proc.python.decompose">
 <dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_framencs">
-<span class="sig-name descname"><span class="pre">decompose_framencs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framencs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_cum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medianfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual_buffer_months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selperiods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_framencs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_framencs" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">decompose_framencs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framencs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_cum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medianfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual_buffer_months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selperiods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_velUN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_framencs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_framencs" title="Link to this definition"></a></dt>
 <dd><p>will decompose frame licsbas results
 the basenames in framencs should contain frame id, followed by ‘.’, e.g.:
 framencs = [‘062D_07629_131313.nc’, ‘172A_07686_131012.nc’]</p>
@@ -146,6 +146,9 @@ framencs = [‘062D_07629_131313.nc’, ‘172A_07686_131012.nc’]</p>
 <li><p><strong>annual</strong> (<em>bool</em>) – if True, will estimate and decompose annual velocities</p></li>
 <li><p><strong>annual_buffer_months</strong> (<em>int</em>) – adds extra months for annual velocities</p></li>
 <li><p><strong>calculate_annual_vels</strong> (<em>selperiods </em><em>...</em><em> see</em>)</p></li>
+<li><p><strong>decompose_np</strong> (<em>do_velUN </em><em>...</em><em> see</em>)</p></li>
+<li><p><strong>velname</strong> (<em>str</em>) – name of the layer to decompose (usually ‘vel’)</p></li>
+<li><p><strong>stdname</strong> (<em>str</em>) – name of the 1-sigma layer to weight velname during decomposition (None means not use)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -197,9 +200,10 @@ if buffer_from_midyear, it will set buffermonths from the mid-year (June) rather
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_xr">
-<span class="sig-name descname"><span class="pre">decompose_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heading_asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heading_desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_xr" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">decompose_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heading_asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heading_desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_asc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_velUN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_xr" title="Link to this definition"></a></dt>
 <dd><p>Perform simple decomposition for two frames in asc and desc.
-inputs are xr.dataarrays - this will also check/interpolate them to fit</p>
+inputs are xr.dataarrays - this will also check/interpolate them to fit
+Note - better use decompose_np_multi to get also sigmas etc.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -219,11 +223,19 @@ inputs are xr.dataarrays - this will also check/interpolate them to fit</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_np_multi">
-<span class="sig-name descname"><span class="pre">decompose_np_multi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_np_multi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_np_multi" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">decompose_np_multi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_velUN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_np_multi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_np_multi" title="Link to this definition"></a></dt>
 <dd><p>Decompose 2 or more frames</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>input</em>)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>input</em>)</p></li>
+<li><p><strong>4</strong> (<em>...</em><em> in case there are</em>)</p></li>
+<li><p><strong>vstd</strong> (<em>we will assume</em>)</p></li>
+<li><p><strong>[</strong> (<em>vel1</em><em>, </em><em>heading1</em><em>, </em><em>inc1</em><em>, </em><em>vstd1</em><em>)</em><em>, </em><em>(</em><em>vel2</em><em>, </em><em>heading2</em><em>, </em><em>inc2</em><em>, </em><em>vstd2</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>4x np.ndarray of decomposed outputs U, E, and their 1-sigma Ustd, Estd</p>
 </dd>
 </dl>
 <p>Note: velX is np.array and headingX/incX is in degrees, either a number or np.array</p>
