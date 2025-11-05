@@ -1,6 +1,28 @@
 COMET InSAR Workshop Materials
 ------------------------------
 
+COMET InSAR Workshop 2025
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Video recordings will be available on youtube (TODO: link):
+
+
+
+Links for tutorials (can run from binder) are below:
+
+`Coseismic defo <https://github.com/comet-licsar/coseismic_practical>`_
+
+`Interseismic defo <https://github.com/comet-licsar/interseismic_practical>`_
+
+`Volcano practical <https://github.com/comet-licsar/volcano_practical>`_
+
+`Volcanic Deformation Classification (ML) <https://github.com/robertpop99/Finetuning_AlexNet_EOV>`_
+
+`LiCSBAS <https://github.com/comet-licsar/LiCSBAS>`_
+
+All presentations are available in ... (TODO: link)
+
+
 COMET InSAR Workshop 2024
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
