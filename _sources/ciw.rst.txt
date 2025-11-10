@@ -12,7 +12,7 @@ Links for tutorials (can run from binder) are below:
 
 `Coseismic defo <https://github.com/comet-licsar/coseismic_practical>`_
 
-`Interseismic defo <https://github.com/comet-licsar/interseismic_practical>`_
+`Interseismic defo <https://github.com/eejf-leeds/interseismic_practical>`_
 
 `Volcano practical <https://github.com/comet-licsar/volcano_practical>`_
 
