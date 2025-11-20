@@ -199,24 +199,25 @@ After commit, github would auto-recreate web page of <a class="reference externa
 <p>This is an outdated way to prepare small frames that are set to high(er) resolution.
 It is not really recommended approach - please use the way described below for hi res frame subsets (subframes).
 Yet, the functionality remains if needed, thus very briefly on example:</p>
-<dl>
-<dt>::</dt><dd><p>import framecare as fc
-lat1,lon1 = 51.1, 15.7
-lat2,lon2 = 51.8, 16.5</p>
-<p># first get bursts over that AOI, e.g. as:
-bursts = fc.lq.get_bursts_in_polygon(lon1,lon2,lat1,lat2)
-bursts = fc.lq.sql2outlist(bursts)</p>
-<p># now manually check the bursts and select only 1 relorb related..
-bursts = ….</p>
-<p># then generate high res frame with the AOI
-fc.generate_new_frame(bursts, testonly=False, hicode=’H’)</p>
-</dd>
-</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">framecare</span> <span class="k">as</span> <span class="nn">fc</span>
+<span class="n">lat1</span><span class="p">,</span><span class="n">lon1</span> <span class="o">=</span> <span class="mf">51.1</span><span class="p">,</span> <span class="mf">15.7</span>
+<span class="n">lat2</span><span class="p">,</span><span class="n">lon2</span> <span class="o">=</span> <span class="mf">51.8</span><span class="p">,</span> <span class="mf">16.5</span>
+
+<span class="c1"># first get bursts over that AOI, e.g. as:</span>
+<span class="n">bursts</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">lq</span><span class="o">.</span><span class="n">get_bursts_in_polygon</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span><span class="n">lon2</span><span class="p">,</span><span class="n">lat1</span><span class="p">,</span><span class="n">lat2</span><span class="p">)</span>
+<span class="n">bursts</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">lq</span><span class="o">.</span><span class="n">sql2outlist</span><span class="p">(</span><span class="n">bursts</span><span class="p">)</span>
+
+<span class="c1"># now manually check the bursts and select only 1 relorb related..</span>
+<span class="n">bursts</span> <span class="o">=</span> <span class="o">....</span>
+
+<span class="c1"># then generate high res frame with the AOI</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">generate_new_frame</span><span class="p">(</span><span class="n">bursts</span><span class="p">,</span> <span class="n">testonly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">hicode</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>Afterwards initialize the new frame with parameter -C, i.e.:</p>
-<dl class="simple">
-<dt>::</dt><dd><p>licsar_initialize_frame.sh -C 15.7/16.5/51.1/51.8 022A_0142H_000203</p>
-</dd>
-</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">licsar_initialize_frame</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">C</span> <span class="mf">15.7</span><span class="o">/</span><span class="mf">16.5</span><span class="o">/</span><span class="mf">51.1</span><span class="o">/</span><span class="mf">51.8</span> <span class="mi">022</span><span class="n">A_0142H_000203</span>
+</pre></div>
+</div>
 </section>
 <section id="prepare-hi-res-subframes">
 <h3>prepare hi res subframes<a class="headerlink" href="#prepare-hi-res-subframes" title="Link to this heading"></a></h3>
@@ -231,28 +232,24 @@ the RSLCs will then automatically get updated/clipped once the frame is processe
 <p>Due to earthquake near to SAREZ dam (!!!! a nightmare for middle East for the last 100 years), John Elliott requested hires frames.
 He defined the region as (lons/lats): 72.510/72.845/38.130/38.365.
 Thus, let’s get frames and initialise their subsets using:</p>
-<dl>
-<dt>::</dt><dd><p>import framecare as fc
-frames=fc.lq.get_frames_in_lonlat(72.7,38.2)
-# returns: ((‘005D_05199_131313’,), (‘100A_05236_141313’,))
-help(fc.subset_initialise_corners)
-# notice the option to change output product resolution, although this can be changed anytime later
-for frame in frames:</p>
-<blockquote>
-<div><p>fc.subset_initialise_corners(frame, 72.510, 72.845, 38.130, 38.365, ‘SAREZ’)</p>
-</div></blockquote>
-</dd>
-</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">framecare</span> <span class="k">as</span> <span class="nn">fc</span>
+<span class="n">frames</span><span class="o">=</span><span class="n">fc</span><span class="o">.</span><span class="n">lq</span><span class="o">.</span><span class="n">get_frames_in_lonlat</span><span class="p">(</span><span class="mf">72.7</span><span class="p">,</span><span class="mf">38.2</span><span class="p">)</span>
+<span class="c1"># returns: ((&#39;005D_05199_131313&#39;,), (&#39;100A_05236_141313&#39;,))</span>
+<span class="n">help</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">subset_initialise_corners</span><span class="p">)</span>
+<span class="c1"># notice the option to change output product resolution, although this can be changed anytime later</span>
+<span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+    <span class="n">fc</span><span class="o">.</span><span class="n">subset_initialise_corners</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="mf">72.510</span><span class="p">,</span> <span class="mf">72.845</span><span class="p">,</span> <span class="mf">38.130</span><span class="p">,</span> <span class="mf">38.365</span><span class="p">,</span> <span class="s1">&#39;SAREZ&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>and that’s it. Now you may proceed just to process the frames as usual.
 Note that this will not generate interferograms. But this can be done simply by running <code class="docutils literal notranslate"><span class="pre">volq_process.sh</span></code>
 (as above, but instead of volcano ID, use <cite>-S</cite>, e.g. <code class="docutils literal notranslate"><span class="pre">volq_process.sh</span> <span class="pre">-S</span> <span class="pre">SAREZ</span></code> that will generate interferograms
-in your <cite>$BATCH_CACHE_DIR/subsets/SAREZ</cite> in LiCSAR structure, i.e. compatible with <cite>framebatch_gapfill.sh</cite> and other scripts.</p>
+as in <cite>$BATCH_CACHE_DIR/subsets/SAREZ/005D</cite> in LiCSAR structure, i.e. compatible with <cite>framebatch_gapfill.sh</cite> and other scripts.</p>
 <p>If this is only one-off procedure (no need to store in <cite>subsets</cite> folder), you may also just
 run in their <cite>$BATCH_CACHE_DIR/$frame</cite> following command that will also generate interferograms:</p>
-<dl class="simple">
-<dt>::</dt><dd><p>clip_slc.sh SAREZ_005D 72.510 72.845 38.130 38.365 0 0.00027 1</p>
-</dd>
-</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clip_slc</span><span class="o">.</span><span class="n">sh</span> <span class="n">SAREZ_005D</span> <span class="mf">72.510</span> <span class="mf">72.845</span> <span class="mf">38.130</span> <span class="mf">38.365</span> <span class="mi">0</span> <span class="mf">0.00027</span> <span class="mi">1</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="licsar-things-admin">

@@ -104,7 +104,6 @@ prepare hi res frames
 This is an outdated way to prepare small frames that are set to high(er) resolution.
 It is not really recommended approach - please use the way described below for hi res frame subsets (subframes).
 Yet, the functionality remains if needed, thus very briefly on example:
-
 ::
     import framecare as fc
     lat1,lon1 = 51.1, 15.7
@@ -122,7 +121,6 @@ Yet, the functionality remains if needed, thus very briefly on example:
   
 
 Afterwards initialize the new frame with parameter -C, i.e.:
-
 ::
     licsar_initialize_frame.sh -C 15.7/16.5/51.1/51.8 022A_0142H_000203
 
@@ -145,7 +143,6 @@ Let me show the current approach through real example..
 Due to earthquake near to SAREZ dam (!!!! a nightmare for middle East for the last 100 years), John Elliott requested hires frames.
 He defined the region as (lons/lats): 72.510/72.845/38.130/38.365.
 Thus, let's get frames and initialise their subsets using:
-
 ::
     import framecare as fc
     frames=fc.lq.get_frames_in_lonlat(72.7,38.2)
@@ -153,16 +150,15 @@ Thus, let's get frames and initialise their subsets using:
     help(fc.subset_initialise_corners)
     # notice the option to change output product resolution, although this can be changed anytime later
     for frame in frames:
-        fc.subset_initialise_corners(frame, 72.510, 72.845, 38.130, 38.365, 'SAREZ')  
+        fc.subset_initialise_corners(frame, 72.510, 72.845, 38.130, 38.365, 'SAREZ')
 
 and that's it. Now you may proceed just to process the frames as usual.
 Note that this will not generate interferograms. But this can be done simply by running ``volq_process.sh``
 (as above, but instead of volcano ID, use `-S`, e.g. ``volq_process.sh -S SAREZ`` that will generate interferograms
-in your `$BATCH_CACHE_DIR/subsets/SAREZ` in LiCSAR structure, i.e. compatible with `framebatch_gapfill.sh` and other scripts.
+as in `$BATCH_CACHE_DIR/subsets/SAREZ/005D` in LiCSAR structure, i.e. compatible with `framebatch_gapfill.sh` and other scripts.
 
 If this is only one-off procedure (no need to store in `subsets` folder), you may also just 
 run in their `$BATCH_CACHE_DIR/$frame` following command that will also generate interferograms:
-
 ::
     clip_slc.sh SAREZ_005D 72.510 72.845 38.130 38.365 0 0.00027 1
 
