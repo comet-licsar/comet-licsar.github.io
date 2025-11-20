@@ -1,6 +1,15 @@
 COMET Members Information
 =========================
 
+COMET InSAR Workshop organising notes
+-------------------------------------
+
+For local JupyterHub, contact CEMAC (R. Rigby) in advance - the webpage must be registered prior to the meeting,
+and IT ticket must be issued (at least week or two prior to the workshop) so IT team can unblock the webpage in firewall.
+Also do not forget to request network access for in-person participants - can be done days before the workshop, at
+``https://eva.eduroam.uk``, just press ‘My Groups’, ‘Add Group’, give it a name and an expiry, then wait for the email containing the usernames.
+
+
 Publishing your data on CEDA Archive
 ------------------------------------
 

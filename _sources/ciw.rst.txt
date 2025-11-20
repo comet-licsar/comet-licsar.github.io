@@ -4,8 +4,8 @@ COMET InSAR Workshop Materials
 COMET InSAR Workshop 2025
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Video recordings will be available on youtube (TODO: link):
-
+Video recordings will be available on youtube:
+`COMET InSAR Workshop 2025 Playlist <https://www.youtube.com/watch?v=w0tbQ9WQusg&list=PL3R4glb2moBGa8ji4ii1Dt1oRwKuJeCi2&index=2>`_
 
 
 Links for tutorials (can run from binder) are below:
@@ -20,13 +20,14 @@ Links for tutorials (can run from binder) are below:
 
 `LiCSBAS <https://github.com/comet-licsar/LiCSBAS>`_
 
-All presentations are available in ... (TODO: link)
+
+All presentations are available `here <https://gws-access.jasmin.ac.uk/public/nceo_geohazards/shared/CIW.2025>`_.  
 
 
 COMET InSAR Workshop 2024
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Video recordings will be available on youtube:  
+Video recordings are available on youtube:
 
 `COMET InSAR Workshop 2024 Playlist <https://www.youtube.com/playlist?list=PL3R4glb2moBEnuX0BpuUVFsEMQ_KuWcra>`_
 
