@@ -101,13 +101,15 @@ ok, then you're set and you can edit and push changes (if you are maintainer) as
 prepare hi res frames
 ^^^^^^^^^^^^^^^^^^^^^
 
-say we have an AOI as e.g.
+This is an outdated way to prepare small frames that are set to high(er) resolution.
+It is not really recommended approach - please use the way described below for hi res frame subsets (subframes).
+Yet, the functionality remains if needed, thus very briefly on example:
 
 ::
     import framecare as fc
     lat1,lon1 = 51.1, 15.7
     lat2,lon2 = 51.8, 16.5
-    
+
     # first get bursts over that AOI, e.g. as:
     bursts = fc.lq.get_bursts_in_polygon(lon1,lon2,lat1,lat2)
     bursts = fc.lq.sql2outlist(bursts)
@@ -151,7 +153,7 @@ Thus, let's get frames and initialise their subsets using:
     help(fc.subset_initialise_corners)
     # notice the option to change output product resolution, although this can be changed anytime later
     for frame in frames:
-        fc.subset_initialise_corners(frame, 72.510, 72.845, 38.130, 38.365, 'SAREZ')
+        fc.subset_initialise_corners(frame, 72.510, 72.845, 38.130, 38.365, 'SAREZ')  
 
 and that's it. Now you may proceed just to process the frames as usual.
 Note that this will not generate interferograms. But this can be done simply by running ``volq_process.sh``
