@@ -148,12 +148,15 @@ Thus, let's get frames and initialise their subsets using:
     import framecare as fc
     frames=fc.lq.get_frames_in_lonlat(72.7,38.2)
     # returns: (('005D_05199_131313',), ('100A_05236_141313',))
+    help(fc.subset_initialise_corners)
+    # notice the option to change output product resolution, although this can be changed anytime later
     for frame in frames:
         fc.subset_initialise_corners(frame, 72.510, 72.845, 38.130, 38.365, 'SAREZ')
 
 and that's it. Now you may proceed just to process the frames as usual.
-Note that this will not generate interferograms. But this can be done simply by running `framebatch_gapfill.sh`
-(more instructions later, or ask Lin Shen for advice).
+Note that this will not generate interferograms. But this can be done simply by running ``volq_process.sh``
+(as above, but instead of volcano ID, use `-S`, e.g. ``volq_process.sh -S SAREZ`` that will generate interferograms
+in your `$BATCH_CACHE_DIR/subsets/SAREZ` in LiCSAR structure, i.e. compatible with `framebatch_gapfill.sh` and other scripts.
 
 If this is only one-off procedure (no need to store in `subsets` folder), you may also just 
 run in their `$BATCH_CACHE_DIR/$frame` following command that will also generate interferograms:
