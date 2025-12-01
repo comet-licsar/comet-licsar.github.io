@@ -153,7 +153,7 @@
 <span class="sd">        extract_cum (bool): if True, will use the first frame and convert to pseudo vertical</span>
 <span class="sd">        annual (bool):   if True, will estimate and decompose annual velocities</span>
 <span class="sd">        annual_buffer_months (int): adds extra months for annual velocities</span>
-<span class="sd">        selperiods ... see calculate_annual_vels</span>
+<span class="sd">        selperiods (list or None):  used only if annual=True; override the selection by providing list as [[np.datetime64(&#39;2014-01-01&#39;), np.datetime64(&#39;2024-01-01&#39;)]]</span>
 <span class="sd">        do_velUN ... see decompose_np</span>
 <span class="sd">        velname (str): name of the layer to decompose (usually &#39;vel&#39;)</span>
 <span class="sd">        stdname (str): name of the 1-sigma layer to weight velname during decomposition (None means not use)</span>

@@ -145,7 +145,7 @@ framencs = [‘062D_07629_131313.nc’, ‘172A_07686_131012.nc’]</p>
 <li><p><strong>extract_cum</strong> (<em>bool</em>) – if True, will use the first frame and convert to pseudo vertical</p></li>
 <li><p><strong>annual</strong> (<em>bool</em>) – if True, will estimate and decompose annual velocities</p></li>
 <li><p><strong>annual_buffer_months</strong> (<em>int</em>) – adds extra months for annual velocities</p></li>
-<li><p><strong>calculate_annual_vels</strong> (<em>selperiods </em><em>...</em><em> see</em>)</p></li>
+<li><p><strong>selperiods</strong> (<em>list</em><em> or </em><em>None</em>) – used only if annual=True; override the selection by providing list as [[np.datetime64(‘2014-01-01’), np.datetime64(‘2024-01-01’)]]</p></li>
 <li><p><strong>decompose_np</strong> (<em>do_velUN </em><em>...</em><em> see</em>)</p></li>
 <li><p><strong>velname</strong> (<em>str</em>) – name of the layer to decompose (usually ‘vel’)</p></li>
 <li><p><strong>stdname</strong> (<em>str</em>) – name of the 1-sigma layer to weight velname during decomposition (None means not use)</p></li>
