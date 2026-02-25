@@ -23,7 +23,7 @@ get DOI and direct link, and what to do further
 steps
 ^^^^^
 1. Organise your data under a ``Jasmin`` folder e.g.,
-   ``/gws/nopw/j04/nceo_geohazards_vol1/public/LiCSAR_products/derived_products/Turkey_earthquake/v1.0``
+   ``/gws/ssde/j25a/nceo_geohazards/vol1/public/LiCSAR_products/derived_products/Turkey_earthquake/v1.0``
 2. Add a ``readme.txt`` to introduce your file structure - this will be in your data archive.
 3. Add a completed ``metadata.yaml`` under the same directory - this will populate your data webpage.
 4. Open up permission of your folder by typing ``chmod -R 777 * ``
