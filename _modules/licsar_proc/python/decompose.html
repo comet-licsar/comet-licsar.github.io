@@ -140,6 +140,36 @@
 <span class="sd">cube[&#39;U&#39;].values, cube[&#39;E&#39;].values = decompose_np(cube.asc, cube.desc, cube.asc_heading, cube.desc_heading, cube.asc_inc, cube.desc_inc)</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
+<div class="viewcode-block" id="calculate_dops_frames">
+<a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.calculate_dops_frames">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_dops_frames</span><span class="p">(</span><span class="n">framelist</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; will calculate dops from a set of frames - now only for given coordinate, can improve if needed</span>
+<span class="sd">    returns: PDOP, HDOP_E, HDOP_N, VDOP &#39;&#39;&#39;</span>
+    <span class="kn">from</span> <span class="nn">daz_lib</span> <span class="kn">import</span> <span class="n">calculate_dops</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; note, for nisar, we can do:</span>
+<span class="sd">    e=&#39;unitx.wgs84.tif&#39;</span>
+<span class="sd">    u=&#39;unitz.wgs84.tif&#39;</span>
+<span class="sd">    inc, head = extract_inc_heading(e, u, left_looking=True)</span>
+<span class="sd">    but note for azis you need +90!!</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># first, get inc and heading:</span>
+    <span class="n">incs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">heads</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">fr</span> <span class="ow">in</span> <span class="n">framelist</span><span class="p">:</span>
+        <span class="n">inc</span><span class="p">,</span> <span class="n">head</span> <span class="o">=</span> <span class="n">get_frame_inc_heading</span><span class="p">(</span><span class="n">fr</span><span class="p">)</span>
+        <span class="n">incs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">inc</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)))</span>
+        <span class="n">heads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">head</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)))</span>
+    <span class="n">heads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">heads</span><span class="p">)</span>
+    <span class="n">incs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">incs</span><span class="p">)</span>
+    <span class="n">elevs</span> <span class="o">=</span> <span class="mi">90</span><span class="o">-</span><span class="n">incs</span>
+    <span class="n">azis</span> <span class="o">=</span> <span class="n">heads</span><span class="o">-</span><span class="mi">90</span>
+    <span class="n">PDOP</span><span class="p">,</span> <span class="n">HDOP_E</span><span class="p">,</span> <span class="n">HDOP_N</span><span class="p">,</span> <span class="n">VDOP</span>  <span class="o">=</span> <span class="n">calculate_dops</span><span class="p">(</span><span class="n">elevs</span><span class="p">,</span> <span class="n">azis</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PDOP, HDOP_E, HDOP_N, VDOP = &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">PDOP</span><span class="p">,</span> <span class="n">HDOP_E</span><span class="p">,</span> <span class="n">HDOP_N</span><span class="p">,</span> <span class="n">VDOP</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PDOP</span><span class="p">,</span> <span class="n">HDOP_E</span><span class="p">,</span> <span class="n">HDOP_N</span><span class="p">,</span> <span class="n">VDOP</span></div>
+
+
+
 <div class="viewcode-block" id="decompose_framencs">
 <a class="viewcode-back" href="../../../licsar_proc/apidoc.html#licsar_proc.python.decompose.decompose_framencs">[docs]</a>
 <span class="k">def</span> <span class="nf">decompose_framencs</span><span class="p">(</span><span class="n">framencs</span><span class="p">,</span> <span class="n">extract_cum</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">medianfix</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">annual</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -394,7 +424,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">extract_inc_heading</span><span class="p">(</span><span class="n">efile</span><span class="p">,</span> <span class="n">ufile</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">extract_inc_heading</span><span class="p">(</span><span class="n">efile</span><span class="p">,</span> <span class="n">ufile</span><span class="p">,</span> <span class="n">left_looking</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">e</span> <span class="o">=</span> <span class="n">load_tif2xr</span><span class="p">(</span><span class="n">efile</span><span class="p">)</span>
     <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">e</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
     <span class="c1">#n = load_tif2xr(n, cliparea_geo=cliparea)</span>
@@ -403,7 +433,11 @@
     <span class="c1">#</span>
     <span class="n">theta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
     <span class="n">phi</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">e</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
-    <span class="n">heading</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">-</span><span class="mi">180</span>
+    <span class="n">heading</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">left_looking</span><span class="p">:</span>
+        <span class="n">heading</span> <span class="o">=</span> <span class="n">heading</span> <span class="o">-</span> <span class="mi">180</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">heading</span> <span class="o">=</span> <span class="n">heading</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">inc</span> <span class="o">=</span> <span class="mi">90</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>   <span class="c1">#correct</span>
     <span class="c1">#inc.values.tofile(outinc)</span>
     <span class="k">return</span> <span class="n">inc</span><span class="p">,</span> <span class="n">heading</span>
@@ -499,7 +533,7 @@
 
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">this is to load 3 datasets and decompose them:</span>
-<span class="sd">dirpath=&#39;/gws/nopw/j04/nceo_geohazards_vol1/public/shared/temp/earmla&#39;</span>
+<span class="sd">dirpath=&#39;/gws/ssde/j25a/nceo_geohazards/vol1/public/shared/temp/earmla&#39;</span>
 <span class="sd">#for frame in []</span>
 <span class="sd">nc1 = os.path.join(dirpath, &#39;051D_03973_131313.nc&#39;)</span>
 <span class="sd">nc1=xr.open_dataset(nc1)</span>
