@@ -66,10 +66,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.custom_annual_resample"><code class="docutils literal notranslate"><span class="pre">custom_annual_resample()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.calculate_annual_vels"><code class="docutils literal notranslate"><span class="pre">calculate_annual_vels()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.get_frame_inc_heading"><code class="docutils literal notranslate"><span class="pre">get_frame_inc_heading()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.extract_inc_heading"><code class="docutils literal notranslate"><span class="pre">extract_inc_heading()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_dask"><code class="docutils literal notranslate"><span class="pre">decompose_dask()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_xr"><code class="docutils literal notranslate"><span class="pre">decompose_xr()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_np"><code class="docutils literal notranslate"><span class="pre">decompose_np()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_geotiffs"><code class="docutils literal notranslate"><span class="pre">decompose_geotiffs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_np_multi"><code class="docutils literal notranslate"><span class="pre">decompose_np_multi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.decompose_cum_framencs"><code class="docutils literal notranslate"><span class="pre">decompose_cum_framencs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.decompose.regrid_netcdf_collection"><code class="docutils literal notranslate"><span class="pre">regrid_netcdf_collection()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#licsinfo-query-functions">LiCSInfo query functions</a><ul>
@@ -78,6 +82,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.clone_frame"><code class="docutils literal notranslate"><span class="pre">clone_frame()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.update_bids2S1_missing"><code class="docutils literal notranslate"><span class="pre">update_bids2S1_missing()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_s1burst_from_bidtanx"><code class="docutils literal notranslate"><span class="pre">get_s1burst_from_bidtanx()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_frame_files_date"><code class="docutils literal notranslate"><span class="pre">get_frame_files_date()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_orbdir_from_bidtanx"><code class="docutils literal notranslate"><span class="pre">get_orbdir_from_bidtanx()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_daz"><code class="docutils literal notranslate"><span class="pre">get_daz()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#licsar_proc.python.LiCSAR_db.LiCSquery.delete_esds_for_frame"><code class="docutils literal notranslate"><span class="pre">delete_esds_for_frame()</span></code></a></li>
@@ -142,7 +147,7 @@ returns: PDOP, HDOP_E, HDOP_N, VDOP</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_framencs">
-<span class="sig-name descname"><span class="pre">decompose_framencs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framencs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_cum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medianfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual_buffer_months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selperiods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_velUN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_framencs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_framencs" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">decompose_framencs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framencs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_cum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medianfix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annual_buffer_months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selperiods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_velUN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_ENU</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_framencs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_framencs" title="Link to this definition"></a></dt>
 <dd><p>will decompose frame licsbas results
 the basenames in framencs should contain frame id, followed by ‘.’, e.g.:
 framencs = [‘062D_07629_131313.nc’, ‘172A_07686_131012.nc’]</p>
@@ -155,6 +160,7 @@ framencs = [‘062D_07629_131313.nc’, ‘172A_07686_131012.nc’]</p>
 <li><p><strong>annual_buffer_months</strong> (<em>int</em>) – adds extra months for annual velocities</p></li>
 <li><p><strong>selperiods</strong> (<em>list</em><em> or </em><em>None</em>) – used only if annual=True; override the selection by providing list as [[np.datetime64(‘2014-01-01’), np.datetime64(‘2024-01-01’)]]</p></li>
 <li><p><strong>decompose_np</strong> (<em>do_velUN </em><em>...</em><em> see</em>)</p></li>
+<li><p><strong>do_ENU</strong> (<em>bool</em>) – if True, it will try invert to ENU rather than fiddling with N (it will also set do_velUN to False)</p></li>
 <li><p><strong>velname</strong> (<em>str</em>) – name of the layer to decompose (usually ‘vel’)</p></li>
 <li><p><strong>stdname</strong> (<em>str</em>) – name of the 1-sigma layer to weight velname during decomposition (None means not use)</p></li>
 </ul>
@@ -201,6 +207,12 @@ if buffer_from_midyear, it will set buffermonths from the mid-year (June) rather
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.extract_inc_heading">
+<span class="sig-name descname"><span class="pre">extract_inc_heading</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">efile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ufile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left_looking</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aziflag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eu_are_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#extract_inc_heading"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.extract_inc_heading" title="Link to this definition"></a></dt>
+<dd><p>aziflag must be either ‘D’ or ‘A’ if to be used…</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_dask">
 <span class="sig-name descname"><span class="pre">decompose_dask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocklen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_dask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_dask" title="Link to this definition"></a></dt>
 <dd><p>Simple parallel decomposition of dec. datacube (must have asc,desc,asc_inc,desc_inc, asc_heading, desc_heading arrays)</p>
@@ -230,8 +242,21 @@ Note - better use decompose_np_multi to get also sigmas etc.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_geotiffs">
+<span class="sig-name descname"><span class="pre">decompose_geotiffs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">veltifs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Etifs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Utifs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ntifs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vstdtifs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leftlooking</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_ENU</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_velUN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_geotiffs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_geotiffs" title="Link to this definition"></a></dt>
+<dd><p>Decompose set of geotiffs</p>
+<p>inputs are list of respective geotiffs.
+vstdtifs and leftlooking can be None to skip.
+Similarly, N tifs are not required - but they are necessary if bovls are used! In case of not providing Ns, it will use old approach to estimate from heading/inc. angle</p>
+<p>if used, leftlooking must be list, e.g. [False, False, True] meaning the third set is NISAR. Note, leftlooking is used only for method with only E, U to decompose..</p>
+<p>Note: aziflags do not work in this scope, so they are skipped:
+if bovls are included, you need to provide aziflags such as [None, ‘D’, ‘A’, None] meaning second tifs are azimuth (bovls) of descending track
+(full flags are also accepted, i.e. [‘D’,’D’,’A’,’A’] would work ok even if first and last are not azimuth)</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_np_multi">
-<span class="sig-name descname"><span class="pre">decompose_np_multi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_velUN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_np_multi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_np_multi" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">decompose_np_multi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_velUN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_ENU</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_is_enu_vectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_np_multi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_np_multi" title="Link to this definition"></a></dt>
 <dd><p>Decompose 2 or more frames</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -240,6 +265,9 @@ Note - better use decompose_np_multi to get also sigmas etc.</p>
 <li><p><strong>4</strong> (<em>...</em><em> in case there are</em>)</p></li>
 <li><p><strong>vstd</strong> (<em>we will assume</em>)</p></li>
 <li><p><strong>[</strong> (<em>vel1</em><em>, </em><em>heading1</em><em>, </em><em>inc1</em><em>, </em><em>vstd1</em><em>)</em><em>, </em><em>(</em><em>vel2</em><em>, </em><em>heading2</em><em>, </em><em>inc2</em><em>, </em><em>vstd2</em>)</p></li>
+<li><p><strong>do_ENU</strong> (<em>do_velUN and</em>) – see decompose_framencs</p></li>
+<li><p><strong>do_ENU</strong> – returns U, E, N (and Ustd, Estd, Nstd)</p></li>
+<li><p><strong>input_is_enu_vectors</strong> (<em>bool</em>) – if True, the input_data is actually expected to be in the form of [(vel1, E1, N1, U1), …] .. or with vstd, sure</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -247,6 +275,57 @@ Note - better use decompose_np_multi to get also sigmas etc.</p>
 </dd>
 </dl>
 <p>Note: velX is np.array and headingX/incX is in degrees, either a number or np.array</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.decompose_cum_framencs">
+<span class="sig-name descname"><span class="pre">decompose_cum_framencs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framencs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_velUN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_ENU</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#decompose_cum_framencs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.decompose_cum_framencs" title="Link to this definition"></a></dt>
+<dd><p>This will decompose cum values into given time steps.
+:param framencs: list of input nc files - note, naming must be the frame IDs, e.g. [‘022D_03989_131313.nc’, ‘044A_03932_131313.nc’, …]
+:type framencs: list
+:param time_step_days: output time step of decomposed components
+:type time_step_days: int
+:param do_velUN: if True, it will merge U+N into returned ‘pseudovertical’ - use only with standard LOS data from right-looking sats (i.e. not NISAR-ready)
+:type do_velUN: bool
+:param do_ENU: if True, will perform full decomposition
+:type do_ENU: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.decompose.regrid_netcdf_collection">
+<span class="sig-name descname"><span class="pre">regrid_netcdf_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_ref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_tolerance_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/decompose.html#regrid_netcdf_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.decompose.regrid_netcdf_collection" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>files</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of NetCDF files.</p></li>
+<li><p><strong>var</strong> (<em>str</em>) – Data variable name.</p></li>
+<li><p><strong>time_step_days</strong> (<em>int</em>) – Output timestep.</p></li>
+<li><p><strong>spatial_ref</strong> (<em>str</em><em> | </em><em>None</em>) – File defining output lat/lon grid.
+If None, first file is used.</p></li>
+<li><p><strong>time_method</strong> (<em>str</em>) – ‘nearest’ or ‘linear’.</p></li>
+<li><p><strong>time_tolerance_days</strong> (<em>float</em><em> | </em><em>None</em>) – Maximum temporal distance allowed for nearest interpolation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Dataset containing:</p>
+<blockquote>
+<div><p>cum(frame,time,lat,lon)</p>
+</div></blockquote>
+<p>and coordinate:</p>
+<blockquote>
+<div><p>frame = [‘022D’,’146A’,…]</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -321,6 +400,15 @@ The tolerance values can be stricter.</p>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="licsar_proc.python.LiCSAR_db.LiCSquery.get_frame_files_date">
+<span class="sig-name descname"><span class="pre">get_frame_files_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_file_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/licsar_proc/python/LiCSAR_db/LiCSquery.html#get_frame_files_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#licsar_proc.python.LiCSAR_db.LiCSquery.get_frame_files_date" title="Link to this definition"></a></dt>
+<dd><p>takes frame and one datetime.date object and returns
+polygon name, file name and file path for all files
+in frame on the given date
+(or only filenames if only_file_title == True)</p>
 </dd></dl>
 
 <dl class="py function">

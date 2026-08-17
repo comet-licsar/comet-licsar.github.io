@@ -64,6 +64,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#decomposition-to-e-u-n-vectors">Decomposition to E-U(+N) vectors</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#nisar-data-processing">NISAR data processing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tools-operating-with-licsar-data">Tools operating with LiCSAR data</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#licsar-data-quality-checker">LiCSAR Data Quality Checker</a></li>
 </ul>
@@ -287,8 +288,19 @@ The negative aspect of this implementation is the longer processing time, and al
 <section id="decomposition-to-e-u-n-vectors">
 <h3>Decomposition to E-U(+N) vectors<a class="headerlink" href="#decomposition-to-e-u-n-vectors" title="Link to this heading"></a></h3>
 <p>This section should contain information on both decomposition from A+D - for now, you may go through <a class="reference external" href="https://github.com/andwatson/interseismic_practical">tutorial by Andrew Watson</a>.
-For LiCSAR, you may investigate script <code class="docutils literal notranslate"><span class="pre">decomposition.py</span></code> for a simple solution in python (Andrew adds weighting average etc in his open MATLAB scripts).</p>
+For LiCSAR, you may investigate functions in script <code class="docutils literal notranslate"><span class="pre">decompose.py</span></code> - for usage, contact Milan, or just export your cum.h5 file using <code class="docutils literal notranslate"><span class="pre">LiCSBAS_out2nc.py</span></code>.</p>
 </section>
+</section>
+<section id="nisar-data-processing">
+<h2>NISAR data processing<a class="headerlink" href="#nisar-data-processing" title="Link to this heading"></a></h2>
+<p>The NISAR data processor is not systematized as in case of Sentinel-1. The <code class="docutils literal notranslate"><span class="pre">nisardata.py</span></code> contains functions to discover, download, process NISAR GSLC data and generate basic LiCSBAS output.
+For example, to generate NISAR InSAR outputs for Manda Hararo volcano, you can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">volcdb</span> <span class="k">as</span> <span class="nn">v</span>
+<span class="kn">import</span> <span class="nn">nisardata</span> <span class="k">as</span> <span class="nn">nd</span>
+<span class="n">vid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">find_volcano_by_name</span><span class="p">(</span><span class="s1">&#39;Hararo&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">volc_id</span><span class="p">)</span>
+<span class="n">nd</span><span class="o">.</span><span class="n">fullchain_volcano</span><span class="p">(</span><span class="n">vid</span><span class="p">,</span> <span class="n">target_resolution_m</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">startdate</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">enddate</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">31</span><span class="p">))</span>
+</pre></div>
+</div>
 </section>
 <section id="tools-operating-with-licsar-data">
 <h2>Tools operating with LiCSAR data<a class="headerlink" href="#tools-operating-with-licsar-data" title="Link to this heading"></a></h2>

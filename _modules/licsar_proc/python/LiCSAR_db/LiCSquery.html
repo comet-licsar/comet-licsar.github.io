@@ -112,6 +112,7 @@
 <span class="kn">from</span> <span class="nn">shapely</span> <span class="kn">import</span> <span class="n">wkt</span><span class="p">,</span> <span class="n">wkb</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">unicodedata</span>
+<span class="kn">import</span> <span class="nn">LiCSAR_misc</span> <span class="k">as</span> <span class="nn">misc</span>
 
 <span class="c1"># Local imports</span>
 <span class="kn">import</span> <span class="nn">global_config</span> <span class="k">as</span> <span class="nn">gc</span>
@@ -753,10 +754,15 @@
     <span class="k">return</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">get_frame_files_date</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">date</span><span class="p">):</span>
-    <span class="c1"># takes frame and one datetime.date object and returns</span>
-    <span class="c1"># polygon name, file name and file path for all files </span>
-    <span class="c1"># in frame on the given date</span>
+
+<div class="viewcode-block" id="get_frame_files_date">
+<a class="viewcode-back" href="../../../../licsar_proc/apidoc.html#licsar_proc.python.LiCSAR_db.LiCSquery.get_frame_files_date">[docs]</a>
+<span class="k">def</span> <span class="nf">get_frame_files_date</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">only_file_title</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; takes frame and one datetime.date object and returns</span>
+<span class="sd">     polygon name, file name and file path for all files</span>
+<span class="sd">     in frame on the given date</span>
+<span class="sd">     (or only filenames if only_file_title == True)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="c1">#in this mess, some scripts use date, and some timestamp or datetime..</span>
     <span class="c1">#let&#39;s convert it to date type only</span>
@@ -764,17 +770,70 @@
         <span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
     
     <span class="c1">#this is to fix for the around-midnight data:</span>
-    <span class="n">date2</span> <span class="o">=</span> <span class="n">date</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">track</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]))</span>
+    <span class="n">metafile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LiCSAR_public&#39;</span><span class="p">],</span><span class="n">track</span><span class="p">,</span><span class="n">frame</span><span class="p">,</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span><span class="s1">&#39;metadata.txt&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">metafile</span><span class="p">):</span>
+        <span class="n">master</span> <span class="o">=</span> <span class="n">misc</span><span class="o">.</span><span class="n">grep1line</span><span class="p">(</span><span class="s1">&#39;master&#39;</span><span class="p">,</span><span class="n">metafile</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">master</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">master</span><span class="p">:</span>
+        <span class="c1"># print(&#39;No ref epoch datetime identified - assuming close-to-midnight (disallowing Btemp=1day)&#39;)</span>
+        <span class="n">date2</span> <span class="o">=</span> <span class="n">date</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">date1</span> <span class="o">=</span> <span class="n">date</span> <span class="o">-</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">centime</span> <span class="o">=</span> <span class="n">misc</span><span class="o">.</span><span class="n">grep1line</span><span class="p">(</span><span class="s1">&#39;center_time&#39;</span><span class="p">,</span><span class="n">metafile</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">centime</span><span class="p">:</span>
+            <span class="c1"># print(&#39;No ref epoch datetime identified - assuming close-to-midnight (disallowing Btemp=1day)&#39;)</span>
+            <span class="n">date2</span> <span class="o">=</span> <span class="n">date</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">date1</span> <span class="o">=</span> <span class="n">date</span> <span class="o">-</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">centime</span> <span class="o">=</span> <span class="n">centime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">master</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">masterdt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="mi">4</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">]),</span>
+                        <span class="nb">int</span><span class="p">(</span><span class="n">centime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
+                        <span class="nb">int</span><span class="p">(</span><span class="n">centime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]),</span>
+                        <span class="nb">int</span><span class="p">(</span><span class="n">centime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="n">masterdt</span> <span class="o">=</span> <span class="n">masterdt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+            <span class="c1"># Note - works for close-to-midnight but would disallow Btemp=1 day for such frames</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">masterdt</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span><span class="o">.</span><span class="n">date</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">masterdt</span><span class="o">.</span><span class="n">date</span><span class="p">():</span>
+                <span class="n">date2</span> <span class="o">=</span> <span class="n">date</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">date1</span> <span class="o">=</span> <span class="n">date</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">masterdt</span> <span class="o">-</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span><span class="o">.</span><span class="n">date</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">masterdt</span><span class="o">.</span><span class="n">date</span><span class="p">():</span>
+                <span class="n">date2</span> <span class="o">=</span> <span class="n">date</span>
+                <span class="n">date1</span> <span class="o">=</span> <span class="n">date</span> <span class="o">-</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">date2</span> <span class="o">=</span> <span class="n">date</span>
+                <span class="n">date1</span> <span class="o">=</span> <span class="n">date</span>
     <span class="n">sql_q</span> <span class="o">=</span> <span class="s2">&quot;select distinct polygs.polyid_name, &quot;</span> \
         <span class="s2">&quot;files.name, files.abs_path from files &quot;</span> \
         <span class="s2">&quot;inner join files2bursts on files.fid=files2bursts.fid &quot;</span> \
         <span class="s2">&quot;inner join polygs2bursts on files2bursts.bid=polygs2bursts.bid &quot;</span> \
         <span class="s2">&quot;inner join polygs on polygs2bursts.polyid=polygs.polyid &quot;</span> \
         <span class="s2">&quot;where polygs.polyid_name=&#39;</span><span class="si">{0}</span><span class="s2">&#39; &quot;</span> \
-        <span class="s2">&quot;and (date(files.acq_date)=&#39;</span><span class="si">{1}</span><span class="s2">&#39; or date(files.acq_date)=&#39;</span><span class="si">{2}</span><span class="s2">&#39;)&quot;</span> \
-        <span class="s2">&quot;and (pol=&#39;VV&#39; or pol=&#39;HH&#39;);&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">date</span><span class="p">,</span><span class="n">date2</span><span class="p">)</span>  <span class="c1">#</span>
+        <span class="s2">&quot;and (date(files.acq_date)&gt;=&#39;</span><span class="si">{1}</span><span class="s2">&#39; and date(files.acq_date)&lt;=&#39;</span><span class="si">{2}</span><span class="s2">&#39;) &quot;</span> \
+        <span class="s2">&quot;and (pol=&#39;VV&#39; or pol=&#39;HH&#39;);&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span><span class="n">date1</span><span class="p">,</span><span class="n">date2</span><span class="p">)</span>  <span class="c1">#</span>
         <span class="c1">#&quot;order by files.acq_date ASC, files.date_added DESC;&quot;.format(frame,date,date2)</span>
-    <span class="k">return</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">do_query</span><span class="p">(</span><span class="n">sql_q</span><span class="p">)</span>
+    <span class="n">osat</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dtstr</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">dtstr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">osat</span> <span class="o">=</span> <span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">continue</span>
+    <span class="k">if</span> <span class="n">osat</span><span class="p">:</span>
+        <span class="n">outx</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">osat</span><span class="p">:</span>
+                <span class="n">outx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">outx</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">only_file_title</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">out</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out2</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+            <span class="n">out2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">out2</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">get_frame_polyid</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
