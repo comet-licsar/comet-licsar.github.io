@@ -10,7 +10,7 @@ Also do not forget to request network access for in-person participants - can be
 ``https://eva.eduroam.uk``, just press ‘My Groups’, ‘Add Group’, give it a name and an expiry, then wait for the email containing the usernames.
 
 If you decide to continue using mybinder services (still works without issues, in 2025!), then it might be good idea
-to request an extension of quota for the event - just raise an issue similar to the previous years:  
+to request an extension of quota for the event - just raise an issue similar to the previous years:
 https://github.com/jupyterhub/mybinder.org-deploy/issues/2733
 
 Publishing your data on CEDA Archive
