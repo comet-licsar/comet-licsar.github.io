@@ -13,7 +13,7 @@ COMET LiCSAR
 
   Home <self>
   wiki
-  
+  COMET LiCSAR Forum <https://comet-licsar.discourse.group>
 
 .. toctree:: 
   :maxdepth: 2
